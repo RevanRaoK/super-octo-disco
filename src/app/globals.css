@@ -139,20 +139,20 @@ strong {
   box-shadow: var(--shadow-sm);
 }
 
-/* Primary Square Bullets (Pink --c) with generous vertical breathing room */
+/* Primary Square Bullets (Pink --c) with clean vertical rhythm */
 .irs-points {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 14px;
+  gap: 11px;
 }
 
 .irs-points li {
   position: relative;
-  padding-left: 26px;
+  padding-left: 24px;
   font-size: 15.5px;
-  line-height: 1.72;
+  line-height: 1.68;
   color: var(--fg);
 }
 
@@ -167,22 +167,127 @@ strong {
   background: var(--c);
 }
 
-/* Nested Side Headings (subGroups inside a SubSection) */
+/* Nested Sub-Bullets (Level 2 — Dark Turquoise hollow circle) */
+.irs-points.irs-points-nested {
+  margin-top: 8px;
+  gap: 7px;
+}
+
+.irs-points.irs-points-nested li {
+  padding-left: 22px;
+  font-size: 14.8px;
+  line-height: 1.62;
+}
+
+.irs-points.irs-points-nested li::before {
+  left: 3px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  border: 2px solid var(--brick);
+  background: var(--surface);
+}
+
+/* Nested-Nested Sub-Bullets (Level 3+ — Slate dash) */
+.irs-points.irs-points-deep {
+  margin-top: 6px;
+  gap: 5px;
+}
+
+.irs-points.irs-points-deep li {
+  padding-left: 20px;
+  font-size: 14.3px;
+  line-height: 1.58;
+}
+
+.irs-points.irs-points-deep li::before {
+  left: 4px;
+  top: 0.78em;
+  width: 7px;
+  height: 2px;
+  border-radius: 1px;
+  border: none;
+  background: var(--muted);
+}
+
+/* Level 2: Side Headings (subGroups inside a SubSection) */
 .irs-sidegroup {
-  margin-top: 18px;
-  padding: 14px 18px 16px;
+  margin-top: 12px;
+  padding: 13px 17px 14px;
   border-radius: 12px;
   border: 1px solid var(--line);
-  border-left: 3px solid var(--c);
+  border-left: 3.5px solid var(--c);
   background: var(--bg);
 }
 
 .irs-sidegroup-title {
-  margin: 0 0 12px 0;
+  margin: 0 0 7px 0;
   font-family: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
   font-size: 15.5px;
   font-weight: 700;
   color: var(--c-ink);
+  line-height: 1.35;
+}
+
+/* Level 3: Nested Headings inside a Side Heading */
+.irs-nestedgroup {
+  margin-top: 11px;
+  padding: 7px 0 5px 14px;
+  border-left: 2.5px solid var(--brick-border);
+}
+
+.irs-nestedgroup-title {
+  margin: 0 0 5px 0;
+  font-family: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
+  font-size: 14.8px;
+  font-weight: 700;
+  color: var(--brick-ink);
+  line-height: 1.35;
+}
+
+/* Level 4+: Nested-Nested Headings inside a Nested Heading */
+.irs-deepgroup {
+  margin-top: 9px;
+  padding: 5px 0 3px 13px;
+  border-left: 2px solid var(--c-mid);
+}
+
+.irs-deepgroup-title {
+  margin: 0 0 4px 0;
+  font-family: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
+  font-size: 14.2px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.35;
+}
+
+/* Plain prose description directly below a heading/side-heading (PDF-faithful) */
+.irs-group-desc {
+  margin: 0 0 6px 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--fg);
+}
+
+/* Standalone Example callout directly under a point or heading */
+.irs-example {
+  margin-top: 9px;
+  margin-bottom: 4px;
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brick);
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg);
+}
+
+.irs-example-label {
+  font-weight: 700;
+  color: var(--brick-ink);
+  margin-right: 6px;
 }
 
 /* Inline Code / Command Token Pill (Dark Turquoise / --brick) */

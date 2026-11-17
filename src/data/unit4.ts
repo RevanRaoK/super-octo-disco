@@ -16,36 +16,58 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     summaryLine:
       'A **Search Statement** expresses user information needs via Boolean or natural language, while **Binding** translates those concepts progressively through **user vocabulary**, **system meta-language**, and **weighted index primitives**.',
     bullets: [
-      'A **Search Statement** defines the user formal request to logically partition the total document item space into the narrow cluster satisfying the user concept need.',
-      'Query generation directly supports both **Boolean logic** and **Natural Language** phrasing while allowing users to assign importance weights to priority terms.',
-      '**Query Length Law:** The length of a search statement directly governs retrieval capability—**longer, richer queries** make it significantly easier for the IRS to identify relevant items accurately.',
+      {
+        label: 'Search Statement Definition',
+        text: 'A user-generated information statement attempting to specify the conditions needed to logically subset the total item space to the cluster containing needed information.',
+      },
+      {
+        label: 'Query Modes & Term Weighting',
+        text: 'Supports traditional Boolean logic and Natural Language queries while allowing users to assign importance weights to different concepts.',
+      },
+      {
+        label: 'Query Length Law',
+        text: 'The length of a search statement directly affects retrieval effectiveness—longer, richer search queries make it significantly easier for the IRS to find relevant items.',
+      },
     ],
     subSections: [
       {
         heading: 'Progressive Levels of Binding & Meta-Language Translation',
-        bullets: [
-          'As a query travels from human thought into index execution, binding transforms vocabulary successively across three layers.',
-        ],
+        description:
+          'As a search statement travels from human thought into index matching, binding transforms vocabulary across three progressive stages.',
         subGroups: [
           {
-            sideHeading: 'Level 1 — User Vocabulary & Experience Binding',
-            bullets: [
-              'Initially, terms inside a search statement bind purely to the **personal vocabulary, jargon, and past experiences of the user** (`e.g. searching "price of oil"`).',
+            sideHeading: 'Level 1 — User Vocabulary & Past Experience Binding',
+            description:
+              'Initially, terms inside a search statement bind strictly to the personal vocabulary, domain jargon, and past experiences of the user.',
+            example: 'User enters `"impact of oil spills in Alaska on price of oil"`.',
+          },
+          {
+            sideHeading: 'Level 2 — System Meta-Language Binding',
+            description:
+              'The search system parses the statement into its internal meta-language (`analogous to Item Indexing`) according to its retrieval paradigm:',
+            subGroups: [
+              {
+                sideHeading: '1. Statistical Systems',
+                description:
+                  'Determines stemmed processing tokens of interest and assigns term weights based on occurrence frequencies.',
+              },
+              {
+                sideHeading: '2. Natural Language Systems',
+                description:
+                  'Determines syntactic phrases and discourse semantics using algorithms mirroring document indexing.',
+              },
+              {
+                sideHeading: '3. Concept Systems & Thesaurus Expansion',
+                description:
+                  'Maps search statements onto canonical indexed concepts; parentheses indicate automatic Thesaurus Expansion.',
+                example: '`oil (petroleum), spills (accidents), price (cost, value)`',
+              },
             ],
           },
           {
-            sideHeading: 'Level 2 — System Meta-Language Translation (Statistical, NLP & Concept Systems)',
-            bullets: [
-              '**Statistical Systems** bind statements into stemmed processing tokens weighted by frequency and collection statistics (`Document Frequency DF` and `Total Frequency`).',
-              '**Natural Language Systems** parse syntax and discourse semantics cleanly into normalized phrases using algorithms mirroring document indexing.',
-              '**Concept Systems** map query keywords onto canonical indexed concept dimensions; parentheses denote **Thesaurus Expansion** (`e.g. oil (petroleum), price (cost, value)`).',
-            ],
-          },
-          {
-            sideHeading: 'Level 3 — Collection IDF Weight & Hit-List Binding',
-            bullets: [
-              'Final system binding attaches quantitative **Inverse Document Frequency ($IDF$)** collection weights directly onto each expanded query token (`Figure 7.1`) before inverted execution.',
-            ],
+            sideHeading: 'Level 3 — Collection Weighting & Hit-List Binding',
+            description:
+              'Attaches current database collection statistics (`Document Frequency DF`, `Total Frequency`, and `Inverse Document Frequency IDF`) onto each expanded token (`Figure 7.1`) before inverted list execution.',
           },
         ],
         diagramId: 'search-binding-levels',
@@ -79,22 +101,33 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Similarity Measures** compute scalar relevance weights between vector representations of items and queries (**Simple, Cosine, Dice, Jaccard**), sorting hits by descending rank above a **Query Threshold**.',
     bullets: [
-      '**Ranking** presents items most likely to satisfy a search first by assigning every candidate document a scalar numerical score measuring similarity between the document vector $DOC_i$ and query vector $QUERY_j$.',
-      'Two fundamental similarity axioms hold for every formula: **(a) scores increase strictly as items become more similar**, and **(b) total dissimilarity evaluates to zero**.',
-      '**Passage-Level Restriction:** Restricting similarity calculation to localized **Passages** instead of whole documents yields a substantial gain in **Precision** with modest trade-off in **Recall**.',
+      {
+        label: 'Ranking Principle',
+        text: 'Presents the most likely relevant items first using a scalar similarity score between document vector $DOC_i$ and query vector $QUERY_j$.',
+      },
+      {
+        label: 'Two Fundamental Similarity Axioms',
+        text: 'Every valid similarity formula satisfies two rules:',
+        children: [
+          '1. Result values increase strictly as items become more similar.',
+          '2. Value equals zero when items are completely dissimilar.',
+        ],
+      },
+      {
+        label: 'Passage-Level Similarity Restriction',
+        text: 'Restricting similarity calculation to localized Passages rather than whole items yields a significant gain in Precision with minor impact on Recall.',
+      },
     ],
     subSections: [
       {
-        heading: 'Four Classical Vector Similarity Formulations',
-        bullets: [
-          'Different retrieval formulas balance raw keyword overlap against document length normalization differently.',
-        ],
+        heading: 'Four Classical Vector Similarity Formulas',
+        description:
+          'Different retrieval formulas balance raw term overlap against document length normalization differently.',
         subGroups: [
           {
             sideHeading: '1. Simple Dot-Product Measure (Unnormalized)',
-            bullets: [
-              '**Simple Similarity** sums term-by-term products directly across all vocabulary axes (`suffers from length bias without normalization`).',
-            ],
+            description:
+              'Sums products of matching term weights across vector dimensions; suffers from lack of normalization for document length variances.',
             formulas: [
               {
                 label: 'Formula 1: Simple Dot-Product Similarity',
@@ -105,9 +138,8 @@ export const UNIT4_TOPICS: LessonTopic[] = [
           },
           {
             sideHeading: '2. Cosine Similarity (Salton — SMART System)',
-            bullets: [
-              '**Cosine Similarity** measures the cosine of the angle between vectors by dividing the dot product by Euclidean vector norms, cleanly normalizing document length variations.',
-            ],
+            description:
+              'Normalizes document and query vectors by their Euclidean norms (`measuring the cosine of the angle between vectors`), cleanly eliminating document length bias.',
             formulas: [
               {
                 label: 'Formula 2: Cosine Similarity (Salton, SMART System)',
@@ -117,17 +149,22 @@ export const UNIT4_TOPICS: LessonTopic[] = [
             ],
           },
           {
-            sideHeading: '3. Dice & 4. Jaccard Similarity Formulas',
-            bullets: [
-              '**Dice Similarity** simplifies Jaccard denominator by doubling numerator overlap over summed weights (`invariant to common-term imbalance`).',
-              '**Jaccard Similarity** penalizes union terms lacking overlap by computing set intersection divided by set union ($|D| + |Q| - |D \\cap Q|$).',
-            ],
+            sideHeading: '3. Dice Similarity Formula',
+            description:
+              'Simplifies the Jaccard denominator and introduces a factor of $2$ in the numerator (`normalization invariant to the number of terms in common`).',
             formulas: [
               {
                 label: 'Formula 3: Dice Similarity',
                 tex: '\\text{SIM}(\\text{DOC}_i, \\text{QUERY}_j) = \\frac{2 \\sum_{k=1}^{n} \\left(DOC_{i,k} \\times QTERM_{j,k}\\right)}{\\sum_{k=1}^{n} DOC_{i,k} + \\sum_{k=1}^{n} QTERM_{j,k}}',
                 note: 'Doubles co-occurrence over arithmetic sum of active document and query terms.',
               },
+            ],
+          },
+          {
+            sideHeading: '4. Jaccard Similarity Formula',
+            description:
+              'Normalizes overlap relative to total set union ($|D| + |Q| - |D \\cap Q|$), penalizing non-overlapping terms.',
+            formulas: [
               {
                 label: 'Formula 4: Jaccard Similarity',
                 tex: '\\text{SIM}(\\text{DOC}_i, \\text{QUERY}_j) = \\frac{\\sum_{k=1}^{n} \\left(DOC_{i,k} \\times QTERM_{j,k}\\right)}{\\sum_{k=1}^{n} DOC_{i,k} + \\sum_{k=1}^{n} QTERM_{j,k} - \\sum_{k=1}^{n} \\left(DOC_{i,k} \\times QTERM_{j,k}\\right)}',
@@ -140,8 +177,28 @@ export const UNIT4_TOPICS: LessonTopic[] = [
       {
         heading: 'Query Threshold Process & Benchmark Corpus Vectors (DOC1–DOC3)',
         bullets: [
-          'Because pure similarity formulas score the entire collection (`leaving most unrelated documents at similarity zero`), applying a **Query Threshold** cuts off weak trailing items to assemble the **Resultant Hit File**.',
-          'Over the notes 8-term vocabulary **`(American, geography, Lakes, Mexico, Painter, oil, Reserve, Subject)`**, sample documents form frequency vectors `DOC1 = (0,1,0,2,0,3,1,0)`, `DOC2 = (1,3,0,0,0,0,0,0)`, and `DOC3 = (0,0,1,3,3,0,0,2)` (`ranked on Binary/Frequency queries below`).',
+          {
+            label: 'Role of the Query Threshold',
+            text: 'Similarity algorithms score the entire database (`leaving most unrelated items near or equal to zero`); applying a Query Threshold trims low scores to define the final Resultant Hit File.',
+          },
+          {
+            label: '8-Term Notes Vocabulary',
+            text: '`[American, geography, Lakes, Mexico, Painter, oil, Reserve, Subject]`',
+            children: [
+              {
+                label: 'DOC1 (`"geography of Mexico suggests oil reserves are available"`)',
+                text: 'Vector `(0, 1, 0, 2, 0, 3, 1, 0)`',
+              },
+              {
+                label: 'DOC2 (`"American Geography has lakes available everywhere"`)',
+                text: 'Vector `(1, 3, 0, 0, 0, 0, 0, 0)`',
+              },
+              {
+                label: 'DOC3 (`"Painters Suggest Mexico Lakes as Subjects"`)',
+                text: 'Vector `(0, 0, 1, 3, 3, 0, 0, 2)`',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -174,41 +231,40 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Relevance Feedback** dynamically refines initial search results using user relevance judgments (`Positive` and `Negative`), shifting the query vector $Q_o$ toward confirmed relevant documents and away from non-relevant noise.',
     bullets: [
-      'While static thesauri and semantic networks broaden terms, they still fail to match the specific dialect of local database authors or capture **newly coined vocabulary terms**.',
-      'Interactive IRS platforms enable users to judge returned documents as **Relevant** or **Non-Relevant** so the system automatically re-weights and expands terms into an improved second-pass query.',
+      {
+        label: 'Limitations of Static Thesauri',
+        text: 'Even though thesauri and semantic networks broaden queries, they still fail to match the specific author dialect in a local database and risk missing the latest newly coined words.',
+      },
+      {
+        label: 'Interactive Query Reformulation Concept',
+        text: 'Users evaluate initial hits as Relevant or Non-Relevant so the IRS constructs a new query increasing weights of terms in relevant items and decreasing weights of terms in non-relevant items.',
+      },
     ],
     subSections: [
       {
         heading: 'Three Feedback Refinement Mechanisms',
-        bullets: [
-          'Vector modification uses user judgments (or assumed top hits) to adjust query coordinates geometrically.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Positive Feedback (Vector Pull + Term Expansion)',
-            bullets: [
-              'Adds normalized term weights from **relevant items ($DR_i$)** to the original query vector $Q_o$, pulling $Q_n$ toward the relevant topic cluster and adding helpful new terms missing from $Q_o$.',
-            ],
+            description:
+              'Adds normalized weights from confirmed relevant documents ($DR_i$) onto $Q_o$, pulling $Q_n$ toward the relevant topic cluster and expanding the query with helpful terms missing initially.',
           },
           {
             sideHeading: '2. Negative Feedback (Vector Push)',
-            bullets: [
-              'Subtracts normalized term weights from **non-relevant false hits ($DNR_j$)**, steering $Q_n$ cleanly away from noisy distracting terminology.',
-            ],
+            description:
+              'Subtracts normalized weights from non-relevant false hits ($DNR_j$), steering $Q_n$ cleanly away from distracting terminology.',
           },
           {
             sideHeading: '3. Pseudo (Blind) Relevance Feedback',
-            bullets: [
-              'Automatically assumes the top $k$ retrieved items from Pass 1 are relevant without requiring user clicks, expanding the query silently for stronger Pass-2 **Recall**.',
-            ],
+            description:
+              'Automatically assumes the top $k$ retrieved items from Pass 1 are relevant without requiring manual clicks, silently expanding terms for stronger Pass-2 Recall.',
           },
         ],
       },
       {
         heading: 'Mathematical Formulation (Notes & Tunable Rocchio Equations)',
-        bullets: [
-          'Rocchio vector update combines original terms with normalized centroids of relevant and non-relevant item vectors.',
-        ],
+        description:
+          'Rocchio vector update combines the original query with normalized centroids of relevant and non-relevant document vectors.',
         formulas: [
           {
             label: 'Standard Equal-Weight Relevance Feedback Formula (Notes Form)',
@@ -243,29 +299,35 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Selective Dissemination of Information (SDI)** reverses pull search by matching continuously streaming incoming documents against standing **User Profiles** asynchronously into user mail files—pioneered at scale by **LMDS** and **Statistical Classification**.',
     bullets: [
-      'Also described as **Push–Pull dissemination** (`push delivers matched alerts proactively; pull extracts requested records on demand`), **SDI** compares newly arriving normalized items directly against registered user interest profiles.',
-      'Whereas ad-hoc retrieval searches a stable archival collection using short dynamic user queries, **SDI** runs **thousands of broad, relatively static standing profiles** concurrently per incoming document stream.',
+      {
+        label: 'Push–Pull Dissemination Model',
+        text: 'Push proactively dispatches newly arrived matching documents to subscribers based on standing user profiles; Pull extracts requested records on demand when a user submits an interactive query.',
+      },
+      {
+        label: 'Dynamic vs Static Inversion',
+        text: 'Unlike ad-hoc search (dynamic short queries against a static archive), SDI runs thousands of relatively static, broad standing profiles concurrently against a continuously arriving dynamic document stream.',
+      },
+      {
+        label: 'Corpus Weighting Support',
+        text: 'Historical database statistics supply baseline IDF/weighting factors used during indexing and profile similarity comparison.',
+      },
     ],
     subSections: [
       {
         heading: 'Operational Algorithms for Large-Scale SDI Filtering',
-        bullets: [
-          'Real-time news and wire-service dissemination demands ultra-fast matching across thousands of simultaneous user profiles.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Logistical Message Dissemination System (LMDS — CRW)',
+            description:
+              'Developed by Chase, Rosen, and Wallace (CRW) as one of the earliest high-speed commercial dissemination engines.',
             bullets: [
-              'Developed originally by **Chase, Rosen, and Wallace (CRW)**, **LMDS** was among the first high-speed commercial dissemination engines.',
-              '**LMDS** inverted thousands of standing user profiles cleanly so newly arriving wires could match all profiles reliably every **20 seconds**.',
+              'Inverted thousands of standing user profiles so continuously arriving items could match all profiles every **20 seconds**.',
             ],
           },
           {
             sideHeading: '2. Statistical Classification & Explicit Error Minimization',
-            bullets: [
-              'Modern statistical dissemination engines derive profile selection thresholds using existing archival corpus weights alongside **Explicit Error Minimization** classification rules.',
-              'Whenever an arriving item satisfies a user profile criterion, the engine asynchronously dispatches it straight to that subscriber **User Mail File**.',
-            ],
+            description:
+              'Uses Statistical Classification and Explicit Error Minimization to determine selection thresholds for each profile—asynchronously delivering matching items straight to the subscriber User Mail File.',
           },
         ],
       },
@@ -301,21 +363,37 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Weighted Boolean** and **Fuzzy Set Models** generalize rigid `0/1` Boolean operators (`AND`, `OR`) into continuous membership blends (**Zadeh Fuzzy Min/Max**, **Mixed Min-Max**, **All-Item Geometric Weighting**, and **P-Norm**) enabling ranked retrieval.',
     bullets: [
-      'Strict Boolean logic clashes with weighted index systems because classical `AND` behaves **too restrictively** (rejecting relevant items missing one minor term), classical `OR` behaves **too generally**, and neither produces ranked hit scores.',
-      'Early work by **Bookstein (1978, 1980)** recognized the inherent **fuzziness** required to blend Boolean connectives smoothly with numeric document weights.',
+      {
+        label: 'Three Flaws of Strict Boolean Logic on Weighted Systems',
+        text: 'Normal crisp Boolean operators fail when combined with weighted index systems:',
+        children: [
+          {
+            label: 'AND Too Restrictive',
+            text: 'Rejects relevant items missing even one minor term.',
+          },
+          {
+            label: 'OR Too General',
+            text: 'Retrieves too many weak hits matching only one common term.',
+          },
+          {
+            label: 'No Ranking Output',
+            text: 'Pure Boolean logic returns an unranked set without relevance ordering.',
+          },
+        ],
+      },
+      {
+        label: 'Bookstein Fuzziness Foundation (1978, 1980)',
+        text: 'Early work by Bookstein identified the fuzziness inherent in integrating Boolean operators cleanly with weighted index systems.',
+      },
     ],
     subSections: [
       {
         heading: 'Four Models Extending Boolean Logic to Continuous Weights',
-        bullets: [
-          'Mathematical generalizations replace crisp true/false decisions with graded scalar relevance functions.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Zadeh Fuzzy Set Theory (1965)',
-            bullets: [
-              'Introduced by mathematician Lotfi **Zadeh (1965)**, **Fuzzy Sets** replace binary membership with a continuous **Degree of Membership $\\in [0,1]$**, modeling `AND` as `min` and `OR` as `max`.',
-            ],
+            description:
+              'Introduced by mathematician Lotfi Zadeh (1965); replaces strict binary set membership with a continuous Degree of Membership $\\in [0, 1]$, computing `AND` via `min` and `OR` via `max`.',
             formulas: [
               {
                 label: 'Zadeh Fuzzy Set Logic (1965)',
@@ -326,9 +404,8 @@ export const UNIT4_TOPICS: LessonTopic[] = [
           },
           {
             sideHeading: '2. Mixed Min-Max Model (Waller–Kraft / Bookstein)',
-            bullets: [
-              'Pure `min/max` depends strictly on a single extreme term while ignoring all other weights, so the **Mixed Min-Max Model** blends `max` and `min` linearly via weighting parameters ($C_{\\text{OR1}}, C_{\\text{OR2}}, C_{\\text{AND1}}, C_{\\text{AND2}}$).',
-            ],
+            description:
+              'Overcomes pure `min/max` reliance on only a single extreme term weight by blending `max` and `min` linearly using tunable coefficients ($C_{\\text{OR1}}, C_{\\text{OR2}}, C_{\\text{AND1}}, C_{\\text{AND2}}$).',
             formulas: [
               {
                 label: 'Mixed Min-Max Similarity Model (OR & AND Queries)',
@@ -339,9 +416,8 @@ export const UNIT4_TOPICS: LessonTopic[] = [
           },
           {
             sideHeading: '3. Considering All Item Weights (Geometric Decay Sum)',
-            bullets: [
-              'Rather than inspecting only extreme minimum/maximum terms, the **All-Item Weighted Sum** incorporates every sorted document term score $d_i$ scaled by geometric decay factor $r$.',
-            ],
+            description:
+              'Incorporates every sorted term weight $d_i$ in the document rather than only min/max extremes, scaled by geometric rank factor $r$.',
             formulas: [
               {
                 label: 'Considering All Item Weights (Geometric Rank Decay)',
@@ -352,9 +428,8 @@ export const UNIT4_TOPICS: LessonTopic[] = [
           },
           {
             sideHeading: '4. P-Norm Extended Boolean Model (Salton)',
-            bullets: [
-              'The **P-Norm Model** evaluates $L_p$-norm spatial distances parameterized by $p \\in [1, \\infty)$ where **$p = 1$ yields pure vector-space sum** and **$p = \\infty$ converges back to strict Boolean `AND/OR`**.',
-            ],
+            description:
+              'Measures $L_p$-norm distances parameterized by $p \\in [1, \\infty)$: **$p = 1$ reduces to pure vector-space sum** while **$p = \\infty$ converges back to strict Boolean `AND / OR`**.',
           },
         ],
       },
@@ -371,33 +446,37 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     subtopicsCovered: [
       'Web Directories & Search Crawlers (Yahoo!, Lycos vs AltaVista)',
       'URL Storage, Simple Word-Frequency Ranking & Attribute Query Tuples',
-      'Intelligent Search Agents & All Six Essential Characteristics',
+      'Intelligent Search Agents & All Six Key Characteristics',
     ],
     summaryLine:
       '**Internet & Hypertext Search** deploys automated servers indexing web text + **URLs** (`Yahoo!, Lycos, AltaVista`), alongside autonomous **Intelligent Agents** defined by **six essential behavioral characteristics**.',
     bullets: [
-      'Distributed Internet search servers crawl remote web hosts actively to build centralized indexes linking tokens to source **Uniform Resource Locators (URLs)** sorted via word-frequency statistical ranking.',
+      {
+        label: 'Internet Search Crawling & URL Indexing',
+        text: 'Distributed search servers visit Internet sites, retrieve text, store Uniform Resource Locators (URLs), and rank hits using simple statistical word-occurrence algorithms.',
+      },
     ],
     subSections: [
       {
         heading: 'Web Search Servers (Yahoo!, Lycos vs AltaVista) & Attribute Tuples',
-        bullets: [
-          'Early search pioneers contrasted distinct web-harvesting philosophies and formal multi-attribute query structures.',
-        ],
         subGroups: [
           {
-            sideHeading: 'Yahoo!, Lycos vs AltaVista Indexing Philosophy',
+            sideHeading: '1. Yahoo!, Lycos vs AltaVista Design Contrast',
             bullets: [
-              'Prominent Internet indexing nodes included hierarchical directory **Yahoo!** alongside automated full-text crawlers **Lycos** (`lycos.com`) and **AltaVista** (`altavista.digital.com`).',
-              '**Design Contrast:** **Lycos** returned only **home pages** from each visited web server for automatic indexing, whereas **AltaVista** harvested **all text across every page of a site**.',
-              'Both crawlers stored target **URLs** and ordered hits using simple occurrence statistics alongside hyperlinked **Anchor Text** context.',
+              {
+                label: 'Early Web Nodes',
+                text: 'Prominent Internet search hubs included **Yahoo!**, **Lycos** (`lycos.com`), and **AltaVista** (`altavista.digital.com`).',
+              },
+              {
+                label: 'Lycos (Home Pages) vs AltaVista (Full Site)',
+                text: 'Lycos indexed only **home pages** from each visited server, whereas AltaVista retrieved and indexed **all text across every page** at a site.',
+              },
             ],
           },
           {
-            sideHeading: 'Attribute-Value Web Query Tuples (OR & AND Forms)',
-            bullets: [
-              'Formal hypertext/attribute web search statements bind pairs $(A_i, a_i)$ systematically under logical `OR` and `AND` combinations.',
-            ],
+            sideHeading: '2. Attribute-Value Web Query Tuples (OR & AND Forms)',
+            description:
+              'Formal hypertext/attribute web search statements bind pairs $(A_i, a_i)$ under logical `OR` and `AND` combinations.',
             formulas: [
               {
                 label: 'Formal Attribute-Value Internet Query Tuple Forms (OR & AND)',
@@ -409,33 +488,54 @@ export const UNIT4_TOPICS: LessonTopic[] = [
         ],
       },
       {
-        heading: 'Six Essential Characteristics of an Intelligent Agent',
-        bullets: [
-          'An **Intelligent Agent** accepts a user information need, traverses distributed Internet sites independently, and brings back curated hits exhibiting six mandatory properties.',
-        ],
+        heading: 'Six Key Characteristics of Intelligent Agents (UNIT-4 Notes p.8–9)',
+        description:
+          'An Intelligent Agent accepts a user information need, traverses Internet sites independently, and locates items of interest using six essential traits:',
         subGroups: [
           {
-            sideHeading: '1. Autonomy & 2. Communications Ability',
-            bullets: [
-              '**Trait 1 — Autonomy:** Operates independently without constant human intervention, controlling internal states and traversing remote sites using preset relevance rules.',
-              '**Trait 2 — Communications Ability:** Speaks standardized open interface protocols so it converses fluently with remote servers and users while traversing hosts.',
+            sideHeading: '1. Autonomy',
+            description:
+              'Operates without continuous human intervention, controlling internal states and making independent decisions to traverse sites based on pre-established criteria.',
+          },
+          {
+            sideHeading: '2. Communications Ability',
+            description:
+              'Communicates fluently with information sites as it traverses them using a universally accepted interface language.',
+          },
+          {
+            sideHeading: '3. Capacity for Cooperation',
+            description:
+              'Cooperates with other intelligent agents to share results and perform mutually beneficial tasks.',
+          },
+          {
+            sideHeading: '4. Capacity for Reasoning',
+            description: 'Supports three distinct reasoning scenarios:',
+            subGroups: [
+              {
+                sideHeading: 'Rule-Based Reasoning',
+                description: 'Executes user-defined condition–action rules directly.',
+              },
+              {
+                sideHeading: 'Knowledge-Based Reasoning',
+                description:
+                  'Uses previously stored conditions and past actions to deduce future decisions.',
+              },
+              {
+                sideHeading: 'Artificial Evolution-Based Reasoning',
+                description:
+                  'Spawns new child agents endowed with higher logic capabilities to accomplish evolving objectives.',
+              },
             ],
           },
           {
-            sideHeading: '3. Capacity for Cooperation & 4. Capacity for Reasoning',
-            bullets: [
-              '**Trait 3 — Cooperation:** Collaborates across multiple specialized agents to share partial results and execute mutually beneficial tasks.',
-              '**Reasoning Mode A — Rule-Based:** Evaluates pre-defined user condition-action rules directly.',
-              '**Reasoning Mode B — Knowledge-Based:** Leverages historical stored condition-action experience to infer future decisions.',
-              '**Reasoning Mode C — Artificial Evolution:** Spawns child agents equipped with higher logic capabilities to accomplish evolving objectives.',
-            ],
+            sideHeading: '5. Adaptive Behavior',
+            description:
+              'Closely tied to Autonomy (1) and Reasoning (4)—assesses current environmental state and dynamically adapts future actions.',
           },
           {
-            sideHeading: '5. Adaptive Behavior & 6. Trustworthiness',
-            bullets: [
-              '**Trait 5 — Adaptive Behavior:** Assesses live environmental state (`integrating Autonomy and Reasoning`) to adjust collection actions dynamically over time.',
-              '**Trait 6 — Trustworthiness:** Guarantees security and fidelity so the agent strictly retrieves authorized, accurate items faithfully on the user behalf.',
-            ],
+            sideHeading: '6. Trustworthiness',
+            description:
+              'Assures the user that the agent acts faithfully and securely on their behalf to retrieve authorized, relevant information.',
           },
         ],
       },
@@ -457,64 +557,113 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Information Visualization** shifts heavy cognitive reading onto high-bandwidth human **Perception** (`via WIMP/Link/Attribute tools`) governed by the **5 Gestalt Visual Grouping Laws**.',
     bullets: [
-      '**Information Visualization** transforms complex index metadata and hit sets into interactive visual structures so users spot clusters and patterns effortlessly.',
-      '**Three Core User Gains:** **(A)** Cuts time needed to interpret hits and clusters, **(B)** reveals structural relationships across items rather than treating each doc independently, and **(C)** executes sophisticated queries with simple clicks.',
+      {
+        label: 'Information Visualization Definition',
+        text: 'Transformation of complex search data and index metadata into a visual form enabling users to observe, understand, and select relevant items quickly.',
+      },
+      {
+        label: 'Three Core Areas Visualization Helps (A, B, C)',
+        text: 'Effective visual presentation supports users in three ways:',
+        children: [
+          'A. Reduces time needed to understand search results and clusters of relevant items.',
+          'B. Yields insights from inter-item relationships instead of treating each item independently.',
+          'C. Enables simple user actions that perform sophisticated search functions.',
+        ],
+      },
     ],
     subSections: [
       {
-        heading: 'Interactive Visualization Capabilities & Two Broad Classes',
-        bullets: [
-          'Electronic visualization displays support four core operations categorized into Link or Attribute mapping.',
-        ],
+        heading: 'Electronic Visualization Functions & Two Broad Classes',
         subGroups: [
           {
-            sideHeading: 'Four Electronic Visualization Capabilities (Notes p.10)',
+            sideHeading: '1. Four Electronic Visualization Functions (Notes p.10)',
             bullets: [
-              '**Capability 1 — Style Modification:** Dynamically updates display conditions including color scales and encodings.',
-              '**Capability 2 — Consistent State Tracking:** Updates values smoothly while keeping the spatial representation constant.',
-              '**Capability 3 — Spatio-Temporal Animation:** Animates display changes across dimensions of space and time.',
-              '**Capability 4 — User-Controlled Hyperlinks:** Builds interactive clickable edges linking correlated data nodes.',
+              '1. Modify representations of data or display conditions (`changing colors and scales`).',
+              '2. Keep the same visual representation constant while updating underlying data changes.',
+              '3. Animate displays to show changes across space and time.',
+              '4. Create user-controlled hyperlinks establishing explicit relationships between data.',
             ],
           },
           {
-            sideHeading: 'Link Visualization vs Attribute Visualization',
-            bullets: [
-              '**Link Visualization** renders explicit structural connections and edge topologies among retrieved documents (`citations, cluster graphs`).',
-              '**Attribute Visualization** illuminates shared content properties (`term importance, publication year, subject weight`) across massive numbers of items.',
+            sideHeading: '2. Link Visualization vs Attribute Visualization',
+            subGroups: [
+              {
+                sideHeading: 'Link Visualization',
+                description:
+                  'Displays explicit structural relationships and edges among retrieved items (`citations, cluster networks`).',
+              },
+              {
+                sideHeading: 'Attribute Visualization',
+                description:
+                  'Reveals shared content attributes (`term weights, categories, years`) across large numbers of items.',
+              },
             ],
           },
         ],
       },
       {
-        heading: 'Cognition vs Perception & Human-Computer Interface Evolution',
-        bullets: [
-          'Effective UI design shifts slow deliberate cognitive work onto ultra-fast subconscious visual perception.',
-        ],
+        heading: 'Cognition vs Perception & Human–Computer Interface Evolution',
         subGroups: [
           {
-            sideHeading: 'Cognition (Store) vs Perception (Receive)',
+            sideHeading: '1. Cognition vs Perception',
             bullets: [
-              '**Cognition** means storing, processing, and understanding retrieved knowledge through conscious thought and reasoning (**slower bottleneck**).',
-              '**Perception** is the immediate physiological awareness and reception of visual shapes, hues, and patterns through the eyes (**high-bandwidth channel**).',
+              {
+                label: 'Cognition (Store / Reason)',
+                text: 'Acquiring knowledge and understanding slowly through conscious thought, memory, experience, and the senses.',
+              },
+              {
+                label: 'Perception (Receive / Sense)',
+                text: 'Immediate physiological awareness—seeing, hearing, or noticing visual patterns through the senses (`high-bandwidth visual brain channel`).',
+              },
+              {
+                label: 'Core HCI Goal',
+                text: 'Shifting processing load from slower cognitive reading onto faster visual perception dramatically improves human–computer interfaces.',
+              },
             ],
           },
           {
-            sideHeading: 'UI Paradigm Evolution: Typewriter -> Paper -> WIMP -> Multi-Sensory HCI',
+            sideHeading: '2. Interface Evolution (Typewriter -> Paper -> WIMP -> Multi-Sensory)',
             bullets: [
-              'Early computer systems copied **typewriters**, progressed into **display-as-paper** metaphors, and matured into modern **WIMP (`Windows, Icons, Menus, Pointers`)** graphical interfaces.',
-              'Future multi-sensory **HCI** complements dominant human **Vision** with **Speech input/output** replacing basic chimes and **Virtual Reality Touch cues** to lower user cognitive overhead.',
+              {
+                label: 'Typewriter -> Paper -> WIMP',
+                text: 'Interfaces evolved from typewriter terminals to display-as-paper metaphors and modern WIMP (`Windows, Icons, Menus, Pointers`) GUIs.',
+              },
+              {
+                label: 'Multi-Sensory Extensions',
+                text: 'Speech input/output is replacing simple audio alerts alongside Virtual Reality touch senses to further cut user overhead.',
+              },
             ],
           },
         ],
       },
       {
-        heading: 'Five Gestalt Principles of Visual Grouping',
-        bullets: [
-          '**Principle 1 — Proximity:** Figures positioned physically near each other are perceived immediately as one unified group.',
-          '**Principle 2 — Similarity:** Elements sharing color, icon, or shape are mentally clustered together across distance.',
-          '**Principle 3 — Continuity:** Eyes follow smooth continuous paths—so a circle bisected by a line reads as **one circle + one line**, rather than two half-circles welded together.',
-          '**Principle 4 — Closure:** Human perception bridges small missing contour gaps automatically—reading a **dashed-line square** immediately as one closed square.',
-          '**Principle 5 — Connectedness:** Uniform dots, symbols, or areas joined explicitly by connecting lines read together as a single unit.',
+        heading: 'Five Gestalt Principles of Visual Perception (Notes p.11–12)',
+        subGroups: [
+          {
+            sideHeading: '1. Proximity',
+            description: 'Nearby figures are grouped together visually as a unified cluster.',
+          },
+          {
+            sideHeading: '2. Similarity',
+            description: 'Figures sharing similar color, size, or shape are grouped together.',
+          },
+          {
+            sideHeading: '3. Continuity',
+            description:
+              'Figures are interpreted as smooth continuous patterns rather than discontinuous concatenated shapes.',
+            example:
+              'A circle with its diameter drawn is perceived as one continuous circle + one line, rather than two half-circles welded together.',
+          },
+          {
+            sideHeading: '4. Closure',
+            description: 'Small gaps within a figure are filled in mentally to form a complete whole.',
+            example:
+              'Using dashed lines to draw a square still allows immediate recognition of a closed square.',
+          },
+          {
+            sideHeading: '5. Connectedness',
+            description: 'Uniform and linked spots, lines, or areas are perceived as a single unit.',
+          },
         ],
       },
     ],
@@ -537,56 +686,62 @@ export const UNIT4_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Information Visualization Technologies** present search hierarchies, term weights, and hit-document clusters cleanly using **Tree Structures**, **Cone Trees**, **Perspective Walls**, **Tree Maps**, **Envision**, **DCARS**, and **Cityscape**.',
     bullets: [
-      'Display tools pursue **two primary goals**: **(1) Document Clustering (`showing cluster sizes and topics for browsing`)** and **(2) Search Statement Analysis (`displaying expanded terms alongside relevance contribution weights`)**.',
+      {
+        label: 'Two Major Goals of Search Result Display',
+        text: 'Visualization tools focus on two tasks:',
+        children: [
+          {
+            label: '1. Document Clustering',
+            text: 'Displays cluster sizes and topics so users navigate straight to relevant document groups.',
+          },
+          {
+            label: '2. Search Statement Analysis',
+            text: 'Displays total query terms (`including relevance feedback & thesaurus expansions`) alongside retrieved items to show term contributions to ranking.',
+          },
+        ],
+      },
     ],
     subSections: [
       {
         heading: 'All Seven Information Visualization Technologies (UNIT-4 Notes p.12–16)',
-        bullets: [
-          'Each visualization paradigm adapts physical, geometric, or architectural metaphors to prevent visual clutter over thousands of items.',
-        ],
         subGroups: [
           {
-            sideHeading: '1. Tree Structure (Organizational & Hierarchical Aggregates)',
-            bullets: [
-              '**Tree Structures** visualize time-varying containment relationships cleanly across organizational charts, mechanical parts, and top-down **hierarchical document clusters**.',
-            ],
+            sideHeading: '1. Tree Structure',
+            description:
+              'Represents hierarchical containment and aggregates from higher to lower levels over time.',
+            example: 'Organizational structures, mechanical device parts, and hierarchical clustering of documents.',
           },
           {
-            sideHeading: '2. Cone Tree (3D Rotating Apex Hierarchy)',
-            bullets: [
-              'A **Cone Tree** renders a **3D hierarchy** placing each parent node at a cone apex with child nodes arranged evenly around a circular base; any child can root a sub-cone, and clicking any node **rotates it smoothly to the front**.',
-            ],
+            sideHeading: '2. Cone Tree',
+            description:
+              '3-Dimensional representation placing a parent node at a cone apex with subordinate items arranged evenly around a circular base; any child node can root another cone, and selecting a node rotates it smoothly to the front of the display.',
           },
           {
-            sideHeading: '3. Perspective Wall (Three-Area Focus + Context)',
-            bullets: [
-              'The **Perspective Wall** partitions wide linear archives cleanly into **three distinct visual areas** (`center crisp Focus panel flanked by two slanted Context side panels`) keeping global structure visible.',
-            ],
+            sideHeading: '3. Perspective Wall',
+            description:
+              'Divides wide linear information into three visual areas (`one front crisp focus panel flanked by two slanted context side wings`), keeping global context visible while focusing on a particular area.',
           },
           {
-            sideHeading: '4. Tree Maps (Johnson — Recursive Nested Space-Filling Rectangles)',
-            bullets: [
-              '**Tree Maps** maximize display area by recursively subdividing rectangular screen partitions according to parent-child weights (`for instance grouping CPU, OS, Memory, and Network Management cleanly under Computer Operating Systems vs Computer Applications`).',
-            ],
+            sideHeading: '4. Tree Maps',
+            description:
+              'Maximizes screen space by recursively subdividing rectangular boxes based on parent–child relationships.',
+            example:
+              'Grouping `CPU`, `OS`, `Memory`, and `Network Management` articles as nested boxes under `Computer Operating Systems` alongside `Computer Applications`.',
           },
           {
-            sideHeading: '5. Envision System (Simple 2D Multi-Attribute Matrix)',
-            bullets: [
-              'The **Envision System** presents **relevance rank, estimated relevance score, and additional query attributes simultaneously** inside an intentionally clean 2D graphical layout.',
-            ],
+            sideHeading: '5. Envision System',
+            description:
+              'Displays relevance rank, estimated relevance score, and additional query attributes simultaneously inside an intentionally simple 2D graphical layout.',
           },
           {
-            sideHeading: '6. DCARS (Document Content Analysis & Retrieval System — Calspan)',
-            bullets: [
-              'Developed by **Calspan Advanced Technology Center** to augment **RetrievalWare**, **DCARS** renders query results as horizontal histogram rows where **bar width encodes each term contribution**—showing clearly why an item matched (`though less intuitive for editing queries`).',
-            ],
+            sideHeading: '6. Document Content Analysis & Retrieval System (DCARS — Calspan)',
+            description:
+              'Developed by Calspan Advanced Technology Center to augment `RetrievalWare`; displays results as horizontal histogram rows where tile bar width shows each term contribution—clearly explaining why an item matched (`though harder to use for editing queries`).',
           },
           {
-            sideHeading: '7. Cityscape (Skyscraper Metaphor for Themes)',
-            bullets: [
-              '**Cityscape** adapts hierarchical and network navigation to the metaphor of moving through a city where clustered **skyscrapers represent topical theme areas** instead of rolling hills.',
-            ],
+            sideHeading: '7. Cityscape',
+            description:
+              'Represents hierarchical and networked corpora using the metaphor of navigating a city, where clustered skyscrapers represent topical theme areas instead of terrain hills.',
           },
         ],
         diagramId: 'visualization-technologies',

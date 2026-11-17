@@ -8,53 +8,105 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     order: 1,
     title: 'Classes of Automatic Indexing',
     subtopicsCovered: [
-      'Automatic Indexing Definition & Four Indexing Classes',
-      'Weighted vs Unweighted Indexing Schemes',
-      'Seven Sequential Processing Stages (Data Flow in IRS — UNIT-III p.2)',
+      'Automatic Indexing Definition & Output Schemes (Weighted vs Unweighted)',
+      'Seven Sequential Processing Stages (Data Flow in IRS — UNIT-III p.2–4)',
+      'Four Major Classes of Automatic Indexing (Statistical, NLP, Concept, Hypertext)',
     ],
     summaryLine:
       '**Automatic Indexing** classifies algorithmic representation strategies into **Weighted vs Unweighted** schemes spanning four major classes—**Statistical**, **Natural Language Processing**, **Concept**, and **Hypertext Linkage** indexing—executed across **seven pipeline stages**.',
     bullets: [
-      '**Automatic Indexing** analyzes every arriving item algorithmically to extract permanent index representations and construct searchable data structures alongside the **Document File**.',
-      '**An Index** is the internal searchable data structure specifically designed and built to execute the chosen search strategy.',
-      '**Weighted vs Unweighted Output:** Binary unweighted indexing records only `0` or `1` term presence per item, whereas weighted indexing stores continuous relevance values used to sort ranked results.',
-      '**Statistical strategies** cover the broadest spectrum of indexing techniques and remain the most prevalent across real commercial IRS products.',
+      {
+        label: 'Automatic Indexing',
+        text: 'Analyzes each arriving item algorithmically against a controlled vocabulary, taxonomy, or ontology (or performs Total Document Indexing) to build permanent searchable index representations alongside the Document File.',
+      },
+      {
+        label: 'Index Definition',
+        text: 'The internal searchable data structure created specifically to support the chosen search strategy (`statistical`, `natural language`, or `concept`).',
+      },
+      {
+        label: 'Unweighted vs Weighted Indexing',
+        text: 'Distinguishes how term significance is stored:',
+        children: [
+          {
+            label: 'Unweighted Indexing System',
+            text: 'Records only binary `0/1` term existence (plus optional word locations) inside the searchable index.',
+          },
+          {
+            label: 'Weighted Indexing System',
+            text: 'Computes normalized term weights between $0$ and $1$ based on occurrence frequency to rank results from highest score to lowest.',
+          },
+        ],
+      },
     ],
     subSections: [
       {
         heading: 'Seven Processing Modules in Automatic Indexing (UNIT-III p.2–4)',
-        bullets: [
-          'All automatic indexing systems begin with input standardization, zoning, and token identification before branching into **Statistical**, **Natural Language**, or **Concept** index builders.',
-        ],
+        description:
+          'All automatic indexing systems begin with input standardization, zoning, and token identification before branching into Statistical, Natural Language, or Concept strategies.',
         subGroups: [
           {
-            sideHeading: '1. Standardize Input & 2. Logical Subsetting (Zoning)',
+            sideHeading: '1. Standardize Input',
+            description:
+              'Translates diverse external input file formats and character encodings into the canonical internal format acceptable to the indexing engine.',
+          },
+          {
+            sideHeading: '2. Logical Subsetting (Zoning)',
+            description:
+              'Parses each item into meaningful logical subdivisions visible to users—increasing search precision and optimizing display:',
             bullets: [
-              '**Standardize Input** translates diverse incoming file formats and encodings into the canonical internal format acceptable to the indexing engine.',
-              '**Logical Subsetting (Zoning)** splits each item into meaningful named sections (`Title, Author, Abstract, Main Text, Conclusion, References, Country, Keyword`) to improve precision and selective display.',
+              '`Title`',
+              '`Author`',
+              '`Abstract`',
+              '`Main Text`',
+              '`Conclusion`',
+              '`References`',
+              '`Country` & `Keyword`',
             ],
           },
           {
             sideHeading: '3. Identify Processing Tokens (Three Symbol Classes)',
+            description:
+              'Determines searchable processing tokens (`better than raw words`) by dividing input symbols into three classes:',
             bullets: [
-              '**Valid Word Symbols** match searchable alphabetic characters and numeric digits.',
-              '**Inter-word Symbols** identify non-searchable boundary characters including whitespace blanks, periods, and semicolons.',
-              '**Special Processing Symbols** regulate context-sensitive punctuation characters such as the hyphen (`-`).',
+              {
+                label: 'Valid Word Symbols',
+                text: 'Alphabetic characters and numbers forming searchable tokens.',
+              },
+              {
+                label: 'Inter-Word Symbols',
+                text: 'Non-searchable delimiter characters such as blanks, periods, and semicolons.',
+              },
+              {
+                label: 'Special Processing Symbols',
+                text: 'Context-sensitive punctuation symbols such as the hyphen (`-`).',
+              },
             ],
           },
           {
-            sideHeading: '4. Stop Algorithm & 5. Characterize Tokens',
+            sideHeading: '4. Stop Algorithm',
+            description:
+              'Eliminates tokens whose ultra-high frequency or weak semantic utility wastes memory and processing time.',
+          },
+          {
+            sideHeading: '5. Characterize Tokens',
+            description:
+              'Tags surviving tokens with specialized lexical and semantic attributes:',
             bullets: [
-              '**Stop Algorithm** discards ultra-frequent or semantically weak processing tokens prior to indexing to save memory and search execution cycles.',
-              '**Characterize Tokens** determines specialized lexical metadata including **Word Sense Disambiguation (WSD)**, **Part-of-Speech (POS)** tags, uppercase proper names/acronyms, numbers, and dates.',
+              'Word Sense Disambiguation (WSD)',
+              'Part-of-Speech (POS) tagging',
+              'Uppercase proper names, acronyms, and organizations',
+              'Numbers and dates',
             ],
           },
           {
-            sideHeading: '6. Stemming Algorithm & 7. Create Searchable Data Structure',
-            bullets: [
-              '**Stemming Algorithm** trims morphological suffixes and prefixes consistently to collapse related word forms while preserving phrase and grammar integrity.',
-              '**Create Searchable Data Structure** outputs the internal machine representation (`never displayed directly to users`) storing semantic index concepts that bound what queries can retrieve.',
-            ],
+            sideHeading: '6. Stemming Algorithm',
+            description:
+              'Cuts and trims suffixes/prefixes systematically to collapse morphological variants while maintaining phrase and grammar integrity.',
+          },
+          {
+            sideHeading: '7. Create Searchable Data Structure',
+            description:
+              'Outputs the internal machine representation (`not visible directly to users`) storing semantic concepts that bound what queries can retrieve.',
           },
         ],
         diagramId: 'auto-index-dataflow',
@@ -62,11 +114,29 @@ export const UNIT3_TOPICS: LessonTopic[] = [
       },
       {
         heading: 'Four Major Classes of Automatic Indexing',
-        bullets: [
-          '**Class 1 — Statistical Indexing:** Applies word/phrase frequency distributions, log-odds probabilities, vectors, or neural weights to score item relevance.',
-          '**Class 2 — Natural Language Processing (NLP):** Executes syntactic and semantic parsing to extract unambiguous compound index phrases and discourse relations.',
-          '**Class 3 — Concept Indexing:** Projects synonymous surface words onto shared abstract concept dimensions using covariance or neural context vectors.',
-          '**Class 4 — Hypertext Linkages:** Captures manual or automatic directional node pointers and anchor contexts linking cross-referenced items.',
+        description:
+          'Statistical strategies cover the broadest range of techniques and remain the most prevalent in commercial systems:',
+        subGroups: [
+          {
+            sideHeading: '1. Statistical Indexing',
+            description:
+              'Applies word and phrase occurrence frequencies, log-odds probabilities, vectors, or neural weights to score item relevance.',
+          },
+          {
+            sideHeading: '2. Natural Language Processing (NLP)',
+            description:
+              'Performs syntactic and semantic parsing to extract unambiguous compound index phrases and discourse relations.',
+          },
+          {
+            sideHeading: '3. Concept Indexing',
+            description:
+              'Maps co-occurring synonymous words onto shared latent concept dimensions (`LSI / Neural Context Vectors`).',
+          },
+          {
+            sideHeading: '4. Hypertext Linkages',
+            description:
+              'Captures manual or automatic directional node links and anchor contexts connecting cross-referenced items.',
+          },
         ],
       },
     ],
@@ -82,7 +152,7 @@ export const UNIT3_TOPICS: LessonTopic[] = [
       highlightRows: [0, 2],
     },
     keyTakeaway:
-      'Break the **Automatic Indexing Data Flow** cleanly into its **7 stages**, state **Weighted vs Unweighted**, and compare all **4 classes (`Statistical, NLP, Concept, Hypertext`)**.',
+      'Break the **Automatic Indexing Data Flow** cleanly into all **7 stages**, state **Weighted vs Unweighted**, and list all **4 classes (`Statistical, NLP, Concept, Hypertext`)** individually.',
   },
   {
     id: 'u3-statistical-indexing',
@@ -94,98 +164,133 @@ export const UNIT3_TOPICS: LessonTopic[] = [
       'Document Frequency (DF) & Term Frequency (TF)',
       'Probabilistic Weighting (PRP, Hypothesis, Plausible Corollary & Log-Odds)',
       'Vector Weighting (Binary vs Weighted, IDF, TF-IDF, Signal Weighting & Discrimination Value)',
-      'Bayesian Belief Model & Neural Network Model',
+      'Bayesian Model & Neural Network Model',
     ],
     summaryLine:
       '**Statistical Indexing** models token event frequencies (**TF & DF**) across **Probabilistic**, **Vector (TF-IDF, Signal, Discrimination)**, **Bayesian**, and **Neural Network** weighting frameworks to rank relevance.',
     bullets: [
-      '**Statistical Indexing** uses occurrence frequencies of processing tokens (`words and phrases`) inside individual documents and across the database to calculate scalar relevance scores after initial Boolean filtering (**Hit File Ranking**).',
-      'Two fundamental statistics drive weighting: **Document Frequency ($DF$)** (`tracks which database documents contain a term`) and **Term Frequency ($TF$)** (`counts occurrences of a term inside one item`).',
+      {
+        label: 'Core Statistical Basis',
+        text: 'Uses occurrence frequencies of processing tokens (`words and phrases`) inside documents and across the collection to compute scalar relevance scores after Boolean filtering (`Hit File Ranking`).',
+      },
+      {
+        label: 'Document Frequency ($DF$)',
+        text: 'Identifies which/how many documents in the database contain a particular term.',
+      },
+      {
+        label: 'Term Frequency ($TF$)',
+        text: 'Counts the number of occurrences (or lines) of a term inside one individual item.',
+      },
     ],
     subSections: [
       {
-        heading: '1. Probabilistic Weighting (Probability Ranking Principle)',
-        bullets: [
-          'The **Probabilistic Approach** applies formal mathematical probability theory directly to estimate query-document relevance.',
-        ],
+        heading: 'Four Statistical Indexing Approaches (UNIT-III p.6–8)',
         subGroups: [
           {
-            sideHeading: 'Probability Ranking Principle (PRP), Hypothesis & Plausible Corollary',
-            bullets: [
-              'The **Probability Ranking Principle (PRP)** demonstrates that best retrieval performance is achieved when items are ordered strictly by descending probability of relevance.',
-              '**Technique 1 — Hypothesis:** Maintains ranked word-occurrence probability estimates tailored to retrieval hit lists.',
-              '**Technique 2 — Plausible Corollary:** Applies standard statistics to integrate invariant probabilistic relevance scores seamlessly across distributed databases via **Log-Odds Summation**.',
-            ],
-            formulas: [
+            sideHeading: '1. Probabilistic Weighting',
+            description:
+              'Applies formal mathematical probability theory directly to estimate the probability that an item satisfies a query.',
+            subGroups: [
               {
-                label: 'Probabilistic Log-Odds Weighting',
-                tex: '\\log O(R \\mid Q_i, D_j, t_k) = C_0 + C_1 V_1 + C_2 V_2 + \\dots + C_n V_n',
-                note: 'Log-odds that query $Q_i$ matches document $D_j$ equals the linear sum of log-odds weights across shared terms.',
+                sideHeading: 'Probability Ranking Principle (PRP)',
+                description:
+                  'Demonstrates that optimal retrieval effectiveness is achieved when documents are ranked strictly in descending order of relevance probability.',
               },
-            ],
-          },
-        ],
-      },
-      {
-        heading: '2. Vector Weighting (SMART Model, TF-IDF, Signal & Discrimination Value)',
-        bullets: [
-          'Pioneered in Salton **SMART System** at Cornell University, **Vector Weighting** represents every document as a fixed one-dimensional coordinate vector over every vocabulary processing token.',
-        ],
-        subGroups: [
-          {
-            sideHeading: 'Binary Vectors vs Real-Weighted Vectors & IDF / TF-IDF',
-            bullets: [
-              '**Binary Approach:** Every vector position holds only `1` (token present in document) or `0` (token absent).',
-              '**Weighted Approach:** Every position stores a continuous positive real weight computed via **TF-IDF**, multiplying term repetition by rare-term specificity ($IDF_k$).',
-              'Limitations of pure vector models include discarding word order, assuming independent terms, and treating synonyms as zero-overlap orthogonal axes.',
-            ],
-            formulas: [
               {
-                label: 'IDF & TF-IDF Weighting',
-                tex: 'IDF_k = \\log_2\\!\\left(\\frac{N}{DF_k}\\right) + 1 \\qquad W_{i,k} = TF_{i,k} \\times \\log_2\\!\\left(\\frac{N}{DF_k}\\right)',
-                note: '$N$ = total items in collection; $DF_k$ = documents containing term $k$; $TF_{i,k}$ = count of term $k$ inside item $i$.',
+                sideHeading: 'Technique 1 — Hypothesis',
+                description:
+                  'Maintains a collection list of words with probability rankings based on corpus occurrence.',
+              },
+              {
+                sideHeading: 'Technique 2 — Plausible Corollary (Log-Odds Formula)',
+                description:
+                  'Applies standard probability theory and statistics to produce invariant relevance estimates that integrate cleanly across different databases via Log-Odds summation.',
+                formulas: [
+                  {
+                    label: 'Probabilistic Log-Odds Weighting',
+                    tex: '\\log O(R \\mid Q_i, D_j, t_k) = C_0 + C_1 V_1 + C_2 V_2 + \\dots + C_n V_n',
+                    note: 'Log-odds that query $Q_i$ matches document $D_j$ equals the linear sum of log-odds weights across shared terms.',
+                  },
+                ],
               },
             ],
           },
           {
-            sideHeading: 'Shannon Signal Weighting (SAW vs DRILL) & Salton Discrimination Value',
-            bullets: [
-              '**Signal Weighting** uses Shannon Entropy to reward terms concentrated heavily inside a small group of relevant documents (`DRILL = [2,2,18,10,18]`) over uniformly spread terms (`SAW = [10,10,10,10,10]`).',
-              '**Discrimination Value ($DISCRIM_i$)** measures how much removing term $i$ collapses average pairwise document similarity; positive values confirm term $i$ separates documents effectively.',
-            ],
-            formulas: [
+            sideHeading: '2. Vector Weighting (SMART System — Cornell University)',
+            description:
+              'Pioneered in Salton SMART system; represents each document as a fixed one-dimensional vector where every slot corresponds to a unique processing token.',
+            subGroups: [
               {
-                label: 'Shannon Information & Signal Weighting ($SAW$ vs $DRILL$)',
-                tex: '\\text{AveInfo}_k = -\\sum_{i=1}^{N} \\frac{TF_{i,k}}{\\text{TotFreq}_k} \\log_2\\!\\left(\\frac{TF_{i,k}}{\\text{TotFreq}_k}\\right) \\qquad \\text{Signal}_k = \\log_2(\\text{TotFreq}_k) - \\text{AveInfo}_k',
-                note: 'Non-uniform terms (`DRILL`) exhibit lower entropy $\\text{AveInfo}_k$ and therefore earn much higher **Signal Weight** than flat `SAW`.',
+                sideHeading: 'Binary Vector Approach',
+                description:
+                  'Vector entries hold only `1` (token exists in the item) or `0` (token is absent).',
               },
               {
-                label: 'Salton & Yang Discrimination Value',
-                tex: '\\text{DISCRIM}_i = \\text{AVESIM}_i - \\text{AVESIM}',
-                note: 'If deleting term $i$ makes documents look closer together ($\\text{AVESIM}_i > \\text{AVESIM}$), $DISCRIM_i > 0$ marks a strong discriminator.',
+                sideHeading: 'Weighted Vector Approach ($IDF$ & $TF\\text{-}IDF$)',
+                description:
+                  'Vector entries hold positive real numbers multiplying local term frequency ($TF$) by inverse document rarity ($IDF_k$).',
+                formulas: [
+                  {
+                    label: 'IDF & TF-IDF Weighting',
+                    tex: 'IDF_k = \\log_2\\!\\left(\\frac{N}{DF_k}\\right) + 1 \\qquad W_{i,k} = TF_{i,k} \\times \\log_2\\!\\left(\\frac{N}{DF_k}\\right)',
+                    note: '$N$ = total items in collection; $DF_k$ = documents containing term $k$; $TF_{i,k}$ = count of term $k$ inside item $i$.',
+                  },
+                ],
+              },
+              {
+                sideHeading: 'Shannon Signal Weighting (`SAW` vs `DRILL`)',
+                description:
+                  'Uses Shannon Entropy to reward terms concentrated heavily inside a small subset of items (`DRILL = [2,2,18,10,18]`) over uniformly distributed terms (`SAW = [10,10,10,10,10]`).',
+                formulas: [
+                  {
+                    label: 'Shannon Information & Signal Weighting ($SAW$ vs $DRILL$)',
+                    tex: '\\text{AveInfo}_k = -\\sum_{i=1}^{N} \\frac{TF_{i,k}}{\\text{TotFreq}_k} \\log_2\\!\\left(\\frac{TF_{i,k}}{\\text{TotFreq}_k}\\right) \\qquad \\text{Signal}_k = \\log_2(\\text{TotFreq}_k) - \\text{AveInfo}_k',
+                    note: 'Non-uniform terms (`DRILL`) exhibit lower entropy $\\text{AveInfo}_k$ and earn much higher **Signal Weight** than flat `SAW`.',
+                  },
+                ],
+              },
+              {
+                sideHeading: 'Salton & Yang Discrimination Value ($DISCRIM_i$)',
+                description:
+                  'Measures how much removing term $i$ increases average pairwise document similarity; positive values confirm term $i$ effectively separates items.',
+                formulas: [
+                  {
+                    label: 'Salton & Yang Discrimination Value',
+                    tex: '\\text{DISCRIM}_i = \\text{AVESIM}_i - \\text{AVESIM}',
+                    note: 'If deleting term $i$ makes documents appear closer together ($\\text{AVESIM}_i > \\text{AVESIM}$), $DISCRIM_i > 0$ marks a strong discriminator.',
+                  },
+                ],
+              },
+              {
+                sideHeading: 'Limitations of Pure Vector Models',
+                bullets: [
+                  'Discards word ordering inside sentences.',
+                  'Assumes vocabulary terms are statistically independent.',
+                  'Treats synonyms as zero-overlap orthogonal vector axes.',
+                ],
               },
             ],
           },
-        ],
-      },
-      {
-        heading: '3. Bayesian Model & Neural Network Model',
-        bullets: [
-          'Two advanced statistical inference frameworks extend vector weighting to handle uncertainty and dynamic concept grouping.',
-        ],
-        subGroups: [
           {
-            sideHeading: 'Bayesian Model (Conditional Evidential Reasoning)',
+            sideHeading: '3. Bayesian Model',
+            description:
+              'Overcomes vector-model independence restrictions by applying conditional probabilities over graphical belief networks.',
             bullets: [
-              '**Bayesian Weighting** overcomes rigid vector assumptions by modeling conditional probabilistic dependencies over graphical belief networks.',
-              'Rather than computing fragile absolute probabilities, the Bayesian model generates reliable **relative confidence scores** ordering matching documents cleanly.',
+              {
+                label: 'Relative Confidence Ranking',
+                text: 'Generates strong relative confidence scores ordering item relevance cleanly rather than relying on fragile absolute probabilities.',
+              },
             ],
           },
           {
-            sideHeading: 'Neural Network Model (Dynamic Concept Learning)',
+            sideHeading: '4. Neural Network Model',
+            description:
+              'Dynamic learning graph structures under concept indexing linking Input Query Tokens, Hidden Concept Class Layers, and Output Document Nodes.',
             bullets: [
-              '**Neural Network Models** operate as dynamic weighted adaptive graphs linking **Input Query Tokens**, **Hidden Concept Class Layers**, and **Output Document Nodes**.',
-              'By learning domain-specific term correlations iteratively, neural models capture non-linear concept hierarchies and substantially **improve Recall**.',
+              {
+                label: 'Key Benefit & Examples',
+                text: 'Learns domain-specific concept hierarchies iteratively and significantly **improves Recall**.',
+              },
             ],
           },
         ],
@@ -194,7 +299,7 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     diagramId: 'statistical-indexing-tree',
     diagramCaption: 'Hierarchy of Statistical Indexing Approaches (IRS UNIT-III NOTES p.6)',
     keyTakeaway:
-      'Include ALL four formula blocks (**Log-Odds, $TF\\text{-}IDF$, Signal Weighting `SAW/DRILL`, and Discrimination Value**) alongside explicit side-blocks for **Bayesian** and **Neural Network** models.',
+      'Include ALL four formula blocks (**Log-Odds, $TF\\text{-}IDF$, Signal Weighting `SAW/DRILL`, and Discrimination Value**) alongside explicit side-blocks for **Probabilistic, Vector, Bayesian, and Neural Network** models.',
   },
   {
     id: 'u3-natural-language-indexing',
@@ -211,45 +316,63 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Natural Language Indexing** fuses semantic sentence structure, grammar roles, and statistical **Cohesion** to construct unambiguous compound **Index Phrases** and higher-level **Thematic Representations**, boosting **Precision**.',
     bullets: [
-      '**Natural Language Processing (NLP)** interprets context, logical sentence grammar, and user opinions/attitudes (`"Happy or sad"`, `"Good or Bad"`) alongside token statistics to enhance indexing quality.',
-      'Rather than treating words as isolated bag-of-words tokens, NLP indexing resolves homographs (`river bank vs savings bank`) and minimizes **False Hits**, sharply **improving Precision**.',
-      'NLP systems combine related phrase components upward into higher-level semantic abstractions known as **Thematic Representations**.',
+      {
+        label: 'Semantic & Opinion Understanding',
+        text: 'Interprets sentence context, logical grammar roles, and user views/emotions alongside token statistics.',
+        example: 'Distinguishing sentiment cues such as `"Happy or sad"`, `"Good or Bad"`.',
+      },
+      {
+        label: 'Higher Precision & Fewer False Hits',
+        text: 'Resolves homographs (`river bank vs savings bank`) instead of treating every word independently, reducing false hits and sharply improving Precision.',
+      },
+      {
+        label: 'Phrases & Thematic Representations',
+        text: 'Outputs structured multi-word Index Phrases as basic units and combines related phrases upward into higher-level abstractions called Thematic Representations.',
+      },
     ],
     subSections: [
       {
-        heading: 'Five Linguistic Processing Levels & The DR-LINK System',
-        bullets: [
-          'Full-text semantic indexers step progressively through **five linguistic levels** (`exemplified cleanly in the DR-LINK retrieval architecture`).',
-        ],
+        heading: 'Five Linguistic Processing Levels & DR-LINK System',
+        description:
+          'Full-text semantic indexers progress through five linguistic levels, unified cleanly in the DR-LINK retrieval architecture.',
         subGroups: [
           {
-            sideHeading: '1. Morphological & 2. Lexical / POS Processing',
-            bullets: [
-              '**Morphological Level** reduces inflected words to root lemmas alongside grammatical tense and number attributes.',
-              '**Lexical Level** assigns exact **Part-of-Speech (POS)** tags (`Noun vs Verb`) using local sentence cues (`"book a ticket" vs "read a book"`).',
-            ],
+            sideHeading: '1. Morphological Level',
+            description:
+              'Reduces inflected words down to base root lemmas together with grammatical tense and number tags (`computing -> compute`).',
           },
           {
-            sideHeading: '3. Syntactic Processing (Index Phrase Generation)',
-            bullets: [
-              '**Syntactic Parsing** constructs grammatical dependency trees capturing subject-verb-object relations and valid multi-word **Compound Noun Phrases** (`expert systems`).',
-            ],
+            sideHeading: '2. Lexical / Part-of-Speech (POS) Level',
+            description:
+              'Assigns grammatical categories (`Noun vs Verb`) using local sentence context.',
+            example: 'Distinguishing `"book a ticket"` (Verb) vs `"read a book"` (Noun).',
           },
           {
-            sideHeading: '4. Semantic & 5. Discourse Processing (plus DR-LINK)',
-            bullets: [
-              '**Semantic Level** disambiguates word senses and entity roles using **selectional restrictions** and lexical ontologies.',
-              '**Discourse Level** links pronouns (`he, it, they`) back to true antecedent nouns across neighboring sentences.',
-              '**DR-LINK System** unifies **Lexical Sub-components**, **Conceptual Relations**, **Subject Field Codes**, and **Syntactic Phrases** directly for high-precision text retrieval.',
-            ],
+            sideHeading: '3. Syntactic Level',
+            description:
+              'Builds grammatical parse/dependency trees capturing subject–verb–object roles and extracting multi-word Compound Noun Phrases (`"expert systems"`).',
+          },
+          {
+            sideHeading: '4. Semantic Level',
+            description:
+              'Disambiguates word senses and entity roles via selectional restrictions and lexical ontologies (`"Apple"` -> Fruit vs Technology Company).',
+          },
+          {
+            sideHeading: '5. Discourse Level',
+            description:
+              'Resolves pronouns (`he, it, they`) back to true antecedent nouns across neighboring sentences (`"The system failed. It crashed." -> It = system`).',
+          },
+          {
+            sideHeading: '6. DR-LINK Retrieval System',
+            description:
+              'Document Retrieval through Linguistic Knowledge (`DR-LINK`) integrates Lexical sub-components, Conceptual Relations, Subject Field Codes, and Syntactic Phrases for high-precision text retrieval.',
           },
         ],
       },
       {
         heading: 'Statistical Proximity & Cohesion Factor Phrase Detection',
-        bullets: [
-          'Earlier statistical phrase engines quantified inter-word proximity across collections via Salton **Cohesion Factor**, identifying strongly co-occurring term pairs (`Term k, Term h`) to form focused multi-word index phrases that reduce non-relevant user overhead.',
-        ],
+        description:
+          'Earlier statistical phrase systems measured inter-word proximity across collections via Salton Cohesion Factor to form focused multi-word index phrases that reduce non-relevant item overhead.',
         formulas: [
           {
             label: 'Cohesion Factor Between Co-Occurring Phrase Terms',
@@ -289,22 +412,23 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Concept Indexing** generalizes surface terms into abstract latent **Concept Classes** via **LSI / SVD** and **Neural Networks (`CONVECTIS`)**, while **Hypertext Linkage Indexing** adds cross-document virtual concept threads.',
     bullets: [
-      '**Concept Indexing** correlates specific words appearing inside an item to canonical domain concepts so synonyms (`car` and `automobile`) match seamlessly and automatically generated concept classes may be statistical dimensions lacking fixed English names.',
-      'Mapping from raw words to concepts is inherently many-to-many because a single ambiguous word can participate in multiple distinct concept classes to varying degrees (**elevating Recall cleanly**).',
+      {
+        label: 'Generalization to Abstract Concepts',
+        text: 'Correlates specific words in an item to broader underlying concepts so synonyms (`car`, `automobile`) match seamlessly—even when automatically generated statistical concept classes have no fixed English name.',
+      },
+      {
+        label: 'Many-to-Many Mapping & Recall Gain',
+        text: 'Mapping from surface terms to concepts is inherently many-to-many because one word may represent multiple concepts to varying degrees, significantly improving Recall.',
+      },
     ],
     subSections: [
       {
-        heading: '1. Concept Indexing Approaches (LSI SVD & CONVECTIS Neural Network)',
-        bullets: [
-          'Two flagship methodologies automate concept projection from corpus statistics without rigid manual synonym rules.',
-        ],
+        heading: '1. Concept Indexing Approaches',
         subGroups: [
           {
             sideHeading: 'Latent Semantic Indexing (LSI) via Singular Value Decomposition',
-            bullets: [
-              '**LSI** decomposes the sparse term-document matrix $A$ using **Singular Value Decomposition (SVD)** retaining only the top $k$ singular conceptual dimensions.',
-              'Low-rank projection folds synonymous words together while filtering accidental statistical noise dimensions cleanly.',
-            ],
+            description:
+              'Decomposes the sparse Term–Document matrix $A$ via Singular Value Decomposition (SVD) retaining the top $k$ latent concept dimensions, folding synonyms together while suppressing accidental statistical noise.',
             formulas: [
               {
                 label: 'Singular Value Decomposition (LSI Concept Approximation)',
@@ -315,32 +439,46 @@ export const UNIT3_TOPICS: LessonTopic[] = [
           },
           {
             sideHeading: 'CONVECTIS / Convection Neural Network System',
-            bullets: [
-              'Systems such as **CONVECTIS** apply **Neural Network** algorithms inspired by biological synapses to learn concept weights from co-occurring contextual terms.',
-              'Whenever unfamiliar documents or queries arrive, learned neural activations weight concept strength directly across synonymous neighborhoods.',
-            ],
+            description:
+              'Applies brain-inspired Neural Network algorithms (`CONVECTIS / Convection system`) to learn contextual concept weights from terms occurring in similar contexts and score incoming documents across synonymous neighborhoods.',
           },
         ],
       },
       {
-        heading: '2. Hypertext Linkage Indexing & Internet Mechanisms',
-        bullets: [
-          '**Hypertext Linkage Indexing** adds a brand-new retrieval dimension atop traditional linear text by embedding directional navigation pointers (**virtual threads of concepts**) across interconnected pages.',
-        ],
+        heading: '2. Hypertext Linkage Indexing & Internet Discovery',
+        description:
+          'Adds a new information retrieval dimension atop linear text by creating directional hyperlinks (`virtual threads of concepts`) connecting related items.',
         subGroups: [
           {
-            sideHeading: 'Manual vs Automatic Link Generation Types',
-            bullets: [
-              '**Manual Linkages** rely on authors embedding explicit citation references, footnotes, or conceptual anchor tags directly inside items.',
-              '**Automatic Linkages** infer inter-node links algorithmically using **Similarity-Based thresholds**, **Direct Citations**, **Whole–Part Aggregation**, or **Conceptual Association** weighted by anchor text.',
+            sideHeading: 'Manual vs Automatic Link Generation',
+            subGroups: [
+              {
+                sideHeading: 'Manual Linkages',
+                description:
+                  'Authors explicitly embed citation links, footnotes, or conceptual anchor tags inside documents.',
+              },
+              {
+                sideHeading: 'Automatic Linkages',
+                description:
+                  'Algorithms infer inter-node links via Similarity-Based thresholds, Direct Citations, Whole–Part aggregation, or Conceptual Association weighted by anchor text.',
+              },
             ],
           },
           {
             sideHeading: 'Three Internet Information Discovery Classes',
             bullets: [
-              '**Discovery Mechanism 1 — Manually Generated Indexes:** Consists of expert-curated topical web directories.',
-              '**Discovery Mechanism 2 — Automatically Generated Indexes:** Builds inverted keyword structures generated by automated indexers.',
-              '**Discovery Mechanism 3 — Web Crawlers (Spider-Bots / Intelligent Agents):** Runs autonomous Internet bots systematically traversing links across the World Wide Web to feed search-engine indexers.',
+              {
+                label: '1. Manually Generated Indexes',
+                text: 'Human-curated topical web directories and subject catalogs.',
+              },
+              {
+                label: '2. Automatically Generated Indexes',
+                text: 'Inverted keyword indexes compiled automatically from harvested page content.',
+              },
+              {
+                label: '3. Web Crawlers (Spider-Bots / Intelligent Agents)',
+                text: 'Autonomous Internet bots that systematically browse the World Wide Web following hyperlinks to feed search-engine indexers.',
+              },
             ],
           },
         ],
@@ -366,63 +504,100 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Clustering** partitions similar items into cohesive classes so **Term Clustering** constructs **Statistical Thesauri** for query expansion while **Document Clustering** accelerates retrieval via the **Cluster Hypothesis**.',
     bullets: [
-      '**Clustering** improves both retrieval effectiveness and search speed by grouping related items into a class under a broader general title alongside optional inter-cluster linkages.',
-      'Van Rijsbergen **Cluster Hypothesis** asserts that **closely associated documents tend to be relevant to identical information requests**, allowing whole document clusters to be retrieved rapidly.',
+      {
+        label: 'Clustering Definition',
+        text: 'Enhances retrieval efficiency and effectiveness by partitioning documents or terms into classes of closely associated objects under a general class label with optional inter-cluster linkages.',
+      },
+      {
+        label: 'Van Rijsbergen Cluster Hypothesis',
+        text: 'Closely associated documents tend to be relevant to the same information requests—enabling rapid retrieval of whole topical clusters.',
+      },
     ],
     subSections: [
       {
         heading: 'Two Fundamental Types of Clustering in IRS',
-        bullets: [
-          'IRS platforms deploy clustering symmetrically across both index vocabulary terms and full archival documents.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Term Clustering (Query Expansion)',
+            description:
+              'Groups synonymous or co-occurring terms (`single words, phrases, or paragraphs`) into a Statistical Thesaurus.',
             bullets: [
-              'A **Term** may span a single word, multi-word phrase, or paragraph grouped via corpus co-occurrence statistics.',
-              '**Term Clustering** generates a **Statistical Thesaurus** expanding user queries with related synonyms to **increase Recall**.',
+              'Expands user queries with related terms (`Query Expansion`) to **increase Recall**.',
             ],
           },
           {
-            sideHeading: '2. Document Clustering (Result-Set Expansion)',
+            sideHeading: '2. Document Clustering (Resultant Set Expansion)',
+            description:
+              'Groups entire documents sharing key index terms or concepts into cohesive topical collections.',
             bullets: [
-              '**Document Clustering** groups full items sharing key index terms or concepts into cohesive topical collections.',
-              'Searching clusters retrieves topically related documents similar to an item of interest even when exact query words were omitted (**Resultant Set Expansion**).',
+              'Retrieves items similar to an item of interest even when exact query words were omitted (`Resultant Set / Result-Set Expansion`).',
             ],
           },
         ],
       },
       {
-        heading: 'Four Core Steps of Clustering & Class Guidelines (UNIT-III p.13–14)',
-        bullets: [
-          'Constructing high-quality clusters follows four systematic decisions coupled with balanced class design rules.',
-        ],
+        heading: 'Four-Step Clustering Process (UNIT-III p.13)',
         subGroups: [
           {
             sideHeading: 'Step 1 — Define the Domain & Reduce Noise',
             bullets: [
-              'Identify the target topical domain (`such as medical or educational`) and discard noisy items that could corrupt cluster boundaries.',
+              {
+                label: 'Thesaurus',
+                text: 'Target domain (`e.g., medical or education`) with relevant term subsets.',
+              },
+              {
+                label: 'Documents',
+                text: 'Select cohesive set of items and discard objects likely to induce clustering errors.',
+              },
             ],
           },
           {
             sideHeading: 'Step 2 — Determine Attributes of Clustered Objects',
             bullets: [
-              'For **Thesauri**, select exact vocabulary words representing target concepts; for **Documents**, focus on informative item zones (`Title, Abstract`) defining similarity.',
+              {
+                label: 'Thesaurus',
+                text: 'Select the specific vocabulary words inside objects to cluster.',
+              },
+              {
+                label: 'Documents',
+                text: 'Focus on informative document zones (`Title, Abstract`) used to measure similarity.',
+              },
             ],
           },
           {
             sideHeading: 'Step 3 — Determine Inter-Attribute Relationships',
             bullets: [
-              'For **Thesauri**, identify synonymous word pairs and association strengths; for **Documents**, apply similarity metrics (**Cosine, Dice, Jaccard**) over shared word co-occurrences.',
+              {
+                label: 'Thesaurus',
+                text: 'Determine synonymous word pairs and the strength of their relationships.',
+              },
+              {
+                label: 'Documents',
+                text: 'Define a similarity function (`Cosine, Dice, Jaccard`) over shared word co-occurrences.',
+              },
             ],
           },
           {
-            sideHeading: 'Step 4 — Apply Clustering Algorithm & Class Guidelines',
-            bullets: [
-              '**Semantic Clarity:** Ensure every generated cluster possesses a clear semantic identity without misleading class labels.',
-              '**Balanced Class Magnitude:** Keep cluster sizes roughly within the same order of magnitude so no single giant object dominates a class.',
-              '**Multi-Class Policy:** Decide explicitly at cluster creation whether items belong strictly to one class or multiple overlapping classes.',
-            ],
+            sideHeading: 'Step 4 — Apply Clustering Algorithm',
+            description:
+              'Execute the chosen clustering algorithm (`Single-Link, Complete-Link, One-Pass, HAC`) to assign each object to classes.',
+          },
+        ],
+      },
+      {
+        heading: 'Three Guidelines on Cluster Class Characteristics (UNIT-III p.14)',
+        bullets: [
+          {
+            label: '1. Clear Semantic Definition',
+            text: 'A well-defined semantic identity should exist for each class (noting the risk that an assigned label could be misleading).',
+          },
+          {
+            label: '2. Balanced Class Size',
+            text: 'Cluster sizes should remain within the same order of magnitude so one giant object never dominates a class.',
+          },
+          {
+            label: '3. Single vs Multi-Class Assignment Policy',
+            text: 'Decide explicitly at creation time whether each object belongs strictly to one class or multiple overlapping classes.',
           },
         ],
       },
@@ -455,70 +630,87 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Thesaurus Generation** builds synonym and concept classes either manually using human concordance tables (**KWOC, KWIC, KWAC**) and semantic relation rules or automatically via **Statistical Co-occurrence Term Clustering**.',
     bullets: [
-      'Before clustering terms manually or automatically, designers define **Word Coordination** (`whether multi-word phrases as well as individual tokens belong inside thesaurus classes`).',
-      'Automatically generated thesauri group statistically co-occurring terms lacking natural class names based on the principle that terms co-occurring often inside the same items discuss the same concept.',
+      {
+        label: 'Core Principle of Automatic Thesauri',
+        text: 'Automatically generated thesauri group statistically co-occurring words (`lacking natural class names`) based on the principle that the more frequently two terms co-occur in the same items, the more likely they share the same concept.',
+      },
+      {
+        label: 'Word Coordination Decision',
+        text: 'Specifies upfront whether multi-word phrases as well as individual single terms should be clustered inside the thesaurus.',
+      },
     ],
     subSections: [
       {
-        heading: 'Six Semantic Word Relationships Inside a Thesaurus',
+        heading: 'Six Word Relationships Inside a Thesaurus',
         bullets: [
-          '**Relationship 1 — Equivalence:** Links strict synonyms and acronyms under standardized `USE / UF (Used For)` mappings.',
-          '**Relationship 2 — Hierarchical:** Connects general concepts down to subtypes using `BT (Broader Term)` and `NT (Narrower Term)` pointers.',
-          '**Relationship 3 — Non-Hierarchical:** Associates conceptually allied descriptors that do not form parent-child hierarchies (`RT — Related Term`).',
-          '**Relationship 4 — Parts–Wholes:** Encodes structural **aggregation and composition** (such as `Processor -> Computer`).',
-          '**Relationship 5 — Collocation:** Groups statistically co-occurring words appearing inside the same sentence, phrase, or paragraph.',
-          '**Relationship 6 — Paradigmatic:** Connects words sharing the same semantic stem or grammatical substitution role (`Formula / Equation`).',
+          {
+            label: '1. Equivalence',
+            text: 'Links strict synonyms and acronyms under standardized `USE / UF (Used For)` mappings.',
+          },
+          {
+            label: '2. Hierarchical',
+            text: 'Connects parent concepts to sub-concepts via `BT (Broader Term)` and `NT (Narrower Term)`.',
+          },
+          {
+            label: '3. Non-Hierarchical',
+            text: 'Associates related descriptors without parent–child hierarchy (`RT — Related Term`).',
+          },
+          {
+            label: '4. Parts–Wholes',
+            text: 'Models structural aggregation and composition (`Processor -> Computer`).',
+          },
+          {
+            label: '5. Collocation',
+            text: 'Statistical relation linking words that co-occur in the same sentence, phrase, or paragraph.',
+          },
+          {
+            label: '6. Paradigmatic',
+            text: 'Relates words sharing the same semantic base or grammatical role (`"Formula" & "Equation"`, `Taxonomy & Synonym`).',
+          },
         ],
       },
       {
         heading: 'Manual Thesaurus Construction: KWOC, KWIC & KWAC (Exam Favorite)',
-        bullets: [
-          'Human analysts review sorted concordance listings over sample sentences before exercising judgment to merge synonymous vocabulary into manual thesaurus clusters.',
-        ],
+        description:
+          'Human analysts review sorted concordance listings (`built over sample phrases/sentences`) and use domain judgment to group related terms into manual thesaurus clusters.',
         subGroups: [
           {
             sideHeading: '1. KWOC (Keyword Out of Context)',
-            bullets: [
-              '**KWOC** detaches each index word from its source sentence and tabulates alphabetical **Term**, corpus **Frequency**, and matching **Document IDs** (`e.g. Chips | 3 | DOC1, DOC3, DOC4`).',
-            ],
+            description:
+              'Separates each keyword from its sentence and tabulates alphabetical Term, Frequency, and containing Document IDs.',
+            example: '`Chips | 3 | DOC1, DOC3, DOC4`',
           },
           {
             sideHeading: '2. KWIC (Keyword In Context — Fig. 6.1 Homograph Resolution)',
-            bullets: [
-              '**KWIC** wraps and rotates surrounding phrase context beside each target keyword using slash `/` to indicate phrase boundaries (`chips/ computer design contains memory`), enabling analysts to resolve **homographs**.',
-            ],
+            description:
+              'Wraps and rotates surrounding phrase context beside the centered keyword using slash `/` to mark the end of the phrase—especially helpful for resolving **homographs**.',
+            example: '`chips/ computer design contains memory`',
           },
           {
             sideHeading: '3. KWAC (Keyword And Context)',
-            bullets: [
-              '**KWAC** displays every target keyword cleanly in the left column followed completely by its un-rotated full sentence context (`chips : computer design contains memory chips`).',
-            ],
+            description:
+              'Displays each keyword cleanly on the left followed completely by its un-rotated full sentence context.',
+            example: '`chips : computer design contains memory chips`',
           },
         ],
       },
       {
         heading: 'Automatic Term Clustering Methods (Kowalski Ch. 6.2.2)',
-        bullets: [
-          'Automatic clustering partitions vocabulary sets using three algorithmic strategies differing in completeness and speed.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Complete Term Relation Method',
-            bullets: [
-              'Computes a full pairwise $n \\times n$ term similarity matrix, converts entries above a threshold to a binary matrix, and forms **Cliques**, **Stars**, or **Single-Link** clusters.',
-            ],
+            description:
+              'Computes a full pairwise $n \\times n$ term similarity matrix, thresholds entries into a binary matrix, and extracts Cliques, Stars, or Single-Link clusters.',
           },
           {
             sideHeading: '2. Clustering Using Existing Clusters',
-            bullets: [
-              'Begins from known manually seeded core clusters (`represented by centroid vectors`) and assigns remaining corpus terms to their closest matching seed cluster.',
-            ],
+            description:
+              'Starts from manually seeded initial clusters (`represented by centroid vectors`) and assigns remaining corpus terms to their closest matching cluster.',
           },
           {
             sideHeading: '3. One-Pass Assignments',
-            bullets: [
-              'Streams terms once in $O(N)$ time, assigning each new term to any existing cluster exceeding threshold similarity or opening a new singleton cluster otherwise.',
-            ],
+            description:
+              'Processes terms in one $O(N)$ pass, assigning each new term to any existing cluster exceeding threshold similarity or opening a new cluster otherwise.',
           },
         ],
       },
@@ -554,28 +746,42 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Item Clustering** applies complete-relation similarity across phrases, sentences, or full documents to construct an $N \\times N$ **Similarity Matrix**, binarize it at **Threshold $\\ge 10$**, and extract **Cliques or Stars**.',
     bullets: [
-      '**Item Clustering** groups heterogeneous document units (`single words, phrases, sentences, diagrams, or pictures`) sharing high attribute co-occurrence across collections.',
+      {
+        label: 'Item Clustering Definition',
+        text: 'Groups heterogeneous item units across multiple documents (`words, phrases, sentences, diagrams, or pictures`) sharing high attribute co-occurrence.',
+      },
     ],
     subSections: [
       {
         heading: 'Manual vs Automatic Item Clustering',
-        bullets: [
-          'Cluster assignment strategies trade computational efficiency against human precision.',
-        ],
         subGroups: [
           {
-            sideHeading: 'Manual vs Automatic Trade-offs',
-            bullets: [
-              '**Manual Item Clustering** requires human judgment across item pairs, imposing excessive time, storage, and **computational overhead** on large archives.',
-              '**Automatic Item Clustering** efficiently assigns one **Primary Category** plus several **Secondary Categories** per item using the **Item Complete-Relation** matrix workflow.',
-            ],
+            sideHeading: '1. Manual Item Clustering',
+            description:
+              'Relies on human analysts evaluating items manually, imposing excessive time, storage, and computational overhead on large archives.',
+          },
+          {
+            sideHeading: '2. Automatic Item Clustering',
+            description:
+              'Highly efficient algorithmic clustering assigning one **Primary Category** plus several **Secondary Categories** per item using the **Item Complete-Relation Method**.',
           },
         ],
       },
       {
-        heading: 'Similarity Computation, Thresholding (≥ 10) & Clique Extraction',
+        heading: 'Similarity Matrix, Thresholding ($\\ge 10$) & Clique Extraction',
         bullets: [
-          'The engine computes dot-product similarity across every pair of rows in the item-term matrix, converts entries $\\ge 10$ to `1` and entries $< 10$ to `0` (`default threshold = 10`), and extracts maximal **Cliques**, **Stars**, or **Strings**.',
+          {
+            label: 'Pairwise Row Similarity',
+            text: 'Computes dot-product similarity between pairs of rows in the item-term matrix based on common terms.',
+          },
+          {
+            label: 'Default Binarization Threshold ($= 10$)',
+            text: 'Scores $\\ge 10$ convert to `1` (linked in same cluster) and scores $< 10$ convert to `0`.',
+          },
+          {
+            label: 'Cluster Graph Structures',
+            text: 'Extracts maximal Cliques (`all pairs linked`, e.g. `{I1, I2, I5}` and `{I2, I4, I5}`), Stars, or Strings from the binary matrix.',
+          },
         ],
         formulas: [
           {
@@ -625,50 +831,69 @@ export const UNIT3_TOPICS: LessonTopic[] = [
     subtopicsCovered: [
       'Hierarchical Clustering Tree Concept',
       'Hierarchical Agglomerative Clustering (HAC) vs Divisive Clustering',
-      'Six Objectives of Creating Cluster Hierarchies (Centroid Pruning, Visual Cues, Generality/Specificity)',
+      'Four Objectives of Creating Cluster Hierarchies (Centroid Pruning, Visual Cues, Generality/Specificity)',
       'Inter-Cluster Linkage Criteria (Single, Complete, Group-Average) & Dendrogram',
     ],
     summaryLine:
       '**Hierarchical Clustering** organizes collections into nested tree structures using bottom-up **Agglomerative (HAC)** merging or top-down **Divisive** splitting visualized by a **Dendrogram**.',
     bullets: [
-      '**Hierarchical Clustering** arranges clustered items inside a multi-level **Tree Hierarchy** where a root spans the whole database, intermediate nodes group parent concepts, and leaf nodes isolate granular document subsets.',
+      {
+        label: 'Tree Hierarchy Concept',
+        text: 'Arranges clustered items inside a multi-level tree where a root spans the whole database, intermediate nodes group parent concepts, and leaf nodes isolate granular document subsets.',
+      },
     ],
     subSections: [
       {
         heading: 'Two Hierarchical Clustering Paradigms',
-        bullets: [
-          'Tree hierarchies are constructed either bottom-up from individual documents or top-down from the unified root cluster.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Hierarchical Agglomerative Clustering (HAC — Bottom-Up)',
-            bullets: [
-              '**HAC** starts with every unclustered document as a singleton leaf cluster and iteratively merges the highest-similarity cluster pairs upward into parent tree nodes.',
-            ],
+            description:
+              'Starts with every unclustered document as a singleton leaf cluster and iteratively merges the highest-similarity pairs upward into a tree hierarchy.',
           },
           {
             sideHeading: '2. Hierarchical Divisive Clustering (Top-Down)',
-            bullets: [
-              '**Hierarchical Divisive Clustering** places all documents into one root cluster initially and splits the least cohesive group recursively downward into smaller fine-grained subclusters.',
-            ],
+            description:
+              'Starts with all documents placed inside one large root cluster and splits it recursively downward into smaller cohesive subclusters.',
           },
         ],
       },
       {
-        heading: 'Objectives of Creating a Cluster Hierarchy (UNIT-III p.19–20)',
+        heading: 'Objectives of Creating a Hierarchy of Clusters (UNIT-III p.19–20)',
         bullets: [
-          '**Objective 1 — Reduce Search Overhead:** Performs rapid top-down comparisons against cluster centroids and **prunes irrelevant tree branches** immediately.',
-          '**Objective 2 — Visual Information Space:** Renders an intuitive map displaying relative **cluster sizes and inter-cluster linkage strengths**.',
-          '**Objective 3 — Result Expansion:** Allows users locating one helpful item to request neighboring documents inside the same cohesive cluster.',
-          '**Objective 4 — Interactive Specificity & Generality Navigation:** Users traverse downward toward **children clusters to boost Specificity (Precision)** or upward toward **parent clusters to boost Generality (Recall)**.',
+          {
+            label: '1. Reduce Search Overhead',
+            text: 'Performs rapid top-down comparisons against cluster centroids and trims/prunes irrelevant tree branches immediately.',
+          },
+          {
+            label: '2. Visual Information Space',
+            text: 'Provides visual cues displaying relative cluster sizes and inter-cluster linkage strengths.',
+          },
+          {
+            label: '3. Expand Retrieval of Relevant Items',
+            text: 'Once a user identifies one helpful item, they can immediately request neighboring items in the same cluster.',
+          },
+          {
+            label: '4. Specificity vs Generality Navigation',
+            text: 'Users move downward to **children clusters to increase Specificity (Precision)** or upward to **parent clusters to increase Generality (Recall)**.',
+          },
         ],
       },
       {
-        heading: 'Linkage Criteria Between Two Clusters $C_1$ and $C_2$',
+        heading: 'Inter-Cluster Linkage Criteria ($C_1$ and $C_2$)',
         bullets: [
-          '**Single-Linkage** defines inter-cluster distance as the minimum distance (maximum similarity) across any pair in $C_1 \\times C_2$, often producing elongated chaining structures.',
-          '**Complete-Linkage** defines distance as the maximum distance (minimum similarity) between farthest pairs across $C_1$ and $C_2$, creating tight compact clusters.',
-          '**Group-Average Linkage** averages pairwise similarities across every member pair in $C_1 \\times C_2$ to balance compactness and noise resistance.',
+          {
+            label: '1. Single-Linkage',
+            text: 'Distance equals minimum distance (maximum similarity) across any pair in $C_1 \\times C_2$; tends to produce elongated chaining structures.',
+          },
+          {
+            label: '2. Complete-Linkage',
+            text: 'Distance equals maximum distance (minimum similarity) between farthest pairs across $C_1$ and $C_2$; yields tight compact clusters.',
+          },
+          {
+            label: '3. Group-Average Linkage',
+            text: 'Averages pairwise similarities across all member pairs in $C_1 \\times C_2$ to balance compactness and noise tolerance.',
+          },
         ],
       },
     ],

@@ -11,70 +11,323 @@ export const UNIT1_TOPICS: LessonTopic[] = [
       'Definition of Information Retrieval System',
       'Need for IRS (8 Reasons)',
       'Core Entities (Item, Query, Overhead)',
-      'Types of Searches (Web, Desktop, Library, Known-Item, Subject)',
-      '9-Step Basic Working Cycle & Lifecycle',
+      'Types of Searches & 4-Stage Query Lifecycle',
+      '9-Step Basic Working Cycle',
       'Characteristics, Real-Life Examples, Applications, Advantages & Limitations',
     ],
     summaryLine:
-      'An **Information Retrieval System (IRS)** stores, processes, and retrieves unstructured textual or multimedia **items** from large collections to satisfy a user information need stated as a **query**.',
+      'An **Information Retrieval System (IRS)** stores, organizes, indexes, and retrieves unstructured textual or multimedia **items** from large collections to satisfy a user information need stated as a **query**.',
     bullets: [
-      'An **Information Retrieval System (IRS)** accepts a user **query** expressing an information need, searches stored **items** (books, articles, web pages, emails, or multimedia files), and returns the most relevant subset.',
-      'In IRS terminology, an **Item** is the complete informational unit managed by the system—ranging from an ASCII article or PDF textbook to HTML pages, audio streams, or video clips.',
-      'A **Query (Search Statement)** is the user formal specification combining keywords, Boolean logic, phrases, or natural language to locate needed items.',
-      'System **Overhead** encompasses the extra storage consumed by index files (often 50–70% of raw text size), computational search cost, and non-relevant false hits returned alongside relevant results.',
-      'Unlike structured lookups that require exact attribute matching, an IRS handles **unstructured and semi-structured data** where meaning depends on vocabulary, context, and relevance scoring.',
+      {
+        label: 'Information Retrieval System (IRS)',
+        text: 'A computer-based software system that collects, organizes, stores, indexes, searches, and retrieves the most relevant items from a large document collection in response to a user query.',
+      },
+      {
+        label: 'Item (Document)',
+        text: 'The smallest complete informational unit processed and manipulated by the system—such as a book, research article, PDF textbook, HTML page, email, audio clip, or video program.',
+      },
+      {
+        label: 'Query (Search Statement)',
+        text: 'The formal specification combining keywords, Boolean operators, phrases, or natural language entered by the user to express an information need.',
+      },
+      {
+        label: 'System Overhead',
+        text: 'The extra storage consumed by index files (typically 50–70% of raw text size), computational search cost, and time spent reading non-relevant false hits returned alongside relevant results.',
+      },
+      {
+        label: 'Unstructured vs Structured Handling',
+        text: 'Unlike relational databases restricted to exact attribute matching in tables, an IRS handles unstructured and semi-structured data where meaning depends on vocabulary, context, and relevance scoring.',
+      },
     ],
     subSections: [
       {
-        heading: 'Why We Need an IRS (8 Core Needs)',
+        heading: 'Need for Information Retrieval Systems (8 Core Reasons)',
+        description:
+          'As digital information grows exponentially, specialized retrieval techniques are essential to locate useful knowledge rapidly and accurately.',
         bullets: [
-          'Modern digital ecosystems generate a **huge volume of data** every second across books, research papers, emails, and websites that cannot be read manually.',
-          'An IRS delivers **fast searching** across billions of indexed tokens in fractions of a second rather than forcing sequential document reading.',
-          'Instead of dumping every raw file containing one matching keyword, **relevant extraction** identifies only items closely aligned with the user intent.',
-          'Automated lookup achieves massive **time saving** for students, clinicians, engineers, and legal analysts conducting literature reviews.',
-          'Zoning and metadata indexes bring **structured organization** to naturally chaotic text collections without altering original documents.',
-          'Unlike relational databases restricted to tables, an IRS natively **handles unstructured text**, free-form prose, PDFs, and multimedia.',
-          'Timely retrieval of past reports, patents, and clinical studies provides direct **decision-making support** in enterprise and research environments.',
-          'Automated token processing and ranking eliminate tedious **manual catalog scanning**, dramatically reducing human fatigue and missed references.',
+          {
+            label: 'Huge Growth of Digital Data',
+            text: 'Modern digital ecosystems generate a huge volume of data every second across books, research papers, emails, and websites that cannot be read manually.',
+          },
+          {
+            label: 'Fast Searching',
+            text: 'An IRS delivers fast searching across billions of indexed tokens in fractions of a second rather than forcing sequential document reading.',
+          },
+          {
+            label: 'Relevant Information Extraction',
+            text: 'Instead of dumping every raw file containing one matching keyword, relevant extraction identifies only items closely aligned with the user intent.',
+          },
+          {
+            label: 'Time Saving',
+            text: 'Automated lookup reduces manual searching time massively for students, clinicians, engineers, and legal analysts conducting literature reviews.',
+          },
+          {
+            label: 'Efficient Organization of Documents',
+            text: 'Zoning and metadata indexes bring structured organization to large chaotic text collections without altering original documents.',
+          },
+          {
+            label: 'Handles Unstructured & Multimedia Data',
+            text: 'Unlike relational databases restricted to rigid tables, an IRS natively handles free-form prose, PDFs, images, audio, and video.',
+          },
+          {
+            label: 'Better Decision-Making Support',
+            text: 'Timely retrieval of past reports, patents, and clinical studies provides accurate information for executive and research decisions.',
+          },
+          {
+            label: 'Eliminates Manual Catalog Scanning',
+            text: 'Automated token processing and ranking remove tedious manual scanning and dramatically improve user satisfaction.',
+          },
         ],
       },
       {
         heading: 'Types of Searches & User Query Lifecycle',
-        bullets: [
-          'A **Web Search** discovers online web pages across the World Wide Web using search engines like Google or Bing.',
-          'A **Desktop Search** locates local emails, PDFs, presentations, and files stored directly inside a user personal computer.',
-          'A **Library Catalog Search** retrieves academic books, theses, journals, and physical holdings inside institutional or digital libraries.',
-          'A **Known-Item Search** locates a specific document whose identifying title, author, or ID is already known to the user.',
-          'A **Subject / Concept Search** explores an unfamiliar domain using topic keywords to uncover all documents covering that subject.',
-          'A **Fact / Reference Lookup** extracts a targeted entity or numerical fact directly rather than returning full multi-page manuals.',
-          'The interactive **User Query Lifecycle** progresses cleanly through four stages: **Query Generation** (mental need to words), **Search Composition** (adding operators), **Search Execution** (index matching), and **Scanning Results** (inspecting ranked titles and snippets).',
+        subGroups: [
+          {
+            sideHeading: '1. Types of Searches in an IRS',
+            bullets: [
+              {
+                label: 'Web Search',
+                text: 'Discovers online web pages across the World Wide Web using search engines such as Google or Bing.',
+              },
+              {
+                label: 'Desktop Search',
+                text: 'Locates local emails, PDFs, presentations, and files stored directly inside a user personal computer.',
+              },
+              {
+                label: 'Library Catalog Search',
+                text: 'Retrieves academic books, theses, journals, and physical holdings inside institutional or digital libraries.',
+              },
+              {
+                label: 'Known-Item Search',
+                text: 'Locates a specific document whose identifying title, author, or ID is already known to the user.',
+              },
+              {
+                label: 'Subject / Concept Search',
+                text: 'Explores an unfamiliar domain using topic keywords to uncover all documents covering that subject.',
+              },
+              {
+                label: 'Fact / Reference Lookup',
+                text: 'Extracts a targeted entity or numerical fact directly rather than returning full multi-page manuals.',
+              },
+            ],
+          },
+          {
+            sideHeading: '2. User Query Lifecycle (4 Sequential Stages)',
+            bullets: [
+              {
+                label: 'Stage 1 — Query Generation',
+                text: 'User translates an internal mental information need into search keywords.',
+                example: 'Typing "Sachin Tendulkar" or "Best Restaurants".',
+              },
+              {
+                label: 'Stage 2 — Search Composition',
+                text: 'User refines the query by adding Boolean operators, phrases, or zone constraints.',
+              },
+              {
+                label: 'Stage 3 — Search Execution',
+                text: 'The IRS matches processed query tokens against searchable indexes automatically.',
+              },
+              {
+                label: 'Stage 4 — Scanning Results',
+                text: 'User inspects ranked titles, abstracts, and snippets on screen to select items to read.',
+              },
+            ],
+          },
         ],
       },
       {
-        heading: 'Basic Working Cycle (9 Sequential Steps)',
+        heading: 'Basic Working of an IRS (9 Sequential Steps)',
         bullets: [
-          '**Step 1 (Information Collection)** ingests heterogeneous source materials including books, web pages, articles, and reports into the IRS repository.',
-          '**Step 2 (Document Processing)** cleans raw text by normalizing encodings, splitting zones, removing punctuation/stop words, and stemming inflectional suffixes.',
-          '**Step 3 (Index Creation)** maps every extracted keyword or concept stem to the document IDs and word positions where it occurs.',
-          '**Step 4 (Database Storage)** stores normalized full documents in the archival document database alongside searchable indexes.',
-          '**Step 5 (User Query Input)** captures the user search request typed into the search bar (e.g., `"information retrieval notes"`).',
-          '**Step 6 (Query Processing)** applies identical cleaning, stop-word removal, stemming, and query expansion to the user search string.',
-          '**Step 7 (Matching)** compares processed query tokens against stored index entries to locate candidate matching documents.',
-          '**Step 8 (Ranking)** computes similarity or probability scores for candidate hits and sorts the most relevant documents to the top.',
-          '**Step 9 (Retrieved Documents)** formats titles, abstracts, highlighted snippets, and links for user inspection on the results screen.',
+          {
+            label: 'Step 1 — Collection of Documents',
+            text: 'Ingests heterogeneous source materials including books, web pages, articles, and reports into the IRS repository.',
+          },
+          {
+            label: 'Step 2 — Document Processing',
+            text: 'Cleans raw text by normalizing encodings, splitting zones, removing punctuation/stop words, and stemming inflectional suffixes.',
+          },
+          {
+            label: 'Step 3 — Index Creation',
+            text: 'Maps every extracted keyword or concept stem to the document IDs and word positions where it occurs.',
+          },
+          {
+            label: 'Step 4 — Database Storage',
+            text: 'Stores normalized full documents in the archival document database alongside searchable indexes.',
+          },
+          {
+            label: 'Step 5 — User Enters Query',
+            text: 'Captures the user search request typed into the search bar.',
+            example: '"information retrieval notes"',
+          },
+          {
+            label: 'Step 6 — Query Processing',
+            text: 'Applies identical cleaning, stop-word removal, stemming, and query expansion to the user search string.',
+          },
+          {
+            label: 'Step 7 — Search & Matching',
+            text: 'Compares processed query tokens against stored index entries to locate candidate matching documents.',
+          },
+          {
+            label: 'Step 8 — Ranking of Results',
+            text: 'Computes similarity or probability scores for candidate hits and sorts the most relevant documents to the top.',
+          },
+          {
+            label: 'Step 9 — Relevant Documents Retrieved',
+            text: 'Formats titles, abstracts, highlighted snippets, and links for user inspection on the results screen.',
+          },
         ],
         diagramId: 'irs-working-steps',
         diagramCaption:
           'Complete 9-Step Information Retrieval System Working Cycle (Ingestion to Ranked Retrieval)',
       },
       {
-        heading: 'Characteristics, Real-Life Applications, Advantages & Limitations',
-        bullets: [
-          'Core **Characteristics of an IRS** include unstructured data handling, billion-scale collection support, keyword and semantic query matching, ranked output, millisecond response speed, multimedia support, and intuitive user interfaces.',
-          'Everyday **Real-Life Examples** span Google Search, Amazon product search, YouTube video discovery, Wikipedia topic lookup, Netflix recommendations, Spotify song search, digital library portals, legal case search, hospital EHR retrieval, and internal corporate search.',
-          'Major **Application Sectors** include web search engines, university digital libraries, E-Commerce storefronts, medical diagnostics archives, legal discovery platforms, academic citation engines, and financial compliance systems.',
-          'Key **Advantages of an IRS** are rapid search speed, accurate relevance ranking, handling massive datasets, automated indexing, continuous availability, user-friendly keyword syntax, decision support, and reduced manual overhead.',
-          'Principal **Limitations of an IRS** include irrelevant results caused by ambiguous words (`bank`, `apple`), heavy dependence on query wording quality, large index storage overhead, frequent index update cost, inability to capture deep human nuance fully, and multimedia indexing complexity.',
+        heading: 'Characteristics, Real-Life Examples, Applications, Advantages & Limitations',
+        subGroups: [
+          {
+            sideHeading: '1. Characteristics of Information Retrieval Systems',
+            bullets: [
+              {
+                label: 'Fast Relevant Retrieval',
+                text: 'Retrieves relevant information quickly with millisecond response speed.',
+              },
+              {
+                label: 'Efficient Indexing',
+                text: 'Supports automated index structures for rapid token lookup.',
+              },
+              {
+                label: 'Large-Scale Data Support',
+                text: 'Handles massive billion-document collections and scales cleanly as databases grow.',
+              },
+              {
+                label: 'Keyword & Natural Language Search',
+                text: 'Supports structured Boolean expressions as well as conversational queries.',
+              },
+              {
+                label: 'Ranked Search Results',
+                text: 'Orders matching documents by computed relevance score rather than unsorted sets.',
+              },
+              {
+                label: 'Multimedia Retrieval',
+                text: 'Retrieves text, images, audio, video, and compound multimedia files.',
+              },
+              {
+                label: 'Maintainability & Usability',
+                text: 'Easy to update and maintain while offering a clean user-friendly interface.',
+              },
+            ],
+          },
+          {
+            sideHeading: '2. Real-Life Examples of Information Retrieval',
+            bullets: [
+              'Google Search Engine, Bing Search, and Yahoo Search',
+              'YouTube Video Search & Spotify Song Search',
+              'Gmail Search & Desktop File Search',
+              'Amazon Product Search & Netflix Recommendations',
+              'Wikipedia Topic Lookup & Online Research Databases',
+              'Hospital Information Systems (EHR) & University Library Catalogues',
+            ],
+          },
+          {
+            sideHeading: '3. Applications of Information Retrieval Systems',
+            description:
+              'Information Retrieval Systems power domain-specific search across seven major sectors:',
+            subGroups: [
+              {
+                sideHeading: 'Education',
+                bullets: ['Digital libraries', 'Online learning platforms', 'Research databases'],
+              },
+              {
+                sideHeading: 'Business',
+                bullets: [
+                  'Customer relationship management (CRM)',
+                  'Enterprise document management',
+                  'Knowledge management systems',
+                ],
+              },
+              {
+                sideHeading: 'Healthcare',
+                bullets: [
+                  'Medical record retrieval (EHR)',
+                  'Clinical decision support',
+                  'Medical literature search',
+                ],
+              },
+              {
+                sideHeading: 'Banking',
+                bullets: [
+                  'Customer information retrieval',
+                  'Fraud detection',
+                  'Document management',
+                ],
+              },
+              {
+                sideHeading: 'E-Commerce',
+                bullets: [
+                  'Product searching',
+                  'Recommendation systems',
+                  'Customer review retrieval',
+                ],
+              },
+              {
+                sideHeading: 'Government',
+                bullets: [
+                  'Census databases',
+                  'Public record management',
+                  'E-governance portals',
+                ],
+              },
+              {
+                sideHeading: 'Social Media',
+                bullets: ['Content searching', 'Hashtag retrieval', 'User recommendation'],
+              },
+            ],
+          },
+          {
+            sideHeading: '4. Advantages of IRS',
+            bullets: [
+              {
+                label: 'Saves Time & Quick Access',
+                text: 'Delivers fast access to needed items while drastically reducing manual effort.',
+              },
+              {
+                label: 'Relevance & Organization',
+                text: 'Retrieves only relevant documents and organizes large archives systematically.',
+              },
+              {
+                label: 'Large Database & Multimedia Support',
+                text: 'Scales across huge repositories and handles text, audio, image, and video items.',
+              },
+              {
+                label: 'Productivity & Decision Making',
+                text: 'Improves user satisfaction, research productivity, and informed decision making.',
+              },
+            ],
+          },
+          {
+            sideHeading: '5. Limitations of IRS',
+            bullets: [
+              {
+                label: 'Irrelevant Results (False Hits)',
+                text: 'May still retrieve non-relevant documents alongside useful hits.',
+              },
+              {
+                label: 'Query Dependence',
+                text: 'Retrieval quality depends heavily on how well the user frames the search query.',
+              },
+              {
+                label: 'Large Storage Overhead',
+                text: 'Inverted index structures require substantial extra disk space.',
+              },
+              {
+                label: 'Complex Indexing & Maintenance',
+                text: 'Requires sophisticated indexing algorithms and continuous updates as databases grow.',
+              },
+              {
+                label: 'Ambiguity & Synonyms',
+                text: 'Polysemous words (`bank`, `apple`) and synonyms can lower retrieval accuracy.',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -91,7 +344,7 @@ export const UNIT1_TOPICS: LessonTopic[] = [
       highlightRows: [0, 1],
     },
     keyTakeaway:
-      'Include the **8 reasons why IRS is needed**, the **9 working steps**, **Web/Desktop/Library/Known-Item/Subject searches**, and **Advantages vs Limitations** for a complete Unit 1 answer.',
+      'Include the **8 reasons why IRS is needed**, the **9 working steps**, **Web/Desktop/Library/Known-Item/Subject searches**, **7 Application sectors**, and **Advantages vs Limitations** for a complete Unit 1 answer.',
     selfCheck: {
       question: 'What are the 9 sequential steps in the basic working of an Information Retrieval System?',
       answer:
@@ -115,33 +368,110 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     summaryLine:
       'The overarching objective of an IRS is to deliver **fast, accurate retrieval of relevant textual and multimedia information** (**high Recall and Precision**) while minimizing **non-relevant overhead** and helping users refine search statements.',
     bullets: [
-      'Every retrieval architecture balances **effectiveness** (finding truly relevant items without noise) against **efficiency** (low response latency, compact index storage, and minimal user effort).',
-      'Evaluating system success distinguishes four states across the **Total Document Space** (**Figure 1.1**): **Retrieved Relevant** (true hits), **Retrieved Non-Relevant** (false-hit overhead), **Not Retrieved Relevant** (missed items), and **Not Retrieved Non-Relevant** (correctly excluded).',
+      {
+        label: 'Effectiveness vs Efficiency Balance',
+        text: 'Every retrieval architecture balances effectiveness (finding truly relevant items without noise) against efficiency (low response latency, compact index storage, and minimal user effort).',
+      },
+      {
+        label: 'Total Document Space (Figure 1.1)',
+        text: 'Evaluating system success divides the database into four quadrants: Retrieved Relevant (true hits), Retrieved Non-Relevant (false-hit overhead), Not Retrieved Relevant (missed items), and Not Retrieved Non-Relevant (correctly excluded).',
+      },
     ],
     subSections: [
       {
-        heading: 'All 12 Core Objectives of an Information Retrieval System',
-        bullets: [
-          '**Objective 1 — Fast Retrieval of Information**: The system must locate and display matching items rapidly—within seconds—even when searching millions of stored records (for example, returning instant web results).',
-          '**Objective 2 — Retrieve Relevant Information**: Retrieval algorithms must prioritize documents whose actual subject meaning answers the user intent rather than matching isolated words by accident.',
-          '**Objective 3 — Improve Search Accuracy**: Accurate indexing, phrase detection, and weighting must reduce ambiguous or off-topic matches so returned top hits remain reliable.',
-          '**Objective 4 — Reduce Search Time**: Automated index scanning eliminates slow page-by-page manual browsing across massive physical or digital repositories.',
-          '**Objective 5 — Efficient Storage of Information**: Compressed inverted lists, signatures, and stop-word removal allow systems to organize massive archives without wasting disk space.',
-          '**Objective 6 — Support Large Databases**: Architecture and data structures must scale gracefully to gigabyte- and terabyte-sized enterprise libraries without degrading query latency.',
-          '**Objective 7 — User Satisfaction**: Clean interfaces, understandable relevance scores, highlighted snippets, and readable results ensure users locate needed answers effortlessly.',
-          '**Objective 8 — Ranking of Results**: Instead of returning unsorted sets, the IRS must score and rank items from most relevant to least relevant at the top of the result list.',
-          '**Objective 9 — Handle Multimedia Information**: Modern IRS platforms index and search beyond plain text to retrieve **Text documents, Images, Audio files, Video files, PDFs & Presentations, and full Multimedia collections** (such as Google Images and YouTube).',
-          '**Objective 10 — Minimize Irrelevant Information (Overhead)**: Filtering and precise ranking suppress noisy off-topic hits that waste user reading time (**Retrieval Overhead**).',
-          '**Objective 11 — Provide Easy Access to Information**: Users can discover knowledge across local desktops, institutional catalogs, or remote networks via simple search statements anytime.',
-          '**Objective 12 — Support Decision Making**: Rapid access to verified past research, market trends, clinical records, and legal precedents empowers timely informed decisions.',
+        heading: 'Objectives of IRS (All 12 Specific Objectives)',
+        description:
+          'The main objective of an Information Retrieval System is to provide the right information to the right user at the right time by retrieving the most relevant documents efficiently.',
+        subGroups: [
+          {
+            sideHeading: '1. Fast Information Retrieval',
+            description:
+              'Retrieve the required information in the shortest possible time—even across millions of stored records.',
+            example: 'Google displays search results within seconds.',
+          },
+          {
+            sideHeading: '2. Retrieve Relevant Information',
+            description:
+              'Provide only the documents that match the user information need rather than accidental keyword matches.',
+            example:
+              'Searching "Computer Networks" should return networking-related documents instead of unrelated topics.',
+          },
+          {
+            sideHeading: '3. Improve Search Accuracy',
+            description:
+              'Increase the accuracy of retrieved results through precise indexing and weighting while reducing irrelevant documents.',
+          },
+          {
+            sideHeading: '4. Reduce Search Time',
+            description:
+              'Help users locate information quickly without manually searching thousands of documents.',
+          },
+          {
+            sideHeading: '5. Efficient Storage of Documents',
+            description:
+              'Store and organize large collections of documents systematically using compact index structures for easy retrieval.',
+          },
+          {
+            sideHeading: '6. Support Large Databases',
+            description:
+              'Efficiently manage millions of documents without degrading search performance.',
+          },
+          {
+            sideHeading: '7. User Satisfaction',
+            description:
+              "Provide accurate, useful, and meaningful results with readable snippets to satisfy users' information needs.",
+          },
+          {
+            sideHeading: '8. Ranking of Results',
+            description:
+              'Display the most relevant documents first rather than returning an unsorted hit set.',
+            example: 'Search engines rank the best results at the top of the page.',
+          },
+          {
+            sideHeading: '9. Multimedia Information Retrieval',
+            description: 'Retrieve different types of information, including:',
+            bullets: [
+              'Text',
+              'Images',
+              'Audio',
+              'Video',
+              'PDF files',
+              'Multimedia documents',
+            ],
+            example: 'Google Images for images and YouTube for videos.',
+          },
+          {
+            sideHeading: '10. Minimize Irrelevant Information (Overhead)',
+            description:
+              'Reduce the retrieval of unrelated or unnecessary documents so users waste less time evaluating false hits.',
+          },
+          {
+            sideHeading: '11. Easy Access to Information',
+            description:
+              'Allow users to retrieve information anytime and from anywhere through digital systems.',
+          },
+          {
+            sideHeading: '12. Support Decision Making',
+            description:
+              'Help users make better decisions by providing relevant and reliable information.',
+          },
         ],
       },
       {
         heading: 'Minimizing Overhead & Quantitative Trade-offs (Figure 1.1)',
         bullets: [
-          'In Kowalski framework, minimizing **Overhead** means jointly reducing **non-relevant items retrieved**, **storage/computation overhead**, and the **human time required to evaluate results**.',
-          'Tightening queries (adding specific `AND` terms) reduces false hits and raises **Precision ($P$)**, but typically drops **Recall ($R$)** because valid relevant documents lacking one exact keyword are skipped.',
-          'Relaxing queries (adding `OR` synonyms or stemming) increases **Recall ($R$)**, yet pulls more non-relevant documents into the hit set (**Precision-Recall Inverse Trade-off**).',
+          {
+            label: 'Retrieval Overhead (Kowalski)',
+            text: 'Time spent in all steps leading up to reading needed data: query generation, search composition, search execution, scanning results, and reading non-relevant false hits.',
+          },
+          {
+            label: 'Tightening Queries (`AND`)',
+            text: 'Adding specific `AND` terms reduces false hits and raises Precision ($P$), but typically drops Recall ($R$) when valid relevant documents lack one exact keyword.',
+          },
+          {
+            label: 'Relaxing Queries (`OR` / Stemming)',
+            text: 'Adding `OR` synonyms or stemming increases Recall ($R$), yet pulls more non-relevant documents into the hit set (Precision–Recall Inverse Trade-off).',
+          },
         ],
         formulas: [
           {
@@ -166,10 +496,48 @@ export const UNIT1_TOPICS: LessonTopic[] = [
       },
       {
         heading: 'Supporting User Search Generation & Presentation of Results (Figure 1.3)',
-        bullets: [
-          'Users and item authors come from distinct **Vocabulary Domains** (**Figure 1.3**) containing **linguistic ambiguities** (e.g., the single word `"field"` meaning an agricultural meadow, a physics force field, or a database column).',
-          'Because a user may write a different vocabulary from the document author, an IRS must interactively assist **query generation** through **Vocabulary Browse**, **thesauri**, and **relevance feedback**.',
-          'To aid rapid human relevance judgment during result inspection, the IRS presents results via **(A) Ranking in order of potential relevance** and **(B) Item clustering & link analysis** showing conceptual relationships across hits.',
+        subGroups: [
+          {
+            sideHeading: '1. Vocabulary Domains & Linguistic Ambiguities',
+            description:
+              'Users and item authors come from distinct Vocabulary Domains containing linguistic variation and ambiguities.',
+            example:
+              'The word `"field"` can mean an agricultural meadow, a physics force field, or a database column.',
+          },
+          {
+            sideHeading: '2. Interactive Query Generation Support',
+            description:
+              'Because users write different vocabulary from document authors, an IRS assists query generation through:',
+            bullets: [
+              {
+                label: 'Vocabulary Browse',
+                text: 'Displays alphabetical index words and counts to diagnose spelling and coverage.',
+              },
+              {
+                label: 'Thesauri',
+                text: 'Expands query terms automatically with related synonyms and concept hierarchies.',
+              },
+              {
+                label: 'Relevance Feedback',
+                text: 'Uses user judgments on initial hits to refine weights for a better follow-up query.',
+              },
+            ],
+          },
+          {
+            sideHeading: '3. Presentation of Search Results',
+            description:
+              'To help users judge relevance quickly, the IRS formats results using two key mechanisms:',
+            bullets: [
+              {
+                label: '(A) Ranking in Order of Potential Relevance',
+                text: 'Orders hit items descending by computed similarity or probability score.',
+              },
+              {
+                label: '(B) Item Clustering & Link Analysis',
+                text: 'Groups related hits visually and reveals conceptual links across retrieved items.',
+              },
+            ],
+          },
         ],
         diagramId: 'irs-vocab-domains',
         diagramCaption:
@@ -207,46 +575,141 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     summaryLine:
       'A complete Information Storage and Retrieval System consists of **four major functional processes**: **Item Normalization**, **Selective Dissemination of Information (SDI / Mail)**, **Archival Document Database Search**, and **Index Database Search with Automatic File Build (AFB)**.',
     bullets: [
-      'Whenever an item arrives at the IRS, **Item Normalization** transforms heterogeneous external formats into standardized internal tokens and structural zones.',
-      'From normalization, incoming items split immediately across three parallel operational paths (**Figure 1.4**): real-time push alerts via **SDI (Mail)**, permanent storage via **Document File Creation**, and automated metadata extraction via **Automatic File Build (AFB)**.',
+      {
+        label: 'Unified Entry Point',
+        text: 'Whenever an item arrives at the IRS, Item Normalization transforms heterogeneous external formats into standardized internal tokens and structural zones.',
+      },
+      {
+        label: 'Three Parallel Operational Paths (Figure 1.4)',
+        text: 'From normalization, incoming items route simultaneously to real-time push alerts via SDI (Mail), permanent archival storage via Document File Creation, and automated metadata extraction via Automatic File Build (AFB).',
+      },
     ],
     subSections: [
       {
-        heading: '1. Item Normalization (Formats, Zoning, Symbols, Stop-List, Zipf, Stemming & Example)',
-        bullets: [
-          '**Item Normalization** transforms heterogeneous external formats and encodings into standardized searchable processing tokens and zones before downstream distribution.',
-        ],
+        heading: '1. Item Normalization (7 Sequential Stages)',
+        description:
+          'Item Normalization transforms heterogeneous external document formats and encodings into standardized searchable processing tokens and logical zones.',
         subGroups: [
           {
-            sideHeading: 'Step 1 — Standardize Input Formats & Step 2 — Logical Subsetting (Zoning)',
+            sideHeading: 'Step 1 — Standardize Input Formats',
+            description:
+              'Translates diverse incoming character sets and multimedia streams into one canonical internal format acceptable to the system:',
             bullets: [
-              '**Standardize Input** converts heterogeneous character sets (`Unicode, ISO-Latin`) and multimedia streams (`MPEG-1/2, AVI, WAV, JPEG, BMP`) into one canonical internal format.',
-              '**Logical Subsetting (Zoning)** splits each item into structural regions (`Title, Author, Abstract, Main Text, Conclusion, References`), enabling targeted searches like `"Einstein"` in `Author`/`Title` rather than incidental `References`.',
+              {
+                label: 'Foreign Language Text',
+                text: 'Converted into `Unicode` (`ISO-Latin`) so English, French, and Spanish display and search uniformly.',
+              },
+              {
+                label: 'Video Standards',
+                text: '`MPEG-1`, `MPEG-2`, `AVI`, or `Real Media`.',
+              },
+              {
+                label: 'Audio Standards',
+                text: '`WAV` or `Real Audio`.',
+              },
+              {
+                label: 'Image Standards',
+                text: '`JPEG` or `BMP`.',
+              },
             ],
+          },
+          {
+            sideHeading: 'Step 2 — Logical Subsetting (Zoning)',
+            description:
+              'Divides each item into hierarchical structural zones visible to users to boost precision and optimize hit display:',
+            bullets: ['`Title`', '`Author`', '`Abstract`', '`Main Text`', '`Conclusion`', '`References`'],
+            example:
+              'Searching `"Einstein"` only in `Main Text` avoids false hits where `"Einstein"` appears merely as a citation in `References`.',
           },
           {
             sideHeading: 'Step 3 — Identify Processing Tokens (Three Symbol Classes)',
+            description:
+              'Systems identify searchable words (`contiguous sets of word symbols bounded by inter-word symbols`) using three symbol classes:',
             bullets: [
-              '**Valid Word Symbols** include searchable letters, numerals, and allowed intra-word tokens.',
-              '**Inter-Word Symbols** identify non-searchable boundary separators such as spaces, periods, and semicolons.',
-              '**Special Processing Symbols** govern context-sensitive punctuation such as the **hyphen (`-`)** inside compound terms.',
+              {
+                label: 'Valid Word Symbols',
+                text: 'Searchable alphabetic characters, numbers, and allowed intra-word symbols.',
+              },
+              {
+                label: 'Inter-Word Symbols',
+                text: 'Non-searchable delimiter characters such as whitespace blanks, periods, and semicolons.',
+              },
+              {
+                label: 'Special Processing Symbols',
+                text: 'Context-sensitive punctuation handled per language/application, such as the hyphen (`-`) or apostrophe.',
+              },
             ],
           },
           {
-            sideHeading: 'Step 4 — Stop Algorithm, Step 5 — Characterize, Step 6 — Stem & Step 7 — Store',
+            sideHeading: 'Step 4 — Stop Algorithm & Zipf Law',
+            description:
+              'Removes low-value high-frequency tokens to save memory, disk storage, and processing time:',
             bullets: [
-              '**Stop Algorithm & Zipf Law** removes ultra-frequent non-discriminating words (`the, is`), large numbers (`> 999999`), and mixed tokens (`6A1`) following **Zipf Law** ($f \\cdot r = C$), cutting index bloat by 30–50%.',
-              '**Characterize Tokens** tags remaining words with **Part-of-Speech (POS)**, **Word Sense Disambiguation (WSD)**, uppercase proper names/acronyms, numbers, and dates.',
-              '**Stemming Algorithm** conflates variants (`Computer, Compute, Computers, Computing -> Comput`), saving **32% on small DBs**, **20% on 1.6 MB DBs**, and **13.5% on 50 MB DBs** while trading slight **Precision** for higher **Recall**.',
-              '**Create Searchable Data Structure** persists final stems, weights, and zone offsets into the **Inverted File**, **PAT Tree**, or **Signature File**.',
+              {
+                label: 'High-Frequency Stop Words',
+                text: 'Eliminates common words appearing in nearly every document (`the`, `is`, `are`, `very`), cutting index size by 30–50%.',
+              },
+              {
+                label: 'Numeric & Mixed Token Rules',
+                text: 'Ignores numbers `> 999999` (preserving dates) and mixed alphanumeric strings (`6A1`).',
+              },
+              {
+                label: 'Zipf Cutoff Principle',
+                text: 'Follows Zipf Law ($f \\cdot r = C$), targeting the lowest-rank highest-frequency terms.',
+              },
             ],
           },
           {
-            sideHeading: 'Worked Normalization Trace & Key Benefits',
+            sideHeading: 'Step 5 — Characterize Tokens',
+            description:
+              'Tags surviving processing tokens with specialized lexical and grammatical attributes:',
             bullets: [
-              '**Worked Input:** `"Information Retrieval Systems are very useful."` normalizes to lowercase and strips trailing punctuation.',
-              '**Worked Output:** Dropping stop words (`are, very`) and stemming inflections emits four final searchable index tokens: `[information, retrieval, system, useful]`.',
-              '**Key Advantages:** Guarantees case-independent matching, saves substantial disk space by merging word variants, improves **Recall**, and simplifies search scoring.',
+              {
+                label: 'Part-of-Speech (POS) & WSD',
+                text: 'Determines grammatical role and performs Word Sense Disambiguation.',
+              },
+              {
+                label: 'Entities & Format Tags',
+                text: 'Identifies uppercase proper names, acronyms, organizations, numbers, and dates.',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Step 6 — Stemming Algorithm',
+            description:
+              'Strips morphological suffixes to conflate word variants onto one canonical root stem:',
+            bullets: [
+              {
+                label: 'Storage Savings',
+                text: 'Saves **32%** on small databases, **20%** on 1.6 MB databases, and **13.5%** on 50 MB databases.',
+              },
+              {
+                label: 'Retrieval Trade-off',
+                text: 'Improves system efficiency and increases Recall while slightly declining Precision.',
+              },
+            ],
+            example: '`Computer, Compute, Computers, Computing -> Comput`',
+          },
+          {
+            sideHeading: 'Step 7 — Create Searchable Data Structure',
+            description:
+              'Persists final stems, zone offsets, and term weights into internal searchable structures (`Inverted File`, `PAT Tree`, or `Signature File`).',
+          },
+          {
+            sideHeading: 'Worked Normalization Example & Advantages',
+            bullets: [
+              {
+                label: 'Original Document',
+                text: '`"Information Retrieval Systems are very useful."`',
+              },
+              {
+                label: 'After Normalization',
+                text: '`[information, retrieval, system, useful]` (lowercased, punctuation removed, stop words `"are"` and `"very"` dropped, and stemmed).',
+              },
+              {
+                label: 'Four Advantages',
+                text: 'Delivers faster indexing, better searching, reduced storage, and improved accuracy.',
+              },
             ],
           },
         ],
@@ -263,29 +726,115 @@ export const UNIT1_TOPICS: LessonTopic[] = [
       },
       {
         heading: '2. Selective Dissemination of Information (SDI / "Mail")',
-        bullets: [
-          '**SDI (Push Retrieval)** dynamically compares newly normalized items against standing user interest statements and routes hits directly into **User Mail Files**.',
-          '**Component 1 — Search Process:** Evaluates each newly ingested document against stored profiles in real time.',
-          '**Component 2 — User Profile:** Holds broad standing interest statements (`broader and term-richer than ad-hoc queries`) plus recipient routing targets.',
-          '**Component 3 — User Mail File:** Collects matched items automatically (` historically text-only streams`), exemplified by an AI/ML researcher receiving weekly **Google Scholar Alerts** for `"Deep Learning" OR "Medical Imaging"`.',
+        description:
+          'SDI is a personalized push retrieval service that dynamically compares newly arriving items against standing user profiles and delivers matches automatically.',
+        subGroups: [
+          {
+            sideHeading: 'Three Core Components of SDI',
+            bullets: [
+              {
+                label: '1. Search Process',
+                text: 'Evaluates every newly ingested item against all stored user profiles in real time.',
+              },
+              {
+                label: '2. User Profile (Statement of Interest)',
+                text: 'Stores standing broad search statements (`broader and richer in terms than ad-hoc queries`) plus recipient routing destinations.',
+              },
+              {
+                label: '3. User Mail File',
+                text: 'Receives and stores matched documents automatically for user reading (`historically focused on textual documents, not multimedia`).',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Two-Step Working & Example',
+            bullets: [
+              {
+                label: 'Step 1 — Profile Registration',
+                text: 'User registers standing keywords or topics of interest.',
+              },
+              {
+                label: 'Step 2 — Automatic Match & Delivery',
+                text: 'Whenever a new document matches the profile, the IRS dispatches it straight to the user mail file.',
+              },
+            ],
+            example:
+              'An AI/ML researcher receiving automatic Google Scholar Alerts whenever new `"Artificial Intelligence"` or `"Machine Learning"` papers are added.',
+          },
         ],
       },
       {
         heading: '3. Archival Document Database Search',
-        bullets: [
-          '**Archival Document Database Search** retrieves retrospective historical items matching interactive user requests across permanent collections managed by the **Document Manager**.',
-          '**Component 1 — Search Process** executes interactive lookups across retrospective index pointers.',
-          '**Component 2 — Ad-hoc Queries** represent short, sharply focused searches submitted by users for an immediate one-time need.',
-          '**Component 3 — Immutable Document Database** acts as a **write-once / append-only repository** organized via **time-based partitioning** so historical searches stay fast without scanning decade-old shards.',
+        description:
+          'Provides interactive retrospective searching across all items permanently stored in the document repository.',
+        subGroups: [
+          {
+            sideHeading: 'Three Components & Key Storage Properties',
+            bullets: [
+              {
+                label: '1. Search Process',
+                text: 'Executes interactive searches against retrospective index pointers and archival records.',
+              },
+              {
+                label: '2. Ad-Hoc Queries',
+                text: 'Short, focused one-time queries created by users for an immediate need (not saved permanently like SDI profiles).',
+              },
+              {
+                label: '3. Immutable Document Database',
+                text: 'Write-once / non-editable repository partitioned by time (`Time Partitions`) so historical retrieval stays fast and preserves original consistency.',
+              },
+            ],
+          },
         ],
       },
       {
         heading: '4. Index Database Search & Automatic File Build (AFB)',
-        bullets: [
-          '**Filing / Indexing** stores structured item references (`like a physical Library Card Catalog for Title, Author, and Subject`) so indirect index lookup avoids scanning raw documents.',
-          '**Public vs Private Index Files:** Shared **Public Index Files** (often backed by an **RDBMS**) remain accessible across the whole organization, while **Private Index Files** restrict sensitive indexes to specific teams—both joinable under **Combined File Search**.',
-          '**Automatic File Build (AFB):** Executes **AFB Profiles** on arriving items to extract structured fields (`Authors, Title, Publication Date, Source, References`) into **Candidate Index Records**.',
-          '**AFB Human Review:** Analysts optionally review and refine generated **Candidate Index Records** before committing them permanently to index files.',
+        description:
+          'Supports creating, maintaining, and searching structured index records referencing items in the Document Database.',
+        subGroups: [
+          {
+            sideHeading: 'Filing / Indexing & Combined File Search',
+            bullets: [
+              {
+                label: 'Filing (Index Creation)',
+                text: 'Stores structured item references and descriptive text (`like a physical Library Card Catalog`) so indirect lookup avoids scanning raw documents.',
+              },
+              {
+                label: 'Combined File Search',
+                text: 'Searches index records first and then searches the referenced documents that satisfied the index portion of the query.',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Two Classes of Index Files',
+            bullets: [
+              {
+                label: '1. Public Index Files',
+                text: 'Small number of shared files maintained by professional library personnel indexing every item in the Document Database (`broad access lists`).',
+              },
+              {
+                label: '2. Private Index Files',
+                text: 'Large number of user-specific files (`very restricted access lists`) referencing only small subsets of items; both public and private files are often implemented via an RDBMS.',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Automatic File Build (AFB) Process',
+            bullets: [
+              {
+                label: 'AFB Profiles',
+                text: 'Define rules determining which arriving documents undergo automated metadata and index extraction.',
+              },
+              {
+                label: 'Extracted Fields',
+                text: 'Automatically extracts `Authors`, `Title`, `Date of Publication`, `Source`, and `References`.',
+              },
+              {
+                label: 'Candidate Index Records',
+                text: 'Outputs candidate records for optional human analyst review and editing before updating index files permanently.',
+              },
+            ],
+          },
         ],
         table: {
           caption: 'Comparison of the Four Major Functional Processes in an IRS',
@@ -320,28 +869,78 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     subtopicsCovered: [
       'IRS vs DBMS Definitions & Core Focus',
       'Four Similarities Between IRS & DBMS',
-      'Head-to-Head Differences Table',
+      'Practical Relationship & Iterative Search',
       'Commercial Integrations (INQUIRE, ORACLE CONVECTIS, INFORMIX RetrievalWare)',
     ],
     summaryLine:
       'While a **DBMS** performs exact deterministic **SQL** retrieval over structured relational tables, an **IRS** performs probabilistic ranked search over **unstructured text**, yet commercial platforms integrate both.',
     bullets: [
-      'A **Database Management System (DBMS)** stores, updates, and retrieves structured tabular records (**Roll No, Name, Marks**) organized under rigid relational schemas and keys.',
-      'An **Information Retrieval System (IRS)** stores large collections of unstructured prose, PDFs, and multimedia documents and returns ranked relevance lists matching imperfect keyword queries.',
-      'From a practical engineering standpoint, combining **DBMS** structured metadata management with **IRS** semantic full-text ranking yields faster, richer enterprise discovery.',
+      {
+        label: 'Database Management System (DBMS)',
+        text: 'Software optimized to store, organize, update, and retrieve structured tabular records (such as `Roll_No, Name, Marks`) under rigid schemas and keys.',
+      },
+      {
+        label: 'Information Retrieval System (IRS)',
+        text: 'Software designed to store large collections of unstructured prose, PDFs, and multimedia documents and return ranked relevance lists matching imperfect keyword queries.',
+      },
+      {
+        label: 'Synergy of Integration',
+        text: 'An IRS can use a DBMS to store structured document metadata and indexes, while modern enterprise engines integrate both technologies into one unified retrieval workflow.',
+      },
     ],
     subSections: [
       {
-        heading: 'Similarities, Differences & Commercial System Integrations',
+        heading: 'Similarities Between IRS and DBMS',
         bullets: [
-          '**Similarity 1:** Both **IRS** and **DBMS** store and retrieve large volumes of organizational data.',
-          '**Similarity 2:** Both enable end users to execute interactive search requests.',
-          '**Similarity 3:** Both organize underlying items systematically for reliable access.',
-          '**Similarity 4:** Both rely heavily on indexing structures to accelerate query lookup performance.',
-          'Because document authors express identical ideas using diverse **abstract vocabulary**, an IRS relies on **iterative query refinement**, **fuzziness**, and **thesaurus expansion**, whereas a **DBMS** fails completely if an exact field constraint misses by one character.',
-          'One of the earliest integrated commercial database + IR platforms was **INQUIRE DBMS**, combining relational structured querying and free-text retrieval in one unified system.',
-          '**ORACLE DBMS** integrates embedded Information Retrieval capability called **CONVECTIS**, which applies a **comprehensive thesaurus** to discover related terms and extract document **themes** automatically.',
-          '**INFORMIX DBMS** pairs relational data management with **RetrievalWare** (Excalibur), adding fuzzy, pattern-based, and semantic concept indexing directly inside database workflows.',
+          {
+            label: '1. Large-Scale Storage & Retrieval',
+            text: 'Both IRS and DBMS store and retrieve large volumes of organizational data.',
+          },
+          {
+            label: '2. Interactive User Search',
+            text: 'Both allow users to submit queries to locate needed information.',
+          },
+          {
+            label: '3. Systematic Organization',
+            text: 'Both organize underlying items systematically for reliable access.',
+          },
+          {
+            label: '4. Indexing for Speed',
+            text: 'Both rely heavily on indexing structures to accelerate search performance.',
+          },
+        ],
+      },
+      {
+        heading: 'Practical Relationship & Iterative Search',
+        bullets: [
+          {
+            label: 'Exact Tables vs Ambiguous Prose',
+            text: 'In structured tables, attribute meanings (`employee name`, `salary`) are unambiguous and SQL returns exact tabulated reports; in text items, two authors write completely different abstracts using diverse vocabulary.',
+          },
+          {
+            label: 'Iterative Search Refinement',
+            text: 'Because a single IRS query rarely recovers every relevant document on the first attempt, users rely on iterative search, fuzziness, and thesauri, whereas DBMS queries fail if an exact predicate misses by one character.',
+          },
+        ],
+      },
+      {
+        heading: 'Commercial DBMS + IRS Integrations',
+        subGroups: [
+          {
+            sideHeading: '1. INQUIRE DBMS',
+            description:
+              'One of the earliest commercial database systems to combine structured relational database management and free-text information retrieval inside a single unified view.',
+          },
+          {
+            sideHeading: '2. ORACLE DBMS with CONVECTIS',
+            description:
+              'Integrates an embedded Information Retrieval capability (`CONVECTIS`) that uses a comprehensive thesaurus to identify related terms and generate thematic concepts for each item.',
+          },
+          {
+            sideHeading: '3. INFORMIX DBMS with RetrievalWare',
+            description:
+              'Links INFORMIX relational data management with Excalibur `RetrievalWare`, adding fuzzy, pattern-based, and semantic concept indexing directly inside database applications.',
+          },
         ],
       },
     ],
@@ -371,7 +970,7 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     order: 5,
     title: 'Digital Libraries and Data Warehouses',
     subtopicsCovered: [
-      'Digital Library Concept, Examples & Software (KOHA, BIBLIOTEQ, PMP, DSpace, Greenstone)',
+      'Digital Library Concept, Role of IRS, Examples & Software (KOHA, BIBLIOTEQ, PMP, DSpace, Greenstone)',
       'Data Warehouse Architecture (Inmon Properties, ETL, OLAP)',
       'Data Warehouse Platforms (Redshift, Azure, BigQuery, Snowflake)',
       '3-Way Comparison: DBMS vs Digital Library vs Data Warehouse',
@@ -379,14 +978,123 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Digital Libraries** curate, tag with metadata, and preserve multimedia scholarly collections for global IR search, whereas **Data Warehouses** integrate historical enterprise records via **ETL** for **OLAP** analytical decision support.',
     bullets: [
-      'A **Digital Library (DL)** combines persistent digital archives, **structured cataloging metadata** (**Dublin Core**, **MARC**), **intellectual rights governance**, and **IRS search capabilities** so scholars can search and cite full collections globally.',
-      'Unlike ephemeral web search indexes, a **Digital Library** guarantees **curated quality**, **authoritative versioning**, and **long-term preservation** of e-books, theses, journals, images, and audio recordings.',
-      'Representative **Digital Library systems** include the **National Digital Library of India (NDLI)**, **IEEE Xplore**, **ACM Digital Library**, and institutional **University Digital Libraries**.',
-      'Leading **Digital Library & Library Management software** platforms include **KOHA**, **BIBLIOTEQ**, **PMP (Personal Media Platform)**, **DSpace**, **Greenstone**, and **Fedora Commons**.',
-      'A **Data Warehouse (DW)** is a centralized **subject-oriented, integrated, time-variant, and non-volatile** repository consolidating historical operational data from disparate databases for executive decision-making.',
-      'Raw operational data enters a **Data Warehouse** via **ETL (Extract, Transform, Load)** pipelines and is analyzed through multidimensional **OLAP** operations (**Roll-up, Drill-down, Slice, Dice**) to answer analytical searches like `"Sales of laptops in Hyderabad during 2024"`.',
-      'Major commercial **Data Warehouse platforms** include **Amazon Redshift**, **Microsoft Azure Synapse**, **Google BigQuery**, **Snowflake**, and **Teradata**.',
-      'An **IRS** complements both architectures by indexing descriptive abstracts inside a **Data Warehouse** and powering full-text + faceted metadata retrieval inside every **Digital Library**.',
+      {
+        label: 'Common Primary Goal',
+        text: 'Digital Libraries, Data Warehouses, and IRS platforms are all information repositories whose overarching objective is to satisfy user information needs.',
+      },
+    ],
+    subSections: [
+      {
+        heading: '1. Relationship Between IRS and Digital Libraries (DL)',
+        subGroups: [
+          {
+            sideHeading: 'Definition & Curated Standards',
+            description:
+              'A Digital Library is a networked collection of digital resources (e-books, journals, research papers, images, audio, and video) governed by cataloging metadata (`Dublin Core`, `MARC`), intellectual rights, curated quality, and long-term preservation.',
+          },
+          {
+            sideHeading: 'Role of IRS in a Digital Library',
+            description:
+              'An Information Retrieval System serves as the search engine inside a Digital Library, enabling users to:',
+            bullets: [
+              'Search documents across full collections',
+              'Retrieve relevant books and papers',
+              'Filter results by metadata facets',
+              'Rank search results by relevance',
+              'Browse curated subject collections',
+            ],
+            example:
+              'A student searches `"Artificial Intelligence"` in a university digital library; the IRS searches indexed documents, ranks matching books and papers, and displays results.',
+          },
+          {
+            sideHeading: 'Real-World Digital Library Applications',
+            bullets: [
+              'National Digital Library of India (NDLI)',
+              'IEEE Xplore',
+              'ACM Digital Library',
+              'University Digital Libraries',
+            ],
+          },
+          {
+            sideHeading: 'Digital Library Software Platforms',
+            bullets: [
+              {
+                label: 'KOHA',
+                text: 'Open-source integrated library management system.',
+              },
+              {
+                label: 'BIBLIOTEQ',
+                text: 'Cataloging and library inventory management suite.',
+              },
+              {
+                label: 'PMP',
+                text: 'Personal Media Platform for digital media collections.',
+              },
+              {
+                label: 'DSpace, Greenstone & Fedora Commons',
+                text: 'Institutional digital repository platforms for research archives.',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        heading: '2. Relationship Between IRS and Data Warehouses (DW)',
+        subGroups: [
+          {
+            sideHeading: 'Definition & Four Inmon Properties',
+            description:
+              'A Data Warehouse is a centralized analytical repository consolidating historical data from multiple operational sources for business intelligence and executive decision-making:',
+            bullets: [
+              {
+                label: 'Subject-Oriented',
+                text: 'Organized around major enterprise subjects (sales, customers, products) rather than daily transactions.',
+              },
+              {
+                label: 'Integrated',
+                text: 'Consolidates heterogeneous schemas and naming conventions from disparate source databases.',
+              },
+              {
+                label: 'Time-Variant',
+                text: 'Retains multi-year historical snapshots indexed by time dimensions.',
+              },
+              {
+                label: 'Non-Volatile',
+                text: 'Read-only analytical data loaded via batch updates rather than frequent live row edits.',
+              },
+            ],
+          },
+          {
+            sideHeading: 'ETL Pipeline, OLAP & Data Mining',
+            bullets: [
+              {
+                label: 'ETL (Extract, Transform, Load)',
+                text: 'Cleans, transforms, and loads operational data into the centralized warehouse.',
+              },
+              {
+                label: 'OLAP Analytical Operations',
+                text: 'Supports multidimensional `Roll-up`, `Drill-down`, `Slice`, and `Dice` queries alongside Data Mining (KDD).',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Role of IRS in a Data Warehouse',
+            description:
+              'An IRS complements a Data Warehouse by indexing descriptive text reports and enabling natural/keyword retrieval over historical analytical summaries.',
+            example:
+              'A company stores ten years of sales records; a manager searches `"Sales of laptops in Hyderabad during 2024"` and retrieves the required analytical insights.',
+          },
+          {
+            sideHeading: 'Commercial Data Warehouse Software Platforms',
+            bullets: [
+              'Amazon Redshift',
+              'Microsoft Azure Synapse',
+              'Google BigQuery',
+              'Snowflake (and Teradata)',
+            ],
+          },
+        ],
+      },
     ],
     table: {
       caption: 'Three-Way Comparison: DBMS vs Digital Library vs Data Warehouse',
@@ -411,52 +1119,203 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     title: 'IRS Capabilities: Search Capabilities',
     subtopicsCovered: [
       'Query Term Sets & Weighted Query Terms',
-      'Boolean Logic & Worked Precedence Examples (Fig 2.1)',
-      'Proximity Searches & Contiguous Word Phrases',
+      'Boolean Logic, M-of-N & Worked Precedence Examples (Fig 2.1)',
+      'Proximity Searches & Contiguous Word Phrases (CWP)',
       'Fuzzy Searches & Term Masking (Fig 2.3 Wildcards)',
       'Numeric/Date Ranges, Concept/Thesaurus Expansion (Fig 2.4–2.5) & NLQ',
     ],
     summaryLine:
       '**Search Capabilities** provide the complete query grammar of an IRS—spanning **Query Term Sets**, **Boolean logic**, **proximity**, **contiguous word phrases**, **fuzzy matching**, **term masking**, **numeric/date ranges**, **concept/thesaurus expansion**, and **natural language queries**.',
     bullets: [
-      '**Search Capabilities** allow users to translate conceptual needs cleanly into machine-executable expressions linking query terms with **logical operators**, **weights**, **distance bounds**, or **wildcards**.',
-      '**Query Term Sets** group keywords inside a search statement so items matching more distinct query terms generally rank higher than items matching only one repeated term (**Term Weighting** refines priority between $0.0$ and $1.0$).',
+      {
+        label: 'Objective of Search Capabilities',
+        text: 'Maps a user specified information need to items in the database via Boolean logic, natural language composition, term weights, distance bounds, wildcards, and concept expansion.',
+      },
+      {
+        label: 'Zone Scoping',
+        text: 'Search statements may inspect the complete document or restrict matching to a named structural zone (`Title`, `Author`, `Abstract`).',
+      },
     ],
     subSections: [
       {
-        heading: 'Boolean Logic, Operator Precedence & Worked Examples',
-        bullets: [
-          '**Boolean Queries** combine terms using `AND` (set intersection), `OR` (set union), and `NOT` / `AND NOT` (set difference), occasionally supplemented by `XOR`.',
-          'Standard Boolean evaluation precedence applies `NOT` highest, `AND` middle, and `OR` lowest from left to right unless overridden by **parentheses**.',
-          '**Worked Example 1 (`COMPUTER OR SERVER AND NOT MAINFRAME`)**: Without parentheses, higher-precedence `AND NOT` binds tighter than `OR`, selecting documents discussing computers OR servers without mainframes (`COMPUTER OR (SERVER AND NOT MAINFRAME)`).',
-          '**Worked Example 2 (`(COMPUTER OR SERVER) AND NOT MAINFRAME`)**: Parentheses force the union first, selecting documents discussing either computers or servers while rejecting every document mentioning mainframes.',
-          '**Worked Example 3 (`COMPUTER AND NOT (SERVER OR MAINFRAME)`)**: Parentheses expand exclusion across both hardware types, returning documents covering computers that mention neither servers nor mainframes.',
-          '**Weighted Terms** let searchers multiply each query keyword by an explicit numerical weight (such as `0.8 computer OR 0.2 mainframe`) so critical terms govern ranking.',
+        heading: '1. Query Term Sets & Weighted Query Terms',
+        subGroups: [
+          {
+            sideHeading: 'Query Term Sets',
+            description:
+              'Specifies a set of keywords where the IRS retrieves items containing at least one query term and ranks results by count of distinct terms matched:',
+            bullets: [
+              'Documents containing all query terms appear first.',
+              'Documents missing one query term appear second.',
+              'Documents containing only one query term appear last.',
+            ],
+          },
+          {
+            sideHeading: 'Weighted Query Terms',
+            description:
+              'Allows users to attach numerical importance weights between `0.0` (`lowest`) and `1.0` (`highest`) to individual terms in Boolean or natural language queries (e.g., `RetrievalWare`).',
+            example: '`0.8 computer OR 0.2 mainframe` ensures documents about computers outrank mainframe matches.',
+          },
         ],
       },
       {
-        heading: 'Proximity Searches & Contiguous Word Phrases (CWP)',
-        bullets: [
-          '**Proximity Searches** constrain two search terms to co-occur within a maximum token window using `WITHIN m`, unordered `NEAR/k`, or strictly ordered `ADJ/k` (e.g., `"information"` `NEAR/3` `"retrieval"`).',
-          '**Contiguous Word Phrases (CWP)** delimited by quotation marks (`"United States of America"`) require exact word order and strict immediate adjacency.',
-          'Restricting proximity to single sentences, paragraphs, or zones raises **Precision** sharply without sacrificing concept coverage.',
+        heading: '2. Boolean Logic, M-of-N & Operator Precedence',
+        subGroups: [
+          {
+            sideHeading: 'Boolean Operators & Set Semantics',
+            bullets: [
+              {
+                label: 'AND (Intersection)',
+                text: 'Returns items containing both connected terms.',
+              },
+              {
+                label: 'OR (Union)',
+                text: 'Returns items containing either or both connected terms.',
+              },
+              {
+                label: 'NOT / AND NOT (Difference)',
+                text: 'Excludes items containing the negated term (`XOR` appears rarely as users find it unintuitive).',
+              },
+              {
+                label: 'M of N Logic',
+                text: 'Retrieves any item containing at least $M$ of $N$ listed terms—for example "any 2 of AA, BB, CC" expands to `(AA AND BB) OR (AA AND CC) OR (BB AND CC)`.',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Standard Operator Precedence Rule',
+            description:
+              'Operators evaluate in order: **`NOT`** (highest) $\\to$ **`AND`** (middle) $\\to$ **`OR`** (lowest), processed left-to-right among equal precedence unless overridden by parentheses.',
+          },
+          {
+            sideHeading: 'Three Worked Precedence Examples (COMPUTER / SERVER / MAINFRAME)',
+            subGroups: [
+              {
+                sideHeading: 'Example 1: `COMPUTER OR SERVER AND NOT MAINFRAME`',
+                description:
+                  'Higher-precedence `AND NOT` binds tighter than `OR`, equivalent to `COMPUTER OR (SERVER AND NOT MAINFRAME)`.',
+                bullets: [
+                  'Selects all documents discussing computers, OR documents discussing servers that do not mention mainframes.',
+                ],
+              },
+              {
+                sideHeading: 'Example 2: `(COMPUTER OR SERVER) AND NOT MAINFRAME`',
+                description: 'Parentheses force the `OR` union before exclusion.',
+                bullets: [
+                  'Selects documents discussing computers or servers while rejecting every document mentioning mainframes.',
+                ],
+              },
+              {
+                sideHeading: 'Example 3: `COMPUTER AND NOT (SERVER OR MAINFRAME)`',
+                description: 'Parentheses expand exclusion across both hardware terms.',
+                bullets: [
+                  'Selects documents discussing computers that mention neither servers nor mainframes.',
+                ],
+              },
+            ],
+          },
         ],
       },
       {
-        heading: 'Fuzzy Searches & Term Masking (Wildcards — Fig 2.3)',
-        bullets: [
-          '**Fuzzy Searches** locate spelling variations, typos, and OCR scanning errors (matching `"retreival"` or `"recieve"`) within a bounded character **edit distance** threshold, boosting **Recall** while slightly lowering **Precision**.',
-          '**Term Masking (Wildcarding)** matches arbitrary variable-length (`*`) or fixed single-character (`?` / `$`) substrings anywhere inside a term.',
-          'Three masking modes cover every word part (**Figure 2.3**): **Prefix masking** (`*comput*` / `*graph`), **Suffix masking** (`comput*`), and **Embedded / Infix masking** (`multi$national`, `wom?n`).',
-          'Notice a critical **Numeric Trap**: applying term masking like `125*` does NOT find numbers `> 125`—it only matches strings literally starting with digits `"125"` (`1250`, `1259`).',
+        heading: '3. Proximity Searches & Contiguous Word Phrases (CWP)',
+        subGroups: [
+          {
+            sideHeading: 'Proximity Operators (`WITHIN`, `NEAR`, `ADJ`)',
+            description:
+              'Restricts the maximum allowed distance between two terms (`TERM1 within "m" "units" of TERM2`) in Characters, Words, Sentences, or Paragraphs to boost Precision.',
+            bullets: [
+              {
+                label: 'NEAR/k (Unordered Window)',
+                text: 'Matches terms appearing within $k$ words in either order.',
+              },
+              {
+                label: 'ADJ (Adjacent — WAIS)',
+                text: 'Special forward-only case with distance `1`; setting distance `0` means within the same semantic unit.',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Contiguous Word Phrases (CWP)',
+            description:
+              'An N-ary operator treating two or more ordered adjacent words inside quotes as one exact semantic unit (`Literal Strings` in WAIS, `Exact Phrases` in RetrievalWare).',
+            example:
+              '`"manufacturing" AND "United States of America"` (equivalent in WAIS to `"United" ADJ "States" ADJ "of" ADJ "America"`).',
+          },
         ],
       },
       {
-        heading: 'Numeric/Date Ranges, Concept/Thesaurus Expansion & Natural Language Queries',
-        bullets: [
-          '**Numeric and Date Range Queries** evaluate true mathematical comparisons (`>=`, `<=`, `BETWEEN 2020 AND 2026`) on zoned date, price, or measurement fields where wildcard string matching fails.',
-          '**Concept and Thesaurus Expansion** automatically enriches queries via one-level **Thesauri** (expanding `"computer"` -> `PC, mainframe, CPU, minicomputer` in **Figure 2.4**) or hierarchical/network **Concept Classes** (**TOPIC tree** in **Figure 2.5** or **RetrievalWare semantic network**).',
-          '**Natural Language Queries (NLQ)** allow unconstrained conversational questions (`How does term weighting work?`), which the IRS automatically stops, stems, extracts nouns/weights from, and ranks statistically.',
+        heading: '4. Fuzzy Searches & Term Masking (Wildcards — Fig 2.3)',
+        subGroups: [
+          {
+            sideHeading: 'Fuzzy Searches (Edit-Distance Spelling Tolerance)',
+            description:
+              'Locates words spelled similarly to the entered query term to handle typos and OCR errors—increasing Recall at the expense of slightly lower Precision.',
+            example:
+              'Fuzzy search on `"computer"` also matches `"compiter"`, `"conputer"`, `"computter"`, and `"compute"`.',
+          },
+          {
+            sideHeading: 'Term Masking (Fixed & Variable-Length "Don\'t-Care" Wildcards)',
+            description:
+              'Expands query terms by masking portions of a token—especially valuable in systems without strong stemming:',
+            subGroups: [
+              {
+                sideHeading: 'Fixed-Length Masking (`?` / `$`)',
+                description:
+                  'Masks exactly one single character position (or absence of one character) inside a word (e.g., `wom?n`, `multi$national`).',
+              },
+              {
+                sideHeading: 'Variable-Length Masking (`*` — Figure 2.3)',
+                description: 'Matches zero or more characters in three positions:',
+                bullets: [
+                  {
+                    label: 'Prefix Search (`COMPUTER*`)',
+                    text: 'Trailing wildcard matches words starting with `"computer"` (`computers`, `computerized`).',
+                  },
+                  {
+                    label: 'Suffix Search (`*COMPUTER`)',
+                    text: 'Leading wildcard matches words ending in `"computer"` (`microcomputer`, `supercomputer`).',
+                  },
+                  {
+                    label: 'Embedded / Infix Search (`*COMPUTER*`)',
+                    text: 'Both leading and trailing wildcards match `"computer"` anywhere inside a token (seldom used due to cost).',
+                  },
+                ],
+              },
+              {
+                sideHeading: 'Critical Numeric Range Trap',
+                description:
+                  'Wildcard masking applies only to text strings—searching `125*` does NOT match numbers `> 125`; it matches only strings literally starting with `"125"` (`1250`, `1259`).',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        heading: '5. Numeric/Date Ranges, Concept/Thesaurus Expansion & Natural Language Queries',
+        subGroups: [
+          {
+            sideHeading: 'Numeric and Date Range Queries',
+            description:
+              'Evaluates mathematical comparisons (`>=`, `<=`, `BETWEEN 2020 AND 2026`) on zoned date, price, or numerical fields where wildcard masking fails.',
+          },
+          {
+            sideHeading: 'Concept & Thesaurus Expansion (Figures 2.4 & 2.5)',
+            bullets: [
+              {
+                label: 'Semantic vs Statistical Thesaurus',
+                text: 'A semantic thesaurus provides generic 1–2 level synonym expansions (`"computer"` -> `PC, mainframe, CPU`), whereas a statistical thesaurus links terms co-occurring frequently inside the specific local database.',
+              },
+              {
+                label: 'Concept Trees & Semantic Networks',
+                text: 'Concept Classes organize word senses into hierarchical trees (`TOPIC` system, Fig 2.5) or semantic stem networks (`RetrievalWare`).',
+              },
+            ],
+          },
+          {
+            sideHeading: 'Natural Language Queries (NLQ)',
+            description:
+              'Accepts conversational queries (`TOPIC`, `RetrievalWare`, `INQUERY`) that the IRS stops, stems, weights, and ranks statistically—improving Recall while struggling with explicit negation (`NOT`) precision due to linguistic variation and ambiguity.',
+          },
         ],
       },
     ],
@@ -473,33 +1332,87 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     order: 7,
     title: 'IRS Capabilities: Browse Capabilities',
     subtopicsCovered: [
-      'Ranking & Relevance Threshold Cutoffs',
-      'Zoning (Logical Field Filtering & Selective Display)',
-      'Hit-Term Highlighting & KWIC Context Snippets',
-      'Browse by Category, Subject Hierarchy & Hyperlinks',
-      'Line Item Status & Result Data Visualization',
+      'Ranking & Collaborative Filtering Thresholds',
+      'Zoning (Logical Field Filtering & Locality/Passage Retrieval)',
+      'Highlighting (Jump-to-Match & DCARS Weight Color Intensity)',
+      'Browse by Subject, Author, Title, Category & Publication Year',
+      'Hierarchical Hyperlinks, Line Item Status & Data Visualization',
     ],
     summaryLine:
-      '**Browse Capabilities** empower users to evaluate hit files rapidly after retrieval via **Ranking**, **Zoning**, **Highlighting**, **Category/Attribute Browsing**, **Hierarchical Hyperlink Navigation**, **Line Item Status**, and **Visualizations**.',
+      '**Browse Capabilities** let users explore collections and judge hit files rapidly after search via **Ranking**, **Zoning**, **Highlighting**, **Category/Attribute Browsing**, **Hyperlinks**, **Line Item Status**, and **Visualizations**.',
     bullets: [
-      'Once **Search Execution** generates dozens or thousands of matching items, **Browse Capabilities** eliminate the need to open every document sequentially from start to finish.',
+      {
+        label: 'Role of Browse Capabilities',
+        text: 'Allows users to explore information without typing an exact query and quickly filter large retrieved hit sets—especially crucial when query Precision is low.',
+      },
     ],
     subSections: [
       {
-        heading: '1. Ranking, Zoning & Highlighting (Core Hit Triage)',
-        bullets: [
-          '**Ranking** orders retrieved items from highest to lowest computed similarity score so the strongest matches occupy top slots, supported by user-selectable score thresholds.',
-          '**Zoning (Logical Subsetting in Display)** displays only compact named fields (`Title`, `Author`, `Date`, `Abstract`) in the initial result list so analysts judge dozens of documents in seconds.',
-          '**Highlighting** spotlights exact matched query keywords and stem hits inside excerpts (**KWIC snippets**), often letting users jump straight from match to match across long documents.',
+        heading: 'Core Browse Capabilities',
+        subGroups: [
+          {
+            sideHeading: '1. Ranking & Collaborative Filtering',
+            description:
+              'Normalizes relevance scores between `0.0` and `1.0` (`1.0` = highest certainty) to display top matches first, optionally enhanced by user-selected cutoffs and collaborative filtering (e.g., Amazon product recommendations).',
+          },
+          {
+            sideHeading: '2. Zoning (Selective Field & Passage Display)',
+            description:
+              'Displays compact selected zones (`Title`, `Author`, `Date`, `Abstract`) or relevant passages so analysts judge dozens of hit documents rapidly without reading entire texts.',
+          },
+          {
+            sideHeading: '3. Hit-Term Highlighting',
+            description:
+              'Spotlights matched query terms in excerpts (`KWIC snippets`) with jump-to-next-highlight controls; systems like `DCARS` color-code words and paragraphs by importance intensity.',
+          },
+          {
+            sideHeading: '4. Browse by Attribute / Category',
+            description: 'Enables systematic exploration across indexed catalog dimensions:',
+            bullets: [
+              'Browse by Subject',
+              'Browse by Author',
+              'Browse by Title',
+              'Browse by Category',
+              'Browse by Publication Year',
+            ],
+          },
+          {
+            sideHeading: '5. Browse Through Hyperlinks',
+            description:
+              'Supports interactive one-click hierarchical drill-down across linked subject taxonomies without entering keywords.',
+            example:
+              'A student opens a digital library and clicks: `Computer Science -> Artificial Intelligence -> Machine Learning`.',
+          },
+          {
+            sideHeading: '6. Summary Displays (Line Item Status & Result Visualization)',
+            bullets: [
+              {
+                label: 'Line Item Status',
+                text: 'Shows concise tabular per-item metadata (read/unread flags, size, file format, score tier).',
+              },
+              {
+                label: 'Data Visualization',
+                text: 'Renders 2D/3D cluster maps, bar graphs of term contributions, and color-coded topical clusters.',
+              },
+            ],
+          },
         ],
       },
       {
-        heading: '2. Category Browsing, Hyperlinks, Line Item Status & Visualization',
+        heading: 'Advantages of Browse Capabilities',
         bullets: [
-          '**Browsing by Attribute / Category** lets users explore indexed collections systematically by **Subject**, **Author**, **Title**, **Category**, or **Publication Year** without typing complex Boolean syntax.',
-          '**Hyperlink Topic Navigation** enables one-click hierarchical drill-down across linked concept trees such as `Computer Science -> Artificial Intelligence -> Machine Learning`.',
-          '**Line Item Status** displays concise per-item metadata badges (read/unread status, file size, document format, access level, and score tier) right inside compact tabular hit lists.',
-          '**Result Data Visualization** renders graphical summaries including **Cluster Maps**, **Bar Graphs** of term contributions, and **Concept Clouds** alongside standard ranked lists.',
+          {
+            label: 'Easy Exploration',
+            text: 'Lets users navigate curated directories and hierarchies effortlessly.',
+          },
+          {
+            label: 'No Exact Keywords Required',
+            text: 'Highly useful when users are unfamiliar with exact technical terminology.',
+          },
+          {
+            label: 'Serendipitous Discovery',
+            text: 'Helps users uncover related topics and documents adjacent to their initial interest.',
+          },
         ],
       },
     ],
@@ -530,33 +1443,135 @@ export const UNIT1_TOPICS: LessonTopic[] = [
     subtopicsCovered: [
       'Vocabulary Browse (DF & Typo Diagnosis)',
       'Spell Check ("Did you mean..."), Auto-Complete & Query Expansion',
-      'Relevance Feedback & Automatic Summarization',
+      'Relevance Feedback, Summarization & Personalized Recommendations',
       'Iterative Search History Logs & Canned Queries',
-      'ANSI/NISO Z39.50 & WAIS Interoperability Standards',
+      'ANSI/NISO Z39.50, WAIS & CNRI Handle/RAP Standards',
     ],
     summaryLine:
-      '**Miscellaneous Capabilities** elevate retrieval intelligence with **Vocabulary Browse**, **Spell Check**, **Auto-complete**, **Query Expansion**, **Relevance Feedback**, **Summarization**, **Iterative Search History**, **Canned Queries**, and **Z39.50 / WAIS** standards.',
+      '**Miscellaneous Capabilities** enhance retrieval intelligence and usability with **Vocabulary Browse**, **Spell Check**, **Auto-complete**, **Query Expansion**, **Relevance Feedback**, **Summarization**, **Iterative Search History**, **Canned Queries**, and **Z39.50 / WAIS** standards.',
     bullets: [
-      'Beyond basic keyword execution and hit inspection, full-featured IRS platforms provide interactive vocabulary tools, smart query assistance, workflow automation, and federated retrieval protocols.',
+      {
+        label: 'Purpose of Miscellaneous Capabilities',
+        text: 'Additional intelligence, usability, workflow, and protocol features that improve search accuracy, reduce search time, and enhance overall user experience.',
+      },
     ],
     subSections: [
       {
-        heading: 'Vocabulary Browse, Spell Check, Auto-Complete & Query Expansion',
-        bullets: [
-          '**Vocabulary Browse** opens the alphabetical dictionary index with each term **document frequency ($DF$)** so users diagnose typos—for example spotting zero hits on `"computen"` right next to `3,420` hits on `"computer"`.',
-          '**Spell Check & Typo Suggestion** (`"Did you mean: information retrieval?"`) catches misspellings automatically before returning an empty result page.',
-          '**Auto-Complete & Query Suggestions** predict popular completions in real time while the user types initial query characters (`"info..."` -> `"information retrieval"`).',
-          '**Automatic Query Expansion** adds morphological stems and conceptual synonyms from thesauri to elevate **Recall** on short under-specified queries.',
+        heading: 'Interactive Query, Workflow & Personalization Features',
+        subGroups: [
+          {
+            sideHeading: '1. Vocabulary Browse',
+            description:
+              'Displays all unique database processing tokens in alphabetical sorted order alongside the count of unique documents (`DF`) containing each term.',
+            bullets: [
+              {
+                label: 'Wildcard Preview',
+                text: 'Shows that entering `compul*` actually matches `"compulsion"`, `"compulsive"`, and `"compulsory"`.',
+              },
+              {
+                label: 'Typo Diagnosis',
+                text: 'Helps users catch typing errors immediately when `"computen"` (`DF = 0`) sits right next to `"computer"` (`DF = 3,420`).',
+              },
+            ],
+          },
+          {
+            sideHeading: '2. Spell Check & Auto-Complete Suggestions',
+            bullets: [
+              {
+                label: 'Spell Checking',
+                text: 'Automatically detects typos before returning empty hit pages.',
+                example: 'Google suggests: `Did you mean "Information Retrieval"?`',
+              },
+              {
+                label: 'Auto-Complete Suggestions',
+                text: 'Predicts common query completions live as the user types initial characters (`"info..." -> "information retrieval"`).',
+              },
+            ],
+          },
+          {
+            sideHeading: '3. Query Expansion & Relevance Feedback',
+            bullets: [
+              {
+                label: 'Query Expansion',
+                text: 'Suggests or adds morphological variants and related synonyms from thesauri to increase Recall.',
+              },
+              {
+                label: 'Relevance Feedback',
+                text: 'Users mark returned documents as Relevant or Non-Relevant so the IRS automatically re-weights terms and runs an improved next query.',
+              },
+            ],
+          },
+          {
+            sideHeading: '4. Iterative Search & Search History Log',
+            bullets: [
+              {
+                label: 'Iterative Search (Query Refinement)',
+                text: 'Uses the hit list of a previous search (`S1`) as a constraining list for a follow-up query (`S1 AND new_term`), narrowing overly broad results.',
+              },
+              {
+                label: 'Search History Log',
+                text: 'Records all queries executed during the current session with item counts so users review and combine past steps.',
+              },
+            ],
+          },
+          {
+            sideHeading: '5. Canned (Stored) Queries',
+            description:
+              'Allows users to name, permanently store, and re-execute vetted complex search statements in later sessions—optionally inserting runtime variables (`parameterized queries`).',
+          },
+          {
+            sideHeading: '6. Summarization, Filtering, Multilingual & Recommendations',
+            bullets: [
+              {
+                label: 'Document Summarization',
+                text: 'Extracts concise abstracts and key sentences so users evaluate documents without reading full texts.',
+              },
+              {
+                label: 'Filtering, Sorting & Multilingual Search',
+                text: 'Sorts/filters hits and translates queries across languages.',
+              },
+              {
+                label: 'Personalized Recommendations & Multimedia Retrieval',
+                text: 'Tailors suggestions to user history across text, images, audio, and video.',
+              },
+            ],
+          },
         ],
       },
       {
-        heading: 'Relevance Feedback, Summarization, Iterative History, Canned Queries & Standards',
-        bullets: [
-          '**Relevance Feedback** allows users to mark returned documents as **Relevant** or **Non-Relevant** so the system re-weights terms and runs an improved next query automatically.',
-          '**Automatic Summarization** extracts key sentences, headings, or concise **abstracts** so users grasp core arguments without reading entire books or reports.',
-          '**Iterative Search & History Logs** assign trackable set IDs (`S1`, `S2`, `S3`) to past searches with item counts so users combine sets incrementally (`S1 AND NOT S2`).',
-          '**Canned (Stored) Queries** preserve vetted complex search statements permanently for one-click re-execution or automated **SDI** subscription alerts.',
-          '**ANSI/NISO Z39.50** (and its internet sibling **WAIS — Wide Area Information Servers**) defines an open client-server protocol enabling one interface to query remote heterogeneous library catalogs uniformly.',
+        heading: 'Interoperability & Retrieval Standards (Z39.50 & WAIS)',
+        subGroups: [
+          {
+            sideHeading: '1. ANSI/NISO Z39.50 Protocol',
+            description:
+              'Client-server computer-to-computer retrieval standard (`Z39.50-1995`, replacing ISO `SR`) enabling one uniform search client to query incompatible remote library databases transparently.',
+            bullets: [
+              {
+                label: 'Client ("Origin") & Server ("Target")',
+                text: 'The `Origin` translates user queries into standardized Z39.50 format and requests records; the remote `Target` searches its local DB and returns standardized results.',
+              },
+              {
+                label: 'Eight Standard Operations',
+                text: '`Init`, `Search`, `Present`, `Delete`, `Scan`, `Sort`, `Resource-report`, and `Extended Services` (supporting query Types `0, 1, 2, 100, 101, 102`).',
+              },
+            ],
+          },
+          {
+            sideHeading: '2. WAIS (Wide Area Information Servers)',
+            description:
+              'De facto Internet client-server standard (1989: Apple, Thinking Machines, Dow Jones; open `FreeWAIS` by CNIDR) built atop Z39.50.',
+            bullets: [
+              {
+                label: 'Distributed Subject Databases',
+                text: 'Maintains a central Directory of Servers so WAIS clients discover distributed databases, execute ranked full-text/NL/feedback searches, and retrieve full documents.',
+              },
+            ],
+          },
+          {
+            sideHeading: '3. CNRI Handle System & RAP',
+            description:
+              'Defines persistent Uniform Resource Names (`RFC-1737` Handles) and the `Repository Archive Protocol (RAP)` for retrieving copyrighted electronic items with privilege validation.',
+          },
         ],
       },
     ],

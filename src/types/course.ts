@@ -63,9 +63,28 @@ export interface FormulaBlock {
   note?: string;
 }
 
+export interface StructuredBullet {
+  /** Optional side-heading / lead-in label shown prominently at the start of the bullet */
+  label?: string;
+  /** Main bullet text (supports RichText **bold**, $math$, and `code`) */
+  text: string;
+  /** Optional Example line(s) rendered cleanly underneath the bullet */
+  example?: string | string[];
+  /** Nested sub-bullets (Level 2+) */
+  children?: BulletItem[];
+}
+
+export type BulletItem = string | StructuredBullet;
+
 export interface LessonSubGroup {
   sideHeading: string;
-  bullets: string[];
+  /** Concise explanation directly beneath the side heading (matches PDF layout) */
+  description?: string;
+  /** Optional Example line(s) rendered cleanly beneath the description */
+  example?: string | string[];
+  bullets?: BulletItem[];
+  /** Recursive nested headings (Level 3) and nested-nested headings (Level 4+) */
+  subGroups?: LessonSubGroup[];
   formulas?: FormulaBlock[];
   table?: TableBlock;
   diagramId?: DiagramId;
@@ -74,7 +93,11 @@ export interface LessonSubGroup {
 
 export interface LessonSubSection {
   heading: string;
-  bullets: string[];
+  /** Concise intro paragraph directly beneath the section heading */
+  description?: string;
+  /** Optional Example line(s) */
+  example?: string | string[];
+  bullets?: BulletItem[];
   subGroups?: LessonSubGroup[];
   formulas?: FormulaBlock[];
   table?: TableBlock;
@@ -95,7 +118,7 @@ export interface LessonTopic {
   title: string;
   subtopicsCovered: string[];
   summaryLine: string;
-  bullets: string[];
+  bullets: BulletItem[];
   subSections?: LessonSubSection[];
   formulas?: FormulaBlock[];
   table?: TableBlock;

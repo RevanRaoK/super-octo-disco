@@ -8,38 +8,97 @@ export const UNIT5_TOPICS: LessonTopic[] = [
     order: 1,
     title: 'Introduction to Text Search Techniques (Streaming Architecture)',
     subtopicsCovered: [
-      'Sequential Text Streaming Concept, Speed Bounds & FSA 5-Tuple',
-      'Four Major Architectural Modules (Database, Term Detector [3 Types], Query Resolver, UI)',
-      'Two Data-Stream Modes (Full DB vs Hybrid Index + Streamer)',
+      'Three Classical Text Retrieval Techniques & Streaming Complexity Bounds',
+      'Four Major Architectural Modules (Database, Term Detector [3 Types & FSA 5-Tuple], Query Resolver, UI)',
+      'Two Data-Stream Modes (Complete DB vs Hybrid Index + Streamer)',
       'Four Index Search Limitations Overcome by Text Streaming',
     ],
     summaryLine:
       '**Text Streaming Search** scans raw stored document text sequentially without inverted indexes using **Database, Term Detector, Query Resolver, and UI**, overcoming **four fundamental index search limits**.',
     bullets: [
-      '**Text Scanning (Streaming)** evaluates search queries by passing raw document bytes sequentially against a term matcher rather than resolving prebuilt inverted posting lists, assuming both share the same **Alphabet**.',
-      'Locating a pattern of length $m$ across a text string of length $n$ requires at least $n - m + 1$ ($O(n)$) comparisons, with naive brute-force methods taking $O(n \\cdot m)$ and modern algorithms achieving **$O(n + m)$**.',
-      'Streaming systems deliver **zero additional storage overhead**, return **hits immediately as discovered**, provide accurate **remaining search time estimates**, and allow multiple hardware/software detectors to operate concurrently.',
+      {
+        label: 'Three Classical Text Retrieval Techniques',
+        text: 'Foundational strategies for organizing and rapidly searching textual items:',
+        children: [
+          '1. Full text scanning (streaming)',
+          '2. Word inversion',
+          '3. Multiattribute retrieval',
+        ],
+      },
+      {
+        label: 'Text Scanning (Streaming) Concept & Alphabet Assumption',
+        text: 'Evaluates queries by passing raw document bytes sequentially against a term detector rather than resolving inverted lists, assuming both search terms and streamed text share the same Alphabet.',
+      },
+      {
+        label: 'Complexity Bounds',
+        text: 'Searching an $m$-character pattern inside an $n$-character text requires at least $n - m + 1$ ($O(n)$) comparisons; naive brute-force methods take $O(n \\cdot m)$ whereas modern streaming algorithms achieve **$O(n + m)$**.',
+      },
+      {
+        label: 'Streaming Advantages',
+        text: 'Requires zero additional index storage overhead, returns hits immediately as found, estimates remaining query completion time accurately, and supports multiple parallel detectors.',
+      },
     ],
     subSections: [
       {
         heading: 'Four Major Architectural Modules (IRS_UNIT_5 p.1 / R17 p.67–68)',
-        bullets: [
-          'Every hardware or software text streaming engine coordinates four tightly coupled subsystems.',
-        ],
         subGroups: [
           {
-            sideHeading: '1. Database & 2. Term Detector (with Finite State Automaton)',
-            bullets: [
-              '**Database Module** stores full unindexed document text and streams characters cleanly into detectors.',
-              '**Term Detector** implements parallel pattern matching in hardware or software via **parallel comparators (associative memory)**, **cellular structures**, or a **universal Finite State Automaton (`5-tuple: Input alphabet I, States S, Transitions P, Initial State S0, Final States SF`)**.',
+            sideHeading: '1. Database Module',
+            description:
+              'Stores the complete full text of unindexed items and streams document text cleanly into term detectors.',
+          },
+          {
+            sideHeading: '2. Term Detector (with Finite State Automaton)',
+            description:
+              'Special hardware or software holding all search terms (`and in some systems inter-term logic`) that detects matches as text streams past and outputs detected terms to the Query Resolver.',
+            subGroups: [
+              {
+                sideHeading: 'Three Hardware/Software Implementation Approaches',
+                bullets: [
+                  '1. Parallel comparators (associative memory)',
+                  '2. Cellular structures',
+                  '3. Universal Finite State Automaton (FSA)',
+                ],
+              },
+              {
+                sideHeading: 'Five-Tuple Finite State Automaton (FSA)',
+                bullets: [
+                  {
+                    label: 'I',
+                    text: 'Set of input symbols from the supported alphabet.',
+                  },
+                  {
+                    label: 'S',
+                    text: 'Set of possible internal states.',
+                  },
+                  {
+                    label: 'P',
+                    text: 'Set of state transitions (`productions`) mapping `(current state, input symbol) -> next state`.',
+                  },
+                  {
+                    label: 'S₀',
+                    text: 'Initial start state.',
+                  },
+                  {
+                    label: 'S_F',
+                    text: 'Set of one or more accepting final states from $S$.',
+                  },
+                ],
+              },
             ],
           },
           {
-            sideHeading: '3. Query Resolver & 4. User Interface (UI)',
+            sideHeading: '3. Query Resolver',
+            description: 'Performs two primary bidirectional tasks:',
             bullets: [
-              '**Query Resolver** accepts user search statements, extracts Boolean logic/search words for the detector, evaluates which queries pass from detector signals, and computes hit weights.',
-              '**User Interface** presents live continuous search progress updates to the user and retrieves satisfied documents directly on demand.',
+              '1. Accepts search statements from users and extracts search terms and logic for the Term Detector.',
+              '2. Accepts match signals from the detector, determines which queries are satisfied, and computes hit relevance weights.',
             ],
+          },
+          {
+            sideHeading: '4. User Interface (UI)',
+            description:
+              'Receives live updates from the Query Resolver, continually displays search status and remaining time to the user, and retrieves satisfied items on request.',
           },
         ],
         diagramId: 'text-streaming-arch',
@@ -47,17 +106,39 @@ export const UNIT5_TOPICS: LessonTopic[] = [
       },
       {
         heading: 'Two Data-Stream Modes & Four Limits of Index Searches',
-        bullets: [
-          'Streaming engines run either across the **complete database directly** (`pure full-text streaming`) or in **hybrid mode** where a fast index query feeds random candidate hits into a streamer to resolve queries impossible for standard indexes.',
-        ],
         subGroups: [
+          {
+            sideHeading: 'Two Approaches to the Data Stream',
+            bullets: [
+              {
+                label: 'Mode 1 — Complete Database Streaming',
+                text: 'Streams the entire raw document database sequentially through the term detector(s).',
+              },
+              {
+                label: 'Mode 2 — Hybrid Index + Text Streamer',
+                text: 'Runs a fast inverted index search first and feeds only candidate retrieved items into the text streamer to resolve complex criteria impossible for standard indexes.',
+              },
+            ],
+          },
           {
             sideHeading: 'Four Specific Index Search Limitations Handled by Text Streaming',
             bullets: [
-              '**Limit 1 — Stop Words:** Searching directly for common stop words normally discarded during indexing.',
-              '**Limit 2 — Exact Unstemmed Terms:** Locating exact morphological spellings after stemming merged index roots.',
-              '**Limit 3 — Dual-Sided Wildcards:** Evaluating leading and trailing don’t-cares simultaneously (`*term*`).',
-              '**Limit 4 — Inter-Word Symbols:** Searching punctuation characters stripped as non-searchable delimiters (`,`, `;`, `:`).',
+              {
+                label: '1. Stop Words',
+                text: 'Searching directly for common stop words normally removed during indexing.',
+              },
+              {
+                label: '2. Exact Unstemmed Terms',
+                text: 'Finding exact morphological matches after stemming collapsed index variants.',
+              },
+              {
+                label: '3. Leading & Trailing "Don\'t-Cares"',
+                text: 'Evaluating dual-sided wildcards simultaneously (`*term*`).',
+              },
+              {
+                label: '4. Inter-Word Punctuation Symbols',
+                text: 'Searching delimiter characters ignored on the inter-word symbol list (`,`, `;`, `:`).',
+              },
             ],
           },
         ],
@@ -76,26 +157,30 @@ export const UNIT5_TOPICS: LessonTopic[] = [
       'Brute-Force String Matching, Example (aaa...ah) & Expected Comparisons Formula',
       'Boyer–Moore Algorithm (Looking-Glass, Character-Jump, TEAMMAST Table & Multi-Pattern)',
       'Knuth–Morris–Pratt (KMP) Prefix/Suffix Jump Table & Zero Text Rewind Trace',
-      'Shift-Or & Rabin–Karp Mention',
+      'Aho–Corasick, Shift-Or & Rabin–Karp Mention',
     ],
     summaryLine:
       '**Software Text Search Algorithms** load text into RAM across four main techniques—**Brute Force**, **Boyer–Moore** (fastest natural average via right-to-left jumps), **KMP** (strict $O(n+m)$ zero-rewind scan), plus **Shift-Or / Rabin–Karp**.',
     bullets: [
-      'In software streaming, each document is loaded into memory and scanned via one of four flagship algorithms (`Brute Force, KMP, Boyer–Moore / Shift-OR, and Rabin–Karp`), with **Boyer–Moore** achieving highest practical throughput and requiring only $O(n)$ pattern preprocessing alongside **KMP**.',
+      {
+        label: 'Software Streaming Workflow',
+        text: 'Reads the target document into main memory and scans via one of four major techniques (`Brute Force`, `Knuth–Morris–Pratt`, `Boyer–Moore / Shift-OR`, and `Rabin–Karp`).',
+      },
+      {
+        label: 'Preprocessing & Runtime Leaders',
+        text: 'Both **KMP** and **Boyer–Moore** require $O(m)$ pattern preprocessing, with **Boyer–Moore** delivering the fastest practical sublinear average performance and $O(n+m)$ bounds.',
+      },
     ],
     subSections: [
       {
         heading: 'Detailed Algorithmic Mechanics & Worked Traces',
-        bullets: [
-          'Comparing pointer movement rules explains how Boyer–Moore and KMP eliminate redundant brute-force re-comparisons.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Brute-Force Approach',
-            bullets: [
-              '**Brute-Force** compares pattern $P$ left-to-right from index `0` and slides strictly **one shift forward** whenever any character mismatches.',
-              'Worst-case inputs (`T = "aaaa...ah"` matching `P = "aaah"`) force $O(n \\cdot m)$ comparisons, while random text expectations follow formula $N_c$.',
-            ],
+            description:
+              'Simplest string-matching algorithm: aligns pattern $P$ left-to-right against text $T$ and shifts strictly one position right whenever a character mismatches.',
+            example:
+              'Worst case: searching `P = "aaah"` inside `T = "aaaa...ah"` forces $O(n \\cdot m)$ character comparisons.',
             formulas: [
               {
                 label: 'Brute-Force Expected Character Comparisons & Worst-Case Complexity',
@@ -106,10 +191,27 @@ export const UNIT5_TOPICS: LessonTopic[] = [
           },
           {
             sideHeading: '2. Boyer–Moore (BM) Algorithm',
-            bullets: [
-              '**Looking-Glass Heuristic:** Starts character comparison from the **rightmost end of pattern $P$ moving backward (Right-to-Left)** rather than left-to-right.',
-              '**Character-Jump Heuristic (Bad-Match Table):** On mismatch at $T[i]=c$, if $c$ occurs in $P$, align the rightmost occurrence of $c$ in $P$ with $T[i]$; otherwise leap completely past $T[i]$ (`P[0]` onto `T[i+1]`), shifting up to $m=8$ spaces (`TEAMMAST`).',
-              '**Extensions:** Originally built for single patterns, **Boyer–Moore** was later extended by researchers (**Mollier-Nielson 1984**, **Iyengar 1980**) to search **multiple query strings in one pass**.',
+            description:
+              'Significantly accelerates search by comparing characters from the rightmost end of the search pattern moving backwards (`Right-to-Left`), enabling large skips on frequent mismatched characters.',
+            subGroups: [
+              {
+                sideHeading: 'Two Core Heuristics',
+                bullets: [
+                  {
+                    label: 'Looking-Glass Heuristic',
+                    text: 'Tests pattern $P$ against substring of $T$ moving backwards (`right-to-left`).',
+                  },
+                  {
+                    label: 'Character-Jump Heuristic (Bad-Match Table)',
+                    text: 'When mismatch occurs at $T[i] = c$: if $P$ contains $c$, shift $P$ right to align the last occurrence of $c$ in $P$ with $T[i]$; otherwise leap $P[0]$ directly onto $T[i+1]$.',
+                  },
+                ],
+              },
+              {
+                sideHeading: 'Single-Pattern -> Multi-Pattern Extensions',
+                description:
+                  'Originally built for single patterns, later enhanced by researchers (`Mollier-Nielson 1984`, `Iyengar 1980`) to scan multiple search strings in one pass.',
+              },
             ],
             formulas: [
               {
@@ -120,16 +222,36 @@ export const UNIT5_TOPICS: LessonTopic[] = [
             ],
           },
           {
-            sideHeading: '3. Knuth–Morris–Pratt (KMP) Algorithm (Worked Pointer Rule)',
-            bullets: [
-              '**Core Insight:** Whenever a mismatch occurs (`e.g. matching "a b d a d e f g" failing at position 4`), previously matched prefix characters determine exactly how many steps can skip safely (`at least 3 positions on recognized "abd"`).',
-              '**Strict Forward Scan Rule:** Using pointers $i$ (text) and $j$ (pattern) over an LPS table (`e.g. abcdabc -> [0,0,0,0,1,2,0]`), **only pattern pointer $j$ jumps backward on mismatch while text pointer $i$ never moves backward**, guaranteeing worst-case $O(n + m)$ time.',
+            sideHeading: '3. Knuth–Morris–Pratt (KMP) Algorithm',
+            description:
+              'Guarantees worst-case $O(n+m)$ time independent of input text content by precomputing how far to skip safely whenever a mismatch follows a matched prefix.',
+            subGroups: [
+              {
+                sideHeading: 'Prefix–Suffix Jump Rule & Worked Trace',
+                bullets: [
+                  {
+                    label: 'Safe Prefix Skipping (`"abdadefg"`)',
+                    text: 'When matching fails at position 4 (`F` in pattern vs `b` in text), the already matched `"abd"` guarantees skipping at least 3 positions safely without missing a valid start at position 4.',
+                  },
+                  {
+                    label: 'LPS Table & Pointer Movement Rule',
+                    text: 'Preprocesses pattern (`e.g., abcdabc -> [0,0,0,0,1,2,0]`) using pointers $i$ (text) and $j$ (pattern): **only pattern pointer $j$ moves backward on mismatch while text pointer $i$ moves strictly forward (`never rewinds`)**.',
+                  },
+                ],
+              },
             ],
           },
           {
-            sideHeading: '4. Multi-Pattern & Bit-Parallel Automata (Aho–Corasick, Shift-Or, Rabin–Karp)',
+            sideHeading: '4. Aho–Corasick, Shift-Or & Rabin–Karp',
             bullets: [
-              '**Aho–Corasick** links KMP failure transitions across a shared **trie finite-state machine** to detect thousands of query terms simultaneously, while **Shift-Or** and **Rabin–Karp** match via bitwise bitmasks and rolling hashes.',
+              {
+                label: 'Aho–Corasick',
+                text: 'Extends KMP failure links across a shared trie finite-state machine to match multiple query patterns in one linear scan.',
+              },
+              {
+                label: 'Shift-Or & Rabin–Karp',
+                text: 'Match patterns using bitwise parallel state masks (`Shift-Or`) and rolling hash fingerprints (`Rabin–Karp`).',
+              },
             ],
           },
         ],
@@ -156,45 +278,98 @@ export const UNIT5_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Hardware Text Search Systems** (**GESCAN TAP** and **Fast Data Finder FDF**) offload pattern matching onto parallel VLSI silicon beside disk drives to save **~70% index overhead**, complemented in R17 curricula by **TREC System Evaluation**.',
     bullets: [
-      'Software searchers bog down on multi-query concurrency and disk I/O bottlenecks, whereas placing **one hardware search engine per disk drive** searches databases of any size in **single-disk scan time**.',
+      {
+        label: 'Why Specialized Hardware?',
+        text: 'Software searchers hit bottlenecks on simultaneous multi-query loads and disk I/O bandwidth, whereas placing one hardware searcher per disk drive bounds search time across any database size to single-disk streaming time.',
+      },
     ],
     subSections: [
       {
-        heading: 'Four Major Advantages & Evolution of Hardware Search Systems',
-        bullets: [
-          'Specialized silicon matchers transform indexing constraints while preserving linear scaling across storage drives.',
-        ],
+        heading: 'Hardware Text Search Advantages & Evolution',
         subGroups: [
           {
-            sideHeading: 'Four Advantages Over Index-Only Software Engines',
+            sideHeading: '1. Four Advantages Over Index-Only Software Systems',
             bullets: [
-              '**Advantage 1 — Eliminates Index Overhead:** Removes inverted indexes that typically consume **~70% of raw document collection size**.',
-              '**Advantage 2 — Instant Searchability:** Newly ingested documents become searchable immediately without batch index rebuilding.',
-              '**Advantage 3 — Deterministic Speed:** Provides exact, predictable scan duration directly bounded by disk transfer speed.',
-              '**Advantage 4 — Hardware Scalability:** Scales linearly against multi-terabyte collections simply by adding more disk-coupled search units.',
+              {
+                label: 'Advantage 1 — Eliminates Index Overhead',
+                text: 'Removes inverted indexes that typically occupy **~70% of actual raw document size**.',
+              },
+              {
+                label: 'Advantage 2 — Instant Searchability',
+                text: 'Newly ingested items become searchable immediately without waiting for batch index creation.',
+              },
+              {
+                label: 'Advantage 3 — Deterministic Speed & Immediate Hits',
+                text: 'Provides predictable exact search completion times bounded by disk I/O and returns hits immediately as found.',
+              },
+              {
+                label: 'Advantage 4 — Hardware Scalability',
+                text: 'Scales linearly across massive collections simply by adding additional disk-coupled hardware search units.',
+              },
             ],
           },
           {
-            sideHeading: 'Early Hardware Milestones & Disk-Head Searchers (CASSM & RAP)',
+            sideHeading: '2. Early Hardware Searchers & Disk-Head Processors',
             bullets: [
-              '**Rapid Search Machine (GE):** Earliest special-purpose magnetic-tape single-query searcher.',
-              '**Associative File Processor (AFP, Operating Systems Inc.):** Upgraded search capability to test multiple user queries concurrently.',
-              '**High Speed Text Search (HSTS):** Ran **three parallel Aho–Corasick finite-state machines** dedicated simultaneously to contiguous phrases, embedded matches, and exact word matching.',
-              '**Disk-Head Associative Units:** **CASSM** (`Content Addressable Segment Sequential Memory, Univ. of Florida`) and **RAP** (`Relational Associative Processor, Univ. of Toronto`) embedded parallel comparator cells directly between disk read/write heads.',
+              {
+                label: 'Rapid Search Machine (General Electric)',
+                text: 'Earliest special-purpose hardware searcher scanning magnetic tapes against a single query.',
+              },
+              {
+                label: 'Associative File Processor (AFP — Operating Systems Inc.)',
+                text: 'Upgraded hardware search to evaluate multiple user queries concurrently.',
+              },
+              {
+                label: 'High Speed Text Search (HSTS)',
+                text: 'Ran **three parallel Aho–Corasick finite-state machines** dedicated simultaneously to contiguous phrases, embedded matches, and exact word matching.',
+              },
+              {
+                label: 'Disk-Head Associative Units (`CASSM` & `RAP`)',
+                text: 'CASSM (`Univ. of Florida`) and RAP (`Univ. of Toronto`) placed generalized parallel comparator cells directly between disk read/write heads.',
+              },
             ],
           },
           {
-            sideHeading: 'GESCAN Text Array Processor (TAP)',
+            sideHeading: '3. GESCAN Text Array Processor (TAP)',
+            description:
+              'Buffers text directly from disk into a high-speed cache fed across an array matrix of **4 to 128 independent Query Processors**.',
             bullets: [
-              '**GESCAN TAP** buffers text from disk into a high-speed cache fed directly to an array matrix of **4 to 128 independent Query Processors**.',
-              'Each matrix row dedicates cascading VLSI character-matcher LSI chips paired with a first-chip **Query Resolver** handling Boolean logic and word proximity concurrently.',
+              {
+                label: 'Matrix Row Layout',
+                text: 'Each matrix row (`one independent query processor`) places a Query Resolver LSI chip first to resolve Boolean logic and proximity, followed by cascading character-matcher chips (`row length bounds query length; row count bounds simultaneous queries`).',
+              },
             ],
           },
           {
-            sideHeading: 'Fast Data Finder (FDF) Pipelined VLSI Architecture & 7 Capabilities',
-            bullets: [
-              '**FDF Pipeline Layout:** Cascades VLSI chips (`24 programmable cells per chip; 3,600 cells total in TREC benchmarks`), each containing a character **Register ($R_s$)** and **Comparator ($C_s$)** linked along an **8-bit data bus** and **20-bit control path**.',
-              '**Seven FDF Supported Functions:** Boolean logic with negation, arbitrary pattern proximity, variable-length don’t-cares, term counting & thresholds, **fuzzy error tolerance**, numeric ranges, and term weights.',
+            sideHeading: '4. Fast Data Finder (FDF) Pipelined VLSI Processor',
+            description:
+              'Specialized hardware text pipeline searching English and foreign languages at disk streaming speed.',
+            subGroups: [
+              {
+                sideHeading: 'VLSI Pipeline Architecture',
+                bullets: [
+                  {
+                    label: 'Chip & Cell Capacity',
+                    text: 'Uses VLSI chips (`24 programmable cells per chip; 3,600 total cells in TREC systems`) arranged in a linear hardware pipeline.',
+                  },
+                  {
+                    label: 'Cell Internals & Buses',
+                    text: 'Each cell houses a character **Register ($R_s$)** and **Comparator ($C_s$)** interconnected via an **8-bit data path** and **20-bit control path**.',
+                  },
+                ],
+              },
+              {
+                sideHeading: 'Seven Functions Supported by Fast Data Finder',
+                bullets: [
+                  '1. Boolean logic including negation',
+                  '2. Proximity on arbitrary patterns',
+                  '3. Variable-length "don\'t-cares"',
+                  '4. Term counting and thresholds',
+                  '5. Fuzzy matching (typo tolerance)',
+                  '6. Term weights',
+                  '7. Numeric ranges',
+                ],
+              },
             ],
           },
         ],
@@ -203,24 +378,52 @@ export const UNIT5_TOPICS: LessonTopic[] = [
       },
       {
         heading: 'Information System Evaluation Metrics & TREC Benchmarks (R17 Notes p.79–84)',
-        bullets: [
-          'IR evaluations measure retrieval quality from **user and system perspectives** using **objective counts** (`response time, memory cycles, Precision, Recall, Fallout`) and **subjective relevance judgments**.',
-        ],
         subGroups: [
           {
-            sideHeading: 'Five Core Evaluation Objectives & Identifying Relevant Hits (Fig 11.1)',
+            sideHeading: '1. Five Reasons to Evaluate IRS & Measurement Perspectives',
             bullets: [
-              'Systems are evaluated to **(1) select systems for procurement**, **(2) monitor ongoing effectiveness**, **(3) improve user query generation**, **(4) justify cost-benefit analysis**, and **(5) measure the effect of architecture modifications**.',
+              {
+                label: 'Five Evaluation Objectives',
+                text: 'Evaluate to:',
+                children: [
+                  '1. Aid in selecting a system for procurement',
+                  '2. Monitor and evaluate ongoing system effectiveness',
+                  '3. Improve the user query generation process',
+                  '4. Provide inputs to cost–benefit analysis',
+                  '5. Measure the effects of changes made to an existing system',
+                ],
+              },
+              {
+                label: 'Perspectives & Techniques',
+                text: 'Evaluated from **User vs System perspectives** using **Objective counts** (`response time, memory/CPU cycles, Precision, Recall, Fallout`) and **Subjective user relevance judgments** (`Fig 11.1`).',
+              },
             ],
             diagramId: 'eval-relevant-loop',
             diagramCaption: 'Figure 11.1: Identifying Relevant Items Feedback Loop in System Evaluation (R17 Notes p.80)',
           },
           {
-            sideHeading: 'Fallout, Unique Relevance Recall (URR), Novelty, Coverage & Sought Recall',
+            sideHeading: '2. Advanced Evaluation Metrics (Fallout, URR, Novelty, Coverage, Sought Recall)',
             bullets: [
-              '**Unique Relevance Recall (URR)** benchmarks unique relevant items recovered by one system that rival engines miss—computed over **TNRR** (`Total Number Retrieved Relevant = 985`) or **TURR** (`Total Unique Relevant Retrieved = 61`, **Figure 11.2b**).',
-              '**Novelty Ratio:** Fraction of retrieved relevant items previously **unknown to the user**.',
-              '**Coverage Ratio & Sought Recall:** **Coverage Ratio** measures known relevant items successfully found, while **Sought Recall** tracks reviewed relevant items relative to all desired relevant items.',
+              {
+                label: 'Fallout',
+                text: 'Fraction of total non-relevant documents mistakenly retrieved (`inverse recall; avoids 0/0 unless every item is relevant`).',
+              },
+              {
+                label: 'Unique Relevance Recall (URR)',
+                text: 'Benchmarks unique relevant items found by one algorithm that competing algorithms miss—measured over **TNRR** (`985` total retrieved relevant) or **TURR** (`61` unique retrieved relevant, **Fig 11.2b**).',
+              },
+              {
+                label: 'Novelty Ratio',
+                text: 'Ratio of retrieved relevant items **previously unknown to the user** to total relevant retrieved.',
+              },
+              {
+                label: 'Coverage Ratio',
+                text: 'Ratio of relevant items retrieved to total relevant items already known by the user before search.',
+              },
+              {
+                label: 'Sought Recall',
+                text: 'Ratio of total relevant items reviewed after search to total relevant items the user wished to examine.',
+              },
             ],
             formulas: [
               {
@@ -231,10 +434,20 @@ export const UNIT5_TOPICS: LessonTopic[] = [
             ],
           },
           {
-            sideHeading: 'Cranfield Tests & TREC-1 through TREC-5 Benchmarks',
+            sideHeading: '3. Cranfield Benchmarks -> TREC-1 through TREC-5',
             bullets: [
-              'Early benchmarks used **Cranfield I & II** (`1,400 documents, 225 queries`) until **DARPA** and **NIST** launched **TREC** in 1992 providing $>1\\text{ GB}$ training/test sets with top-**200** ranked judging.',
-              '**TREC Evolution (`1–5`):** Progressed from large complex statements (`119 terms` in **TREC-3**) to focused queries (`16 terms` in **TREC-4**), introducing specialized evaluation tracks including Spanish `El Norte` (`200 MB`) multilingual retrieval.',
+              {
+                label: 'Cranfield I & II (Cleverdon 1962/1966)',
+                text: 'Classic early test collection (`1,400 documents, 225 queries`) before large-scale benchmarks.',
+              },
+              {
+                label: 'TREC Framework (DARPA & NIST, 1992+)',
+                text: 'Provides $>1\\text{ GB}$ training and test collections with top-**200** ranked manual judging over structured search Topics (`Number, Domain, Title, Description, Narrative, Concepts`).',
+              },
+              {
+                label: 'TREC Evolution (`1 -> 5`)',
+                text: 'Progressed from scaling giant DBs (**TREC-1/2**) and passage search + `119`-term topics (**TREC-3**) to focused `16`-term queries and 5 specialized evaluation tracks including Spanish `El Norte` (`200 MB`) in **TREC-4**, through **TREC-5** (1996).',
+              },
             ],
           },
         ],
@@ -270,35 +483,44 @@ export const UNIT5_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Spoken Language Audio Retrieval** processes human speech recordings using **Automatic Speech Recognition (ASR)** word lattices to retrieve ranked whole recordings (**SDR**) or exact time-stamped spoken clips (**SUR**).',
     bullets: [
-      '**Speech Retrieval** searches large collections of recorded human spoken audio pertinent to an incoming text or voice query.',
+      {
+        label: 'Speech Retrieval Definition',
+        text: 'Task of locating and retrieving relevant segments or complete recordings of human spoken audio from large collections in response to a text or voice query.',
+      },
     ],
     subSections: [
       {
         heading: 'Two Core Spoken Speech Retrieval Tasks (IRS_UNIT_5 p.6)',
-        bullets: [
-          'Evaluation metrics and architectures differ sharply between retrieving whole recordings and jumping to exact spoken moments.',
-        ],
         subGroups: [
           {
             sideHeading: '1. Spoken Document Retrieval (SDR — Whole Recording Ranking)',
-            bullets: [
-              '**SDR** assumes a user enters a **text string or spoken query** and receives a **rank-ordered list of entire audio recordings** scored by ASR transcript similarity and historical query popularity/site-visit signals.',
-            ],
+            description:
+              'User enters a text string or spoken voice query and receives a rank-ordered list of entire audio recordings scored by ASR transcript relevance plus query demand and popularity/site-visit signals.',
           },
           {
-            sideHeading: '2. Spoken Utterance Retrieval (SUR — Sub-Clip Localization)',
-            bullets: [
-              '**SUR** pinpoints and retrieves every specific **relevant spoken utterance timestamp** embedded inside longer continuous recordings—essential for browsing **broadcast news, voicemail, teleconferences, and recorded lectures**.',
-            ],
+            sideHeading: '2. Spoken Utterance Retrieval (SUR — Timestamped Sub-Clip Retrieval)',
+            description:
+              'Pinpoints and retrieves specific spoken utterance clips matching the query even when multiple relevant utterances appear inside one long recording.',
+            example:
+              'Browsing broadcast news archives, voicemails, teleconferences, and recorded university lectures.',
           },
         ],
       },
       {
-        heading: 'Recognition Errors (WER), OOV Terms & Phonetic Word Lattices',
+        heading: 'ASR Challenges: WER, OOV Terms & Phonetic Word Lattices',
         bullets: [
-          'Unlike clean text indexing, spoken transcripts suffer acoustic **Word Error Rates (WER)** caused by background noise, speaker accents, homophones (`"recognize speech" vs "wreck a nice beach"`), and channel distortion.',
-          '**Out-Of-Vocabulary (OOV)** domain names, acronyms, and rare terms fail fixed-vocabulary ASR dictionaries unless indexed using **Sub-word Phonetic N-Gram Lattices**.',
-          'Indexing **N-Best Recognition Lattices** alongside (`start_ms, end_ms`) frame timestamps prevents misses whenever top-1 speech decoding slips.',
+          {
+            label: 'Word Error Rate (WER)',
+            text: 'Spoken transcripts suffer acoustic decoding errors from background noise, accents, homophones (`"recognize speech"` vs `"wreck a nice beach"`), and channel distortion.',
+          },
+          {
+            label: 'Out-Of-Vocabulary (OOV) Terms',
+            text: 'Proper nouns, acronyms, and rare terms missing from fixed ASR dictionaries fail word-only indexing unless indexed using Sub-word Phonetic N-Gram Lattices.',
+          },
+          {
+            label: 'N-Best Lattices & Time Offsets',
+            text: 'Indexing N-Best recognition lattices alongside `(start_ms, end_ms)` timestamps prevents retrieval misses whenever top-1 ASR decoding makes an error.',
+          },
         ],
       },
     ],
@@ -321,33 +543,46 @@ export const UNIT5_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Non-Speech Audio Retrieval** organizes non-verbal sound across three IRS domains: informative **Event Audio Cues**, non-verbal **Humming/Hissing UI Control**, and content-based **Music & Acoustic Retrieval**.',
     bullets: [
-      '**Non-Speech Audio** provides vital acoustic communication and query channels beyond spoken human language across safety-critical environments, interactive UIs, and music archives.',
+      {
+        label: 'Scope of Non-Speech Audio',
+        text: 'Provides non-verbal acoustic alerts, interface controls, and music retrieval channels beyond spoken human words.',
+      },
     ],
     subSections: [
       {
-        heading: 'Three Pillars of Non-Speech Audio in IRS (IRS_UNIT_5 p.6–7)',
-        bullets: [
-          'Non-speech acoustic engineering spans notification output cues, non-verbal user input, and music pattern indexing.',
-        ],
+        heading: 'Three Domains of Non-Speech Audio in IRS (IRS_UNIT_5 p.6–7)',
         subGroups: [
           {
-            sideHeading: '1. Event-Driven Audio Cues (Acoustic Status Feedback)',
+            sideHeading: '1. Event-Driven Audio Cues (Acoustic Feedback)',
+            description:
+              'Non-speech audio cues accompany specific object actions and events to alert users immediately without visual scanning.',
             bullets: [
-              '**Audio Cues** convey immediate object-action and event state hands-free—historically critical in **fire alarms** and **aircraft cockpit alerts**.',
-              'In modern software interfaces, non-speech chimes immediately signal **incoming notifications, arriving email, background system updates**, and guided sound instructions.',
+              {
+                label: 'Safety & Historical Examples',
+                text: 'Fire alarms and aircraft cockpit audio cues communicating critical object states.',
+              },
+              {
+                label: 'Software UI Alerts',
+                text: 'Notification chimes signaling incoming mail, system updates, and guided action instructions.',
+              },
             ],
           },
           {
-            sideHeading: '2. Non-Speech Audio Input (Humming & Hissing UI Control)',
-            bullets: [
-              '**Non-Speech Audio Input** captures intentional non-verbal sounds—such as **humming or hissing**—directly from microphones to enter search commands or manipulate interactive UI controls.',
-            ],
+            sideHeading: '2. Non-Speech Audio Input (Humming & Hissing Controls)',
+            description:
+              'Uses intentional non-speech vocalizations—such as **humming or hissing**—to enter data or control user interfaces hands-free.',
           },
           {
             sideHeading: '3. Instrumental Music Search & Query-by-Humming (QBH)',
             bullets: [
-              '**Query by Humming (QBH)** translates vocal hums into relative melodic pitch-interval contours (**Parsons Code**: `U = Up, D = Down, R = Repeat, * = Initial Note`) invariant to user singing key or tempo.',
-              'Content-based acoustic search extracts spectral features (**MFCCs**, spectral centroid, zero-crossing rate, beat histograms) aligned with **MPEG-7 Audio** metadata (`artist, tempo, genre`).',
+              {
+                label: 'Parsons Code Melodic Contour',
+                text: 'Query by Humming translates sung/hummed melodies into relative pitch directions (`U = Up, D = Down, R = Repeat, * = First Note`) invariant to singing key or tempo.',
+              },
+              {
+                label: 'Spectral Features & MPEG-7 Metadata',
+                text: 'Acoustic indexing extracts MFCCs, spectral centroid, zero-crossing rate, and beat histograms aligned with MPEG-7 Audio tags (`artist, tempo, genre`).',
+              },
             ],
           },
         ],
@@ -371,33 +606,46 @@ export const UNIT5_TOPICS: LessonTopic[] = [
     summaryLine:
       '**Graph Retrieval** expresses both queries and stored corpora as structural **Topic–Document Relationship Graphs** (`scalable and fast in retrieval`) alongside intuitive pictorial **Bar/Pie Charts** driving clear **Result Analysis**.',
     bullets: [
-      'In a **Graph-Based IRS**, queries and documents form structured graphs capturing **document-to-document**, **topic-to-subtopic**, and **query-term-to-document** linkages explicitly.',
+      {
+        label: 'Graph-Based IRS Definition',
+        text: 'Expresses queries as graphs of topics/subtopics and ranks documents using three relationship layers: relationships among documents, relationships among topics/subtopics, and relationships between query terms and documents.',
+      },
     ],
     subSections: [
       {
-        heading: 'Structural Graph Modeling vs Pictorial Chart Result Analysis (IRS_UNIT_5 p.7)',
-        bullets: [
-          'Unit notes unify algorithmic graph ranking over linked text collections with intuitive pictorial business/academic result-analysis charts.',
-        ],
+        heading: 'Structural Graph Modeling, Pictorial Charts & Matching Metrics (IRS_UNIT_5 p.7)',
         subGroups: [
           {
             sideHeading: '1. Graph-Based Structural Ranking & Performance',
             bullets: [
-              'Graph-ranking algorithms propagate relevance scores along topic/citation edges—delivering **fast, scalable computation** and a **flexible architecture** adaptable to diverse performance enhancements.',
-              'Benchmarked against standard text engines across standard test collections, graph-relationship ranking consistently improves retrieval accuracy.',
+              {
+                label: 'Fast, Scalable & Flexible',
+                text: 'Graph computation executes rapidly, scales across large collections, and easily incorporates diverse performance enhancements.',
+              },
+              {
+                label: 'Higher Retrieval Accuracy',
+                text: 'Benchmarked against standard text engines on standard collections, relationship-aware graph ranking outperforms baseline systems.',
+              },
             ],
           },
           {
-            sideHeading: '2. Pictorial Chart Representation & Real Result Analysis',
-            bullets: [
-              'Visual **Bar charts** and **Pie charts** represent inter-object comparisons transparently so non-technical users grasp trends at a glance.',
-              '**Concrete Result Analysis Examples:** Plotting **number of products sold vs number of products refunded**, or **student pass percentage vs fail percentage** cleanly.',
-            ],
+            sideHeading: '2. Pictorial Chart Representation & Result Analysis',
+            description:
+              'Represents object-to-object relationships visually via **Bar charts** and **Pie charts** so users grasp quantitative result analysis effortlessly.',
+            example:
+              'Comparing **number of products sold vs number of products refunded**, or **student pass percentage vs fail percentage**.',
           },
           {
-            sideHeading: '3. Graph Matching Metrics (Isomorphism vs Edit Distance)',
+            sideHeading: '3. Structural Graph Matching Metrics',
             bullets: [
-              '**Exact Subgraph Isomorphism** locates identical topological query subgraphs inside databases (`molecules, knowledge graphs`), while **Approximate Graph Edit Distance** tolerance scores partial structural similarity.',
+              {
+                label: 'Exact Subgraph Isomorphism',
+                text: 'Locates identical topological query subgraphs inside graph databases (`molecules, knowledge graphs`).',
+              },
+              {
+                label: 'Approximate Graph Edit Distance',
+                text: 'Scores partial structural similarity allowing node/edge insertions, deletions, or relabeling.',
+              },
             ],
           },
         ],
@@ -413,38 +661,71 @@ export const UNIT5_TOPICS: LessonTopic[] = [
     order: 7,
     title: 'Imagery Retrieval (Text Annotation vs Content-Based CBIR)',
     subtopicsCovered: [
+      'User Professions & Need Modes (Primitive vs Abstract/Symbolic Imagery)',
       'Text Metadata Annotation (Manual vs Automatic & Social Web Tools)',
       'Content-Based Image Retrieval (CBIR — Color, Texture, Shape)',
-      'Diverse User Groups & Need Modes (Primitive vs Abstract/Symbolic Imagery)',
-      'Commercial Adoption Status of CBIR Technology',
+      'Commercial Adoption Status & Semantic Gap',
     ],
     summaryLine:
       '**Imagery Retrieval** browses and locates images either via human/automatic text metadata (**Annotation-Based Retrieval**) or mathematical **Content-Based Image Retrieval (CBIR)** descriptors matching **Color, Texture, and Shape**.',
     bullets: [
-      'An **Image Retrieval System** enables diverse groups—including **journalists, engineers, designers, artists, and advertising agencies**—to search and browse vast digital image libraries.',
-      '**User Retrieval Needs Vary:** Users request images either by **Primitive Visual Features (`Color, Texture, Shape`)** or by **Abstract Concepts and Symbolic Imagery (`mood, events`)**.',
+      {
+        label: 'Image Retrieval System Definition',
+        text: 'A computer system used for browsing, searching, and retrieving images from a large digital image database.',
+      },
+      {
+        label: 'Five Target User Groups',
+        text: 'Widely relied upon by journalists, engineers, designers, artists, and advertising agencies.',
+      },
+      {
+        label: 'Two User Need Modes',
+        text: 'Users query images either by **Primitive Visual Features** (`Color, Texture, Shape`) or by **Abstract Concepts and Symbolic Imagery** (`mood, events, themes`).',
+      },
     ],
     subSections: [
       {
         heading: 'Two Fundamental Paradigms of Image Retrieval (IRS_UNIT_5 p.8)',
-        bullets: [
-          'Systems rely either on linguistic captions attached around pixels or automated numerical extraction directly from image bitmaps.',
-        ],
         subGroups: [
           {
-            sideHeading: '1. Annotation-Based Retrieval (Manual vs Automatic Social Web Tools)',
-            bullets: [
-              'Traditional retrieval attaches textual metadata (**captions, keywords, titles, descriptions**) directly to images so standard text queries match stored visual files.',
-              'Because **manual image annotation is laborious, time-consuming, and expensive**, modern **Automatic Image Annotation** and **Social/Semantic Web tagging tools** automate captioning cleanly.',
+            sideHeading: '1. Annotation-Based Image Retrieval',
+            subGroups: [
+              {
+                sideHeading: 'Manual Metadata Annotation & Cost Limit',
+                description:
+                  'Traditional systems attach text metadata (**captions, keywords, titles, descriptions**) so search runs over annotation words—however manual tagging is **time-consuming, laborious, and expensive**.',
+              },
+              {
+                sideHeading: 'Automatic & Social/Semantic Web Annotation',
+                description:
+                  'Growth of social web applications and the Semantic Web has driven automated image annotation algorithms and collaborative web tagging tools.',
+              },
             ],
           },
           {
-            sideHeading: '2. Content-Based Image Retrieval (CBIR) Primitive Features',
-            bullets: [
-              '**Color Descriptors** compute **Color Histograms** and statistical `RGB / HSV` moments invariant to rotation.',
-              '**Texture Descriptors** quantify surface coarseness, contrast, and directional periodicity using **GLCM (Gray-Level Co-occurrence Matrix)** and **Gabor/Wavelet transforms**.',
-              '**Shape Descriptors** capture geometric boundary contours, edge histograms, Fourier descriptors, and moment invariants independent of surface color.',
-              'Though **CBIR** is actively transitioning from academic laboratories toward marketplace adoption, fully general large-scale semantic CBIR remains limited by the pixel-to-meaning **Semantic Gap**.',
+            sideHeading: '2. Content-Based Image Retrieval (CBIR)',
+            description:
+              'Extracts numerical visual descriptors directly from image pixels to match query images or sketches without relying solely on manual captions:',
+            subGroups: [
+              {
+                sideHeading: 'Color Descriptors',
+                description:
+                  'Computes Color Histograms and statistical `RGB / HSV` color moments invariant to image rotation.',
+              },
+              {
+                sideHeading: 'Texture Descriptors',
+                description:
+                  'Quantifies surface coarseness, contrast, and directional periodicity using **GLCM (Gray-Level Co-occurrence Matrix)** and **Gabor / Wavelet transforms**.',
+              },
+              {
+                sideHeading: 'Shape Descriptors',
+                description:
+                  'Captures geometric boundary contours, edge histograms, Fourier descriptors, and moment invariants independent of color.',
+              },
+              {
+                sideHeading: 'Marketplace Status & Semantic Gap',
+                description:
+                  'Although CBIR is actively transitioning from academic laboratories into the marketplace, it still lacks maturity for large-scale general use due to the pixel-to-meaning Semantic Gap.',
+              },
             ],
           },
         ],
@@ -472,43 +753,68 @@ export const UNIT5_TOPICS: LessonTopic[] = [
     title: 'Video Retrieval (Shots, Keyframes, Motion & Spatio-Temporal Features)',
     subtopicsCovered: [
       'Electronic Video Media Evolution (Mechanical TV -> CRT -> Flat Panel)',
-      'Video Data Components (Still Video Frames, Audio, Motion Video) & Interactive Frame Query',
+      'Video Database Components & Interactive Frame Queries',
       'Shot Boundary Detection & Keyframe Extraction',
-      'Five Similarity Features (Color, Texture, Shape, Motion, Spatial-Temporal Composition) & Social Platforms',
+      'Five Visual Similarity Features (Color, Texture, Shape, Motion, Spatial-Temporal Composition) & Social Platforms',
     ],
     summaryLine:
       '**Video Retrieval** decomposes moving visual media (`Mechanical TV -> CRT -> Flat Panel -> Interactive Web`) into **Shots & Keyframes**, indexing **Frames, Audio, Color, Texture, Shape, Motion, and Spatial-Temporal Composition**.',
     bullets: [
-      '**Video** is an electronic medium for recording, copying, playback, broadcasting, and displaying moving visual scenes—evolving historically from **Mechanical Television Systems** to **Cathode-Ray Tubes (CRT)** and modern **Flat Panel displays**.',
-      '**Interactive Web Video Applications** allow users to submit sample **video frames** or text queries against repositories combining **still video frames, synchronized audio tracks, closed captions, and continuous video streams**.',
+      {
+        label: 'Video Medium & Display Evolution',
+        text: 'Electronic medium for recording, copying, playback, broadcasting, and displaying moving visual media—evolving from Mechanical Television systems to CRT (`Cathode-Ray Tube`) displays and Flat Panel displays.',
+      },
+      {
+        label: 'Interactive Web Video Applications & Database Components',
+        text: 'Interactive web-based video retrieval accepts sample video frames or text queries against repositories combining still video frames, audio tracks, closed captions, and motion video.',
+      },
     ],
     subSections: [
       {
-        heading: 'Video Segmentation & Five Core Similarity Matching Features (IRS_UNIT_5 p.9)',
-        bullets: [
-          'Structured video indexing pairs temporal scene segmentation with five low-level static and dynamic similarity cues.',
-        ],
+        heading: 'Video Segmentation & Five Core Similarity Features (IRS_UNIT_5 p.9)',
         subGroups: [
           {
             sideHeading: '1. Shot Boundary Detection & Keyframe Extraction',
             bullets: [
-              '**Shot Boundary Detection** segments raw video sequences at abrupt **Hard Cuts** or gradual **Fades, Dissolves, and Wipes**.',
-              '**Keyframe Extraction** chooses representative still frames per camera shot so spatial visual indexes run accurately without decoding `30–60` redundant frames per second.',
+              {
+                label: 'Shot Boundary Detection',
+                text: 'Segments raw video sequences at abrupt Hard Cuts or gradual Fades, Dissolves, and Wipes.',
+              },
+              {
+                label: 'Keyframe Extraction',
+                text: 'Selects representative still frames per camera shot so spatial visual indexes run cleanly without processing `30–60` redundant frames every second.',
+              },
             ],
           },
           {
             sideHeading: '2. Five Visual Features Used in Video Similarity Matching',
-            bullets: [
-              '**Feature 1 — Color, Feature 2 — Texture & Feature 3 — Shape:** Extracted statically across representative shot keyframes just as in image CBIR.',
-              '**Feature 4 — Motion:** Tracks dynamic object trajectories, optical flow, and camera pan/zoom movement across sequential frames.',
-              '**Feature 5 — Spatial–Temporal Composition:** Encodes the relative spatial arrangement and changing co-occurrence geometry of interacting objects over time.',
+            subGroups: [
+              {
+                sideHeading: '1. Color',
+                description: 'Extracted statically across representative shot keyframes via color histograms/moments.',
+              },
+              {
+                sideHeading: '2. Texture',
+                description: 'Captures surface coarseness and directional patterns on shot keyframes.',
+              },
+              {
+                sideHeading: '3. Shape',
+                description: 'Captures geometric object outlines and edge descriptors inside keyframes.',
+              },
+              {
+                sideHeading: '4. Motion',
+                description: 'Tracks dynamic object trajectories, optical flow, and camera pan/zoom movement across sequential frames.',
+              },
+              {
+                sideHeading: '5. Spatial–Temporal Composition',
+                description: 'Encodes the relative spatial layout and changing co-occurrence geometry of interacting objects over time.',
+              },
             ],
           },
           {
             sideHeading: '3. Social Media & Semantic Web Video Retrieval',
-            bullets: [
-              'Rapid growth of **Social Media (`YouTube`)** and **Semantic Web** video sharing enables designers, educators, and communities to combine visual keyframes with collaborative tags and **ASR** speech captions.',
-            ],
+            description:
+              'Rapid growth of Social Media platforms (`YouTube`) and the Semantic Web enables designers, educators, and communities to share and retrieve video combining visual keyframes, collaborative tags, and ASR speech captions.',
           },
         ],
       },

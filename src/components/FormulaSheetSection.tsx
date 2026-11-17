@@ -1,10 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
 import { Sigma } from 'lucide-react';
+import { FormulaBlock, LessonSubGroup } from '@/types/course';
 import { ALL_TOPICS } from '@/data/allLessons';
 import { UNIT_META } from '@/data/unitMeta';
 import { MathFormula } from './MathFormula';
 import { RichText } from './RichText';
+
+function collectGroupFormulas(grp: LessonSubGroup): FormulaBlock[] {
+  return [
+    ...(grp.formulas ?? []),
+    ...(grp.subGroups?.flatMap(collectGroupFormulas) ?? []),
+  ];
+}
 
 export function FormulaSheetSection() {
   const formulaTopics = ALL_TOPICS.filter(
@@ -13,7 +21,7 @@ export function FormulaSheetSection() {
       t.subSections?.some(
         (s) =>
           (s.formulas && s.formulas.length > 0) ||
-          s.subGroups?.some((g) => g.formulas && g.formulas.length > 0)
+          s.subGroups?.some((g) => collectGroupFormulas(g).length > 0)
       )
   );
 
@@ -38,7 +46,7 @@ export function FormulaSheetSection() {
           ...(t.formulas ?? []),
           ...(t.subSections?.flatMap((s) => [
             ...(s.formulas ?? []),
-            ...(s.subGroups?.flatMap((g) => g.formulas ?? []) ?? []),
+            ...(s.subGroups?.flatMap(collectGroupFormulas) ?? []),
           ]) ?? []),
         ];
         return (

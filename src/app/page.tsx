@@ -12,7 +12,13 @@ import {
   Sparkles,
   X,
 } from 'lucide-react';
-import { TabId, UnitId, WalkthroughId } from '@/types/course';
+import {
+  BulletItem,
+  LessonSubGroup,
+  TabId,
+  UnitId,
+  WalkthroughId,
+} from '@/types/course';
 import { UNIT_META } from '@/data/unitMeta';
 import {
   ALL_TOPICS,
@@ -24,6 +30,31 @@ import { LessonCard } from '@/components/LessonCard';
 import { StepByStepVisualizer } from '@/components/StepByStepVisualizer';
 import { FormulaSheetSection } from '@/components/FormulaSheetSection';
 import { RightNavRail } from '@/components/RightNavRail';
+
+function extractBulletText(items?: BulletItem[]): string[] {
+  if (!items) return [];
+  return items.flatMap((b) => {
+    if (typeof b === 'string') return [b];
+    const ex = b.example ? (Array.isArray(b.example) ? b.example : [b.example]) : [];
+    return [b.label ?? '', b.text, ...ex, ...extractBulletText(b.children)];
+  });
+}
+
+function extractGroupText(grp: LessonSubGroup): string[] {
+  const ex = grp.example
+    ? Array.isArray(grp.example)
+      ? grp.example
+      : [grp.example]
+    : [];
+  return [
+    grp.sideHeading,
+    grp.description ?? '',
+    ...ex,
+    ...extractBulletText(grp.bullets),
+    ...(grp.formulas?.map((f) => `${f.label} ${f.tex}`) ?? []),
+    ...(grp.subGroups?.flatMap(extractGroupText) ?? []),
+  ];
+}
 
 function CourseDashboardInner() {
   const searchParams = useSearchParams();
@@ -68,12 +99,22 @@ function CourseDashboardInner() {
         item.title,
         item.summaryLine,
         ...item.subtopicsCovered,
-        ...item.bullets,
-        ...(item.subSections?.flatMap((s) => [
-          s.heading,
-          ...s.bullets,
-          ...(s.subGroups?.flatMap((g) => [g.sideHeading, ...g.bullets]) ?? []),
-        ]) ?? []),
+        ...extractBulletText(item.bullets),
+        ...(item.subSections?.flatMap((s) => {
+          const sEx = s.example
+            ? Array.isArray(s.example)
+              ? s.example
+              : [s.example]
+            : [];
+          return [
+            s.heading,
+            s.description ?? '',
+            ...sEx,
+            ...extractBulletText(s.bullets),
+            ...(s.formulas?.map((f) => `${f.label} ${f.tex}`) ?? []),
+            ...(s.subGroups?.flatMap(extractGroupText) ?? []),
+          ];
+        }) ?? []),
         ...(item.formulas?.map((f) => `${f.label} ${f.tex}`) ?? []),
         item.keyTakeaway,
       ]
