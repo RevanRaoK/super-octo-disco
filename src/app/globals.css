@@ -1,0 +1,408 @@
+@import "tailwindcss";
+
+/* Course-site light theme tokens: Pink primary (--c) + Dark Turquoise secondary (--brick / --hot) + Raised Bottom Shadows */
+:root {
+  color-scheme: light;
+  --bg: #f2f5f9;
+  --surface: #ffffff;
+  --surface-2: #e8edf4;
+  --line: #d6dde8;
+  --line-strong: #a9b6c7;
+  --fg: #13202f;
+  --muted: #56667a;
+  --accent: #2747d8;
+
+  /* Primary Subject Color: Pink */
+  --c: #be185d;
+  --c-ink: #9d174d;
+  --c-bg: color-mix(in srgb, var(--c) 9%, #ffffff);
+  --c-mid: color-mix(in srgb, var(--c) 24%, #ffffff);
+
+  /* Secondary Accent ("--brick" mapped to Dark Turquoise #026a81 as requested) */
+  --brick: #026a81;
+  --brick-ink: #015264;
+  --brick-bg: #e4f1f3;
+  --brick-border: #9bcdd6;
+  --hot: #026a81;
+  --hot-bg: #e4f1f3;
+
+  --turq: #026a81;
+  --turq-deep: #015264;
+  --turq-bg: #e4f1f3;
+  --turq-border: #9bcdd6;
+
+  --ok: #17794f;
+  --ok-bg: #e1f3ea;
+  --bad: #b42318;
+  --bad-bg: #fde8e6;
+
+  --v-teal: #026a81;
+  --v-blue: #2563eb;
+  --v-amber: #0e7490;
+  --v-pink: #be185d;
+  --v-violet: #7c3aed;
+  --v-olive: #17794f;
+
+  /* Tactile raised bottom-shadow elevation system */
+  --shadow-sm: 0 2px 0 rgba(19, 32, 47, 0.05), 0 2px 6px rgba(19, 32, 47, 0.05);
+  --shadow: 0 3px 0 rgba(19, 32, 47, 0.06), 0 8px 18px -6px rgba(19, 32, 47, 0.09);
+  --shadow-hover: 0 4px 0 rgba(19, 32, 47, 0.08), 0 12px 24px -6px rgba(19, 32, 47, 0.13);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), "Instrument Sans", system-ui, -apple-system, sans-serif;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Always render prose/keyword bold in plain dark ink (--fg), never pink or turquoise */
+b,
+strong {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.font-display {
+  font-family: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
+}
+
+.font-mono-code {
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Centered wide workspace with 50% trimmer 1rem outer margins + Sticky Right Nav Rail */
+.irs-page-grid {
+  width: 100%;
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 20px 1rem 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 292px;
+  gap: 22px;
+  align-items: start;
+}
+
+.irs-nav-sidebar {
+  position: sticky;
+  top: 20px;
+  width: 292px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: var(--shadow);
+}
+
+.irs-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.irs-card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.irs-raised {
+  box-shadow: var(--shadow-sm);
+}
+
+.irs-raised:hover {
+  box-shadow: var(--shadow);
+}
+
+/* Signature Left-Accent Summary Banner (Pink primary with raised shadow) */
+.irs-oneline {
+  border: 1px solid var(--c-mid);
+  border-left: 5px solid var(--c);
+  background: var(--c-bg);
+  border-radius: 12px;
+  padding: 18px 22px;
+  line-height: 1.7;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Primary Square Bullets (Pink --c) with generous vertical breathing room */
+.irs-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.irs-points li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--fg);
+}
+
+.irs-points li::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0.65em;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+/* Nested Side Headings (subGroups inside a SubSection) */
+.irs-sidegroup {
+  margin-top: 18px;
+  padding: 14px 18px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c);
+  background: var(--bg);
+}
+
+.irs-sidegroup-title {
+  margin: 0 0 12px 0;
+  font-family: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+/* Inline Code / Command Token Pill (Dark Turquoise / --brick) */
+.irs-inline-code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.88em;
+  font-weight: 600;
+  color: var(--brick-ink);
+  background: var(--brick-bg);
+  border: 1px solid var(--brick-border);
+  padding: 1px 6px;
+  border-radius: 5px;
+  box-shadow: 0 1px 0 rgba(2, 106, 129, 0.14);
+}
+
+/* KaTeX Word-Style Typeset Equations Box */
+.irs-formula-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brick);
+  border-radius: 12px;
+  padding: 16px 22px;
+  margin-block: 6px;
+  box-shadow: var(--shadow-sm);
+}
+
+.irs-formula-math {
+  overflow-x: auto;
+  padding: 6px 4px;
+  color: var(--fg);
+}
+
+.irs-formula-math .katex-display {
+  margin: 4px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0;
+}
+
+.irs-formula-math .katex {
+  font-size: 1.04em;
+}
+
+.katex {
+  font-size: 1.01em;
+}
+
+/* Course Completion Progress Bar */
+.irs-bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.irs-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--c);
+  transition: width 0.25s ease;
+}
+
+/* Top Fixed Flush Scroll Progress Bar (YouTube loading bar style using --brick) */
+.irs-scroll-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.irs-scroll-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--brick);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--brick) 45%, transparent);
+  transition: width 60ms linear;
+}
+
+/* Badges / Tags */
+.irs-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  white-space: normal;
+  word-break: break-word;
+  max-width: 100%;
+  box-shadow: 0 1px 0 rgba(19, 32, 47, 0.06);
+}
+
+.irs-tag-turq {
+  background: var(--brick-bg);
+  color: var(--brick-ink);
+  border-color: var(--brick-border);
+}
+
+.irs-tag-pink {
+  background: var(--c-bg);
+  color: var(--c-ink);
+  border-color: var(--c-mid);
+}
+
+.irs-tag-cyan {
+  background: var(--hot-bg);
+  color: var(--hot);
+  border-color: var(--brick-border);
+}
+
+.irs-tag-ok {
+  background: var(--ok-bg);
+  color: var(--ok);
+  border-color: color-mix(in srgb, var(--ok) 32%, transparent);
+}
+
+.irs-tag-accent {
+  background: color-mix(in srgb, var(--accent) 10%, #ffffff);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+/* Theme-matched Raised Tables */
+.irs-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.irs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.irs-table th {
+  background: var(--surface-2);
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.irs-table td {
+  padding: 11px 16px;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.58;
+}
+
+.irs-table tr.is-highlight td {
+  background: var(--c-bg);
+  font-weight: 600;
+}
+
+.irs-table tr.is-pruned td {
+  background: var(--bad-bg);
+  color: var(--bad);
+  text-decoration: line-through;
+}
+
+/* Theme-matched SVG Defaults matching IRS Course.html .svgviz conventions */
+svg.irs-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  font-family: var(--font-body), "Instrument Sans", system-ui, sans-serif;
+}
+
+svg.irs-svg text {
+  fill: var(--fg);
+}
+
+svg.irs-svg .svg-muted {
+  fill: var(--muted);
+}
+
+svg.irs-svg .svg-mono {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+}
+
+@media (max-width: 1120px) {
+  .irs-page-grid {
+    grid-template-columns: minmax(0, 1fr) 254px;
+    padding: 16px 1rem 56px;
+    gap: 16px;
+  }
+  .irs-nav-sidebar {
+    width: 254px;
+  }
+}
+
+@media (max-width: 767px) {
+  .irs-page-grid {
+    grid-template-columns: 1fr;
+    padding: 12px 0.75rem 56px;
+    gap: 16px;
+  }
+  .irs-nav-sidebar {
+    position: static;
+    width: 100%;
+    max-height: none;
+  }
+}
