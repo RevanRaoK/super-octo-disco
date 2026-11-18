@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   ChevronDown,
@@ -37,6 +37,19 @@ export function RightNavRail({
     unit5: activeUnit === 'unit5',
   });
 
+  const railRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const rail = railRef.current;
+    const current = rail?.querySelector<HTMLElement>('[data-current="true"]');
+    if (!rail || !current) return;
+    if (getComputedStyle(rail).overflowY === 'visible') return;
+    const railBox = rail.getBoundingClientRect();
+    const itemBox = current.getBoundingClientRect();
+    if (itemBox.top < railBox.top || itemBox.bottom > railBox.bottom) {
+      rail.scrollTop += itemBox.top - railBox.top - railBox.height / 2 + itemBox.height / 2;
+    }
+  }, [activeSlug]);
+
   const totalCount = ALL_TOPICS.length;
   const revisedCount = ALL_TOPICS.filter((t) => revisedMap[t.id]).length;
   const pct = totalCount ? Math.round((revisedCount / totalCount) * 100) : 0;
@@ -47,20 +60,21 @@ export function RightNavRail({
 
   return (
     <aside
+      ref={railRef}
       className="irs-nav-sidebar space-y-4"
-      aria-label="IRS Course & Topic Slug Navigation"
+      aria-label="DVT Course & Topic Slug Navigation"
     >
       {/* Subject Header */}
       <div className="space-y-1 pb-3 border-b border-[var(--line)]">
         <Link href="/" className="no-underline block group">
           <div className="font-display text-4xl font-extrabold tracking-tight text-[var(--c)] leading-none group-hover:opacity-90 transition">
-            IRS
+            DVT
           </div>
           <p className="font-mono-code text-[10.5px] font-semibold uppercase tracking-widest text-[var(--muted)] m-0 mt-1">
             Interactive Course Guide
           </p>
           <p className="text-sm font-bold text-[var(--fg)] m-0 pt-1">
-            Information Retrieval Systems
+            Data Visualization Techniques
           </p>
         </Link>
       </div>
@@ -99,7 +113,7 @@ export function RightNavRail({
           >
             <span className="inline-flex items-center gap-2">
               <Layers className="w-3.5 h-3.5 text-[var(--c)]" />
-              All 41 Modules
+              All {totalCount} Modules
             </span>
             <span className="font-mono-code text-[11px] text-[var(--muted)]">
               Home
@@ -122,7 +136,7 @@ export function RightNavRail({
       </div>
 
       {/* Expandable Unit Slugs */}
-      <nav aria-label="Units and Lesson Slugs" className="space-y-2">
+      <nav aria-label="Units and lessons" className="space-y-2">
         {UNIT_META.map((u) => {
           const items = TOPICS_BY_UNIT[u.id];
           const doneInUnit = items.filter((it) => revisedMap[it.id]).length;
@@ -146,7 +160,7 @@ export function RightNavRail({
                     <ChevronRight className="w-3.5 h-3.5 text-[var(--muted)] shrink-0" />
                   )}
                   <span>
-                    {u.shortLabel} ({items.length} slugs)
+                    {u.shortLabel} ({items.length} lessons)
                   </span>
                 </span>
                 <span className="font-mono-code text-[11px] text-[var(--muted)] shrink-0">
@@ -163,6 +177,8 @@ export function RightNavRail({
                       <li key={item.id}>
                         <Link
                           href={`/topics/${item.id}`}
+                          data-current={isCurrent ? 'true' : undefined}
+                          aria-current={isCurrent ? 'page' : undefined}
                           className={`flex items-start justify-between gap-2 px-2 py-1.5 rounded-lg text-[12.5px] leading-snug no-underline transition ${
                             isCurrent
                               ? 'bg-[var(--c)] text-white font-semibold'
@@ -214,7 +230,7 @@ export function RightNavRail({
             >
               <span className="inline-flex items-center gap-2">
                 <Sigma className="w-3.5 h-3.5 text-[var(--hot)]" />
-                Formula Sheet (KaTeX)
+                Formula Sheet
               </span>
               <span className="font-mono-code text-[11px] text-[var(--muted)]">
                 All
@@ -242,7 +258,7 @@ export function RightNavRail({
             >
               <span className="inline-flex items-center gap-2">
                 <Sigma className="w-3.5 h-3.5 text-[var(--hot)]" />
-                Formula Sheet (KaTeX)
+                Formula Sheet
               </span>
               <span className="font-mono-code text-[11px] text-[var(--muted)]">
                 All

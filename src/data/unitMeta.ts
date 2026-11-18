@@ -1,54 +1,59 @@
 import { UnitMeta } from '@/types/course';
+import { UNIT1_TOPICS } from './unit1';
+import { UNIT2_TOPICS } from './unit2';
+import { UNIT3_TOPICS } from './unit3';
+import { UNIT4_TOPICS } from './unit4';
+import { UNIT5_TOPICS } from './unit5';
 
 export const UNIT_META: UnitMeta[] = [
   {
     id: 'unit1',
     shortLabel: 'Unit I',
     roman: 'I',
-    title: 'Introduction to Information Retrieval Systems',
+    title: 'Introduction and Data Foundation',
     subtitle:
-      'IRS definitions, evaluation objectives, functional normalization flow, DBMS/DL/DW relationships, and Search/Browse/Miscellaneous capabilities.',
-    topicCount: 8,
+      'Basics, relationship with other fields, the visualization process & pipelines, pseudo-code conventions, the scatter plot, types of data, structure within/between records, preprocessing and data sets.',
+    topicCount: UNIT1_TOPICS.length,
     colorVar: '--v-teal',
   },
   {
     id: 'unit2',
     shortLabel: 'Unit II',
     roman: 'II',
-    title: 'Cataloging, Indexing & Data Structures',
+    title: 'Foundations for Visualization',
     subtitle:
-      'Cataloging & indexing processes, information extraction, stemming algorithms, Inverted Files, N-Grams, PAT Trees, Signature Files, XML/Hypertext & HMMs.',
-    topicCount: 9,
+      'Visualization stages, semiology of graphical symbols, the eight visual variables, historical perspective, taxonomies, experimental semiotics, Gibson’s affordance theory and the perceptual processing model.',
+    topicCount: UNIT2_TOPICS.length,
     colorVar: '--v-blue',
   },
   {
     id: 'unit3',
     shortLabel: 'Unit III',
     roman: 'III',
-    title: 'Automatic Indexing & Document/Term Clustering',
+    title: 'Visualization Techniques & Visualizing Spatial Data',
     subtitle:
-      'Classes of automatic indexing, statistical & probabilistic weighting, NLP/Concept/Hypertext indexing, thesaurus generation (KWOC/KWIC/KWAC), item clustering & HAC dendrograms.',
-    topicCount: 8,
+      'Spatial data (1D, 2D, 3D, dynamic, combined techniques) and geospatial data (point, line and area data, map projections, cartograms, generalization and labeling).',
+    topicCount: UNIT3_TOPICS.length,
     colorVar: '--v-teal',
   },
   {
     id: 'unit4',
     shortLabel: 'Unit IV',
     roman: 'IV',
-    title: 'User Search Techniques & Information Visualization',
+    title: 'Multivariate Data & Text/Document Visualization',
     subtitle:
-      'Query statements & binding, similarity measures (Cosine/Dice/Jaccard), Rocchio relevance feedback, SDI, weighted Boolean/fuzzy models, Web/Agents & visualization.',
-    topicCount: 8,
+      'Point, line, region-based and combined techniques, trees and networks; text representation levels, the vector space model (tf-idf, Zipf), single-document, collection and extended text visualizations.',
+    topicCount: UNIT4_TOPICS.length,
     colorVar: '--v-amber',
   },
   {
     id: 'unit5',
     shortLabel: 'Unit V',
     roman: 'V',
-    title: 'Text Search Algorithms & Multimedia Retrieval',
+    title: 'Interaction Concepts & Research Directions',
     subtitle:
-      'Streaming text architecture, Brute-Force, Boyer–Moore & KMP matching, GESCAN & FDF hardware search, and Spoken/Non-Speech Audio, Graph, Imagery & Video retrieval.',
-    topicCount: 8,
+      'Interaction operators, operands & spaces, the unified framework, techniques per space, animation and control; designing effective visualizations, common problems and research issues.',
+    topicCount: UNIT5_TOPICS.length,
     colorVar: '--v-violet',
   },
 ];

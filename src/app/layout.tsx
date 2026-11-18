@@ -27,9 +27,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'IRS — Information Retrieval Systems Interactive Course Guide',
+  title: 'DVT — Data Visualization Techniques Interactive Course Guide',
   description:
-    'Complete Educative/AlgoMonster-style Information Retrieval Systems course guide across Units I–V with inline SVGs, Word-typeset KaTeX formulas, and step-by-step algorithm walkthroughs.',
+    'Complete Educative/AlgoMonster-style Data Visualization Techniques course guide across Units I–V with inline SVGs, Word-typeset KaTeX formulas, and step-by-step algorithm walkthroughs.',
 };
 
 export default function RootLayout({

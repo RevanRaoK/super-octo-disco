@@ -1,231 +1,239 @@
 import React from 'react';
+import { Frame, PALETTE, Txt } from './svgKit';
 
-export function SearchBindingLevelsSvg() {
-  const levels = [
-    { step: '1. User Need', ex: 'Natural Problem Concept', bg: 'var(--bg)', st: 'var(--line-strong)' },
-    { step: '2. Search Statement', ex: 'Boolean / NL Query Text', bg: 'var(--hot-bg)', st: 'var(--hot)' },
-    { step: '3. Vocabulary Binding', ex: 'Map to Controlled Thesaurus', bg: 'var(--c-bg)', st: 'var(--c)' },
-    { step: '4. System Meta-Language', ex: 'Machine Index Stem IDs & Exec', bg: 'var(--ok-bg)', st: 'var(--ok)' },
-  ];
+const IRIS = [
+  [0.2, 0.6, 0.1, 0.1, 0], [0.25, 0.7, 0.12, 0.08, 0], [0.15, 0.55, 0.08, 0.1, 0], [0.3, 0.75, 0.15, 0.12, 0],
+  [0.5, 0.35, 0.5, 0.45, 1], [0.55, 0.3, 0.55, 0.5, 1], [0.6, 0.4, 0.6, 0.55, 1], [0.45, 0.28, 0.48, 0.42, 1],
+  [0.75, 0.45, 0.8, 0.85, 2], [0.85, 0.5, 0.9, 0.8, 2], [0.7, 0.38, 0.75, 0.9, 2], [0.9, 0.55, 0.95, 0.95, 2],
+];
+const DIMS = ['Sepal L', 'Sepal W', 'Petal L', 'Petal W'];
+
+export function ScatterplotMatrixSvg() {
+  const cell = 62;
+  const x0 = 270;
+  const y0 = 46;
   return (
-    <svg viewBox="0 0 880 150" className="irs-svg" role="img" aria-label="Search Statement and Binding Levels">
-      <defs>
-        <marker id="bind-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--c)" />
-        </marker>
-      </defs>
-      <rect x="4" y="4" width="872" height="142" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      {levels.map((l, i) => {
-        const x = 18 + i * 215;
-        return (
-          <g key={l.step}>
-            <rect x={x} y={32} width={196} height={86} rx={10} fill={l.bg} stroke={l.st} strokeWidth="1.6" />
-            <text x={x + 98} y={66} textAnchor="middle" fontSize="12" fontWeight="800">{l.step}</text>
-            <text x={x + 98} y={88} textAnchor="middle" fontSize="10.5" className="svg-muted">{l.ex}</text>
-            {i < levels.length - 1 && (
-              <line x1={x + 196} y1={75} x2={x + 213} y2={75} stroke="var(--c)" strokeWidth="2" markerEnd="url(#bind-a)" />
-            )}
-          </g>
-        );
-      })}
+    <svg viewBox="0 0 880 320" className="irs-svg" role="img" aria-label="Scatterplot matrix">
+      <Frame w={880} h={320} />
+      {DIMS.map((_, r) =>
+        DIMS.map((__, c) => {
+          const x = x0 + c * (cell + 6);
+          const y = y0 + r * (cell + 6);
+          return (
+            <g key={`${r}-${c}`}>
+              <rect x={x} y={y} width={cell} height={cell} fill={r === c ? 'var(--c-bg)' : 'var(--bg)'} stroke="var(--line)" />
+              {r === c ? (
+                <Txt x={x + cell / 2} y={y + cell / 2 + 4} size={10} weight={800} color="var(--c-ink)">{DIMS[r]}</Txt>
+              ) : (
+                IRIS.map((p, k) => <circle key={k} cx={x + 5 + p[c] * (cell - 10)} cy={y + cell - 5 - p[r] * (cell - 10)} r={2.6} fill={PALETTE[p[4]]} />)
+              )}
+            </g>
+          );
+        })
+      )}
+      <Txt x={150} y={140} size={12} weight={800} color="var(--c-ink)">N = 4 dimensions</Txt>
+      <Txt x={150} y={160} size={11}>N² = 16 cells</Txt>
+      <Txt x={150} y={180} size={11}>Symmetric about diagonal</Txt>
+      <Txt x={730} y={140} size={11}>Each pair shown twice</Txt>
+      <Txt x={730} y={160} size={11}>(rotated 90°)</Txt>
     </svg>
   );
 }
 
-export function RelevanceFeedbackShiftSvg() {
+export function ParallelCoordinatesSvg() {
+  const ax = DIMS.map((_, i) => 140 + i * 200);
   return (
-    <svg viewBox="0 0 860 255" className="irs-svg" role="img" aria-label="Impact of Positive and Negative Relevance Feedback">
-      <defs>
-        <marker id="rf-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--c)" />
-        </marker>
-      </defs>
-      <rect x="4" y="4" width="852" height="247" rx="14" fill="var(--surface)" stroke="var(--line)" />
-
-      {/* Panel 1: Positive Feedback */}
-      <rect x="24" y="20" width="390" height="214" rx="12" fill="var(--bg)" stroke="var(--c)" />
-      <text x="219" y="44" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--c-ink)">
-        Positive Feedback (Pulls Query Toward Relevant Hits)
-      </text>
-      <ellipse cx="305" cy="128" rx="68" ry="62" fill="var(--ok-bg)" stroke="var(--ok)" strokeWidth="1.6" />
-      <text x="305" y="88" textAnchor="middle" fontSize="10" fontWeight="700" fill="var(--ok)">Relevant Cluster</text>
-      {/* Scatter non-relevant docs */}
-      {[
-        [85, 92], [115, 138], [148, 86], [100, 175], [160, 170], [202, 76], [206, 185],
-      ].map(([cx, cy], idx) => (
-        <circle key={idx} cx={cx} cy={cy} r={6} fill="var(--surface)" stroke="var(--muted)" strokeWidth="1.5" />
+    <svg viewBox="0 0 880 290" className="irs-svg" role="img" aria-label="Parallel coordinates">
+      <Frame w={880} h={290} />
+      {IRIS.map((p, k) => (
+        <polyline key={k} points={ax.map((x, i) => `${x},${250 - p[i] * 200}`).join(' ')} fill="none" stroke={PALETTE[p[4]]} strokeOpacity={0.75} strokeWidth={1.8} />
       ))}
-      {/* Relevant docs inside ellipse */}
-      {[[275, 118], [322, 112], [335, 152], [295, 162]].map(([cx, cy], idx) => (
-        <circle key={idx} cx={cx} cy={cy} r={6} fill="var(--ok)" />
-      ))}
-      {/* Original Q0 -> Revised Qn */}
-      <rect x="212" y="128" width="14" height="14" rx="2" fill="var(--surface)" stroke="var(--fg)" strokeWidth="2" />
-      <text x="202" y="156" fontSize="11" fontWeight="700" className="svg-mono">Qo</text>
-      <line x1="226" y1="135" x2="294" y2="135" stroke="var(--c)" strokeWidth="2.4" markerEnd="url(#rf-arr)" />
-      <rect x="298" y="128" width="14" height="14" rx="2" fill="var(--c)" />
-      <text x="318" y="140" fontSize="11.5" fontWeight="800" className="svg-mono" fill="var(--c-ink)">Qn</text>
-
-      {/* Panel 2: Negative Feedback */}
-      <rect x="446" y="20" width="390" height="214" rx="12" fill="var(--bg)" stroke="var(--hot)" />
-      <text x="641" y="44" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--hot)">
-        Negative Feedback (Pushes Query Away From Noise)
-      </text>
-      <ellipse cx="725" cy="118" rx="68" ry="56" fill="var(--ok-bg)" stroke="var(--ok)" strokeWidth="1.6" />
-      {[
-        [505, 88], [540, 145], [585, 86], [530, 185], [610, 188],
-      ].map(([cx, cy], idx) => (
-        <circle key={idx} cx={cx} cy={cy} r={6} fill="var(--surface)" stroke="var(--muted)" strokeWidth="1.5" />
-      ))}
-      {[[695, 108], [740, 102], [750, 138], [715, 148]].map(([cx, cy], idx) => (
-        <circle key={idx} cx={cx} cy={cy} r={6} fill="var(--ok)" />
-      ))}
-      <circle cx="645" cy="196" r={6} fill="var(--bad)" />
-      <text x="665" y="200" fontSize="10" fill="var(--bad)" fontWeight="700">Non-Rel</text>
-      <rect x="652" y="168" width="14" height="14" rx="2" fill="var(--surface)" stroke="var(--fg)" strokeWidth="2" />
-      <text x="632" y="178" fontSize="11" fontWeight="700" className="svg-mono">Qo</text>
-      <line x1="665" y1="168" x2="706" y2="132" stroke="var(--c)" strokeWidth="2.4" markerEnd="url(#rf-arr)" />
-      <rect x="708" y="114" width="14" height="14" rx="2" fill="var(--c)" />
-      <text x="728" y="126" fontSize="11.5" fontWeight="800" className="svg-mono" fill="var(--c-ink)">Qn</text>
-    </svg>
-  );
-}
-
-export function SdiPushArchitectureSvg() {
-  return (
-    <svg viewBox="0 0 860 190" className="irs-svg" role="img" aria-label="SDI Push Architecture and LMDS Flow">
-      <defs>
-        <marker id="sdi-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--c)" />
-        </marker>
-      </defs>
-      <rect x="4" y="4" width="852" height="182" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      <text x="430" y="30" textAnchor="middle" fontSize="13.5" fontWeight="800" fill="var(--c-ink)">
-        Selective Dissemination of Information (SDI / LMDS Push Model)
-      </text>
-
-      <rect x="26" y="64" width="170" height="72" rx="10" fill="var(--bg)" stroke="var(--line-strong)" />
-      <text x="111" y="96" textAnchor="middle" fontSize="12" fontWeight="700">New Item Stream</text>
-      <text x="111" y="116" textAnchor="middle" fontSize="10.5" className="svg-muted">Normalized Ingest</text>
-
-      <line x1="196" y1="100" x2="262" y2="100" stroke="var(--c)" strokeWidth="2" markerEnd="url(#sdi-a)" />
-
-      <rect x="268" y="54" width="240" height="92" rx="10" fill="var(--c-bg)" stroke="var(--c)" strokeWidth="1.8" />
-      <text x="388" y="84" textAnchor="middle" fontSize="12.5" fontWeight="800" fill="var(--c-ink)">SDI Profile Matcher</text>
-      <text x="388" y="106" textAnchor="middle" fontSize="11" className="svg-muted">Scores each incoming document</text>
-      <text x="388" y="122" textAnchor="middle" fontSize="11" className="svg-muted">against stored User Profiles</text>
-
-      <line x1="508" y1="100" x2="578" y2="100" stroke="var(--c)" strokeWidth="2" markerEnd="url(#sdi-a)" />
-
-      <rect x="584" y="64" width="244" height="72" rx="10" fill="var(--ok-bg)" stroke="var(--ok)" strokeWidth="1.6" />
-      <text x="706" y="96" textAnchor="middle" fontSize="12" fontWeight="700" fill="var(--ok)">User Mail File / Alert</text>
-      <text x="706" y="116" textAnchor="middle" fontSize="10.5" className="svg-muted">Delivered above threshold (LMDS)</text>
-    </svg>
-  );
-}
-
-export function GestaltPerceptionPrinciplesSvg() {
-  return (
-    <svg viewBox="0 0 900 185" className="irs-svg" role="img" aria-label="Five Gestalt Principles of Visual Perception">
-      <rect x="4" y="4" width="892" height="177" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      <text x="450" y="28" textAnchor="middle" fontSize="13.5" fontWeight="800" fill="var(--c-ink)">
-        Five Gestalt Principles Applied to Information Visualization
-      </text>
-      {[
-        { title: '1. Proximity', desc: 'Nearby items group', x: 18 },
-        { title: '2. Similarity', desc: 'Matching shape/color', x: 192 },
-        { title: '3. Continuity', desc: 'Smooth eye alignment', x: 366 },
-        { title: '4. Closure', desc: 'Mind completes gaps', x: 540 },
-        { title: '5. Connectedness', desc: 'Lines show relation', x: 714 },
-      ].map((g) => (
-        <rect key={g.title} x={g.x} y={44} width={162} height={122} rx={10} fill="var(--bg)" stroke="var(--line-strong)" />
-      ))}
-
-      {/* 1. Proximity */}
-      {[56, 72, 134, 150].map((cx) => (
-        <circle key={cx} cx={cx} cy={90} r={6} fill="var(--c)" />
-      ))}
-      {/* 2. Similarity */}
-      <circle cx={235} cy={90} r={7} fill="var(--c)" />
-      <rect x={256} y={83} width={14} height={14} fill="var(--hot)" />
-      <circle cx={288} cy={90} r={7} fill="var(--c)" />
-      <rect x={306} y={83} width={14} height={14} fill="var(--hot)" />
-      {/* 3. Continuity */}
-      <path d="M 384 104 Q 446 66 508 104" fill="none" stroke="var(--c)" strokeWidth="2.8" />
-      <line x1={384} y1={80} x2={508} y2={106} stroke="var(--muted)" strokeWidth="1.6" strokeDasharray="4 3" />
-      {/* 4. Closure */}
-      <path d="M 596 68 L 574 68 L 574 112 L 596 112" fill="none" stroke="var(--c)" strokeWidth="2.5" />
-      <path d="M 642 68 L 664 68 L 664 112 L 642 112" fill="none" stroke="var(--c)" strokeWidth="2.5" />
-      {/* 5. Connectedness */}
-      <line x1={744} y1={90} x2={846} y2={90} stroke="var(--c)" strokeWidth="2.5" />
-      <circle cx={744} cy={90} r={7} fill="var(--c)" />
-      <circle cx={795} cy={90} r={7} fill="var(--hot)" />
-      <circle cx={846} cy={90} r={7} fill="var(--c)" />
-
-      {[
-        { title: '1. Proximity', desc: 'Nearby items group', x: 18 },
-        { title: '2. Similarity', desc: 'Shared style groups', x: 192 },
-        { title: '3. Continuity', desc: 'Follows smooth curves', x: 366 },
-        { title: '4. Closure', desc: 'Completes open bounds', x: 540 },
-        { title: '5. Connectedness', desc: 'Edges bind nodes', x: 714 },
-      ].map((g) => (
-        <g key={g.title}>
-          <text x={g.x + 81} y={136} textAnchor="middle" fontSize="11.5" fontWeight="700" fill="var(--c-ink)">{g.title}</text>
-          <text x={g.x + 81} y={154} textAnchor="middle" fontSize="10" className="svg-muted">{g.desc}</text>
+      {ax.map((x, i) => (
+        <g key={i}>
+          <line x1={x} y1={40} x2={x} y2={252} stroke="var(--fg)" strokeWidth={2} />
+          <Txt x={x} y={272} size={11.5} weight={700}>{DIMS[i]}</Txt>
         </g>
       ))}
     </svg>
   );
 }
 
-export function VisualizationTechnologiesSvg() {
+export function DimensionalStackingSvg() {
+  const outer = 4;
+  const inner = 3;
+  const size = 220;
+  const x0 = 330;
+  const y0 = 40;
+  const oc = size / outer;
+  const ic = oc / inner;
   return (
-    <svg viewBox="0 0 880 225" className="irs-svg" role="img" aria-label="Information Visualization Technologies">
-      <rect x="4" y="4" width="872" height="217" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      <text x="440" y="28" textAnchor="middle" fontSize="13.5" fontWeight="800" fill="var(--c-ink)">
-        Core Information Visualization Systems (Kowalski Ch. 8)
-      </text>
+    <svg viewBox="0 0 880 290" className="irs-svg" role="img" aria-label="Dimensional stacking">
+      <Frame w={880} h={290} />
+      {Array.from({ length: outer * inner }).map((_, r) =>
+        Array.from({ length: outer * inner }).map((__, c) => {
+          const v = (Math.sin(r * 0.7) + Math.cos(c * 0.5) + 2) / 4;
+          return <rect key={`${r}-${c}`} x={x0 + c * ic} y={y0 + r * ic} width={ic} height={ic} fill="var(--c)" fillOpacity={0.15 + v * 0.75} />;
+        })
+      )}
+      {Array.from({ length: outer + 1 }).map((_, k) => (
+        <g key={k} stroke="var(--fg)" strokeWidth={2}>
+          <line x1={x0 + k * oc} y1={y0} x2={x0 + k * oc} y2={y0 + size} />
+          <line x1={x0} y1={y0 + k * oc} x2={x0 + size} y2={y0 + k * oc} />
+        </g>
+      ))}
+      <Txt x={x0 + size / 2} y={y0 + size + 22} size={11.5}>Outer: d1 (cols) × d2 (rows) · Inner: d3 × d4</Txt>
+      <Txt x={170} y={130} size={11.5} weight={700}>Odometer analogy:</Txt>
+      <Txt x={170} y={150} size={11}>inner dims change fastest,</Txt>
+      <Txt x={170} y={168} size={11}>outer dims slowest</Txt>
+      <Txt x={720} y={140} size={11}>Cell shade = dependent variable</Txt>
+    </svg>
+  );
+}
 
-      {/* Cone Tree */}
-      <rect x="20" y="44" width="198" height="164" rx="10" fill="var(--bg)" stroke="var(--c)" />
-      <text x="119" y="66" textAnchor="middle" fontSize="12" fontWeight="700" fill="var(--c-ink)">Cone Tree (3D)</text>
-      <ellipse cx="119" cy="142" rx="64" ry="18" fill="var(--c-bg)" stroke="var(--c)" />
-      <line x1="119" y1="86" x2="62" y2="142" stroke="var(--c)" strokeWidth="1.5" />
-      <line x1="119" y1="86" x2="119" y2="158" stroke="var(--c)" strokeWidth="1.5" />
-      <line x1="119" y1="86" x2="176" y2="142" stroke="var(--c)" strokeWidth="1.5" />
-      <circle cx="119" cy="86" r="6" fill="var(--c)" />
-      <text x="119" y="186" textAnchor="middle" fontSize="10.5" className="svg-muted">Apex + rotating circle base</text>
+export function TreemapSunburstSvg() {
+  const sun = [
+    { a0: 0, a1: 0.5, r: 1, c: 0 }, { a0: 0.5, a1: 0.8, r: 1, c: 1 }, { a0: 0.8, a1: 1, r: 1, c: 2 },
+    { a0: 0, a1: 0.3, r: 2, c: 0 }, { a0: 0.3, a1: 0.5, r: 2, c: 0 }, { a0: 0.5, a1: 0.65, r: 2, c: 1 }, { a0: 0.65, a1: 0.8, r: 2, c: 1 }, { a0: 0.8, a1: 1, r: 2, c: 2 },
+  ];
+  const arc = (a0: number, a1: number, r0: number, r1: number, cx: number, cy: number) => {
+    const p = (a: number, r: number) => [cx + r * Math.cos(a * 2 * Math.PI - Math.PI / 2), cy + r * Math.sin(a * 2 * Math.PI - Math.PI / 2)];
+    const large = a1 - a0 > 0.5 ? 1 : 0;
+    const [x0, y0] = p(a0, r1);
+    const [x1, y1] = p(a1, r1);
+    const [x2, y2] = p(a1, r0);
+    const [x3, y3] = p(a0, r0);
+    return `M ${x0} ${y0} A ${r1} ${r1} 0 ${large} 1 ${x1} ${y1} L ${x2} ${y2} A ${r0} ${r0} 0 ${large} 0 ${x3} ${y3} Z`;
+  };
+  return (
+    <svg viewBox="0 0 880 290" className="irs-svg" role="img" aria-label="Treemap and sunburst">
+      <Frame w={880} h={290} />
+      <g stroke="var(--surface)" strokeWidth={3}>
+        <rect x={60} y={40} width={170} height={130} fill={PALETTE[0]} fillOpacity={0.75} />
+        <rect x={60} y={170} width={170} height={90} fill={PALETTE[0]} fillOpacity={0.5} />
+        <rect x={230} y={40} width={110} height={120} fill={PALETTE[1]} fillOpacity={0.75} />
+        <rect x={230} y={160} width={110} height={100} fill={PALETTE[1]} fillOpacity={0.5} />
+        <rect x={340} y={40} width={80} height={220} fill={PALETTE[2]} fillOpacity={0.7} />
+      </g>
+      <Txt x={240} y={280} size={11.5} weight={700}>Treemap: vertical slices, then horizontal</Txt>
+      <circle cx={660} cy={150} r={30} fill="var(--fg)" fillOpacity={0.8} />
+      <Txt x={660} y={155} size={11} weight={800} color="var(--surface)">root</Txt>
+      {sun.map((s, k) => (
+        <path key={k} d={arc(s.a0, s.a1, s.r === 1 ? 32 : 76, s.r === 1 ? 74 : 118, 660, 150)} fill={PALETTE[s.c]} fillOpacity={s.r === 1 ? 0.75 : 0.5} stroke="var(--surface)" strokeWidth={2} />
+      ))}
+      <Txt x={660} y={284} size={11.5} weight={700}>Sunburst: rings = levels</Txt>
+    </svg>
+  );
+}
 
-      {/* Perspective Wall */}
-      <rect x="234" y="44" width="204" height="164" rx="10" fill="var(--bg)" stroke="var(--line-strong)" />
-      <text x="336" y="66" textAnchor="middle" fontSize="12" fontWeight="700">Perspective Wall</text>
-      <polygon points="248,92 282,82 282,158 248,148" fill="var(--surface-2)" stroke="var(--muted)" />
-      <rect x="282" y="82" width="108" height="76" fill="var(--c-bg)" stroke="var(--c)" />
-      <polygon points="390,82 424,92 424,148 390,158" fill="var(--surface-2)" stroke="var(--muted)" />
-      <text x="336" y="124" textAnchor="middle" fontSize="11" fontWeight="700" fill="var(--c-ink)">Focus Center</text>
-      <text x="336" y="186" textAnchor="middle" fontSize="10.5" className="svg-muted">3 panels: Focus + 2 wings</text>
+export function AdjacencyMatrixSvg() {
+  const n = 8;
+  const edges = new Set<string>();
+  const cliques = [[0, 2, 4, 6], [1, 3, 5, 7]];
+  cliques.forEach((cq) => cq.forEach((a) => cq.forEach((b) => a !== b && edges.add(`${a}-${b}`))));
+  edges.add('6-1');
+  edges.add('1-6');
+  const orderA = [0, 1, 2, 3, 4, 5, 6, 7];
+  const orderB = [0, 2, 4, 6, 1, 3, 5, 7];
+  const labels = 'abcdefgh';
+  const panel = (ox: number, order: number[], title: string) => (
+    <g>
+      {order.map((ri, r) =>
+        order.map((ci, c) => (
+          <rect key={`${r}-${c}`} x={ox + c * 22} y={60 + r * 22} width={20} height={20} rx={3} fill={edges.has(`${ri}-${ci}`) ? 'var(--c)' : 'var(--bg)'} stroke="var(--line)" />
+        ))
+      )}
+      {order.map((ri, r) => (
+        <g key={`l${r}`}>
+          <Txt x={ox - 10} y={74 + r * 22} size={10.5} mono>{labels[ri]}</Txt>
+          <Txt x={ox + 10 + r * 22} y={52} size={10.5} mono>{labels[ri]}</Txt>
+        </g>
+      ))}
+      <Txt x={ox + (n * 22) / 2} y={258} size={11.5} weight={700}>{title}</Txt>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 880 280" className="irs-svg" role="img" aria-label="Adjacency matrix reordering">
+      <Frame w={880} h={280} />
+      {panel(150, orderA, 'Original order: structure hidden')}
+      {panel(560, orderB, 'Reordered: two 4-node cliques')}
+    </svg>
+  );
+}
 
-      {/* Tree Maps */}
-      <rect x="454" y="44" width="198" height="164" rx="10" fill="var(--bg)" stroke="var(--hot)" />
-      <text x="553" y="66" textAnchor="middle" fontSize="12" fontWeight="700" fill="var(--hot)">Tree Maps (Johnson-91)</text>
-      <rect x="472" y="80" width="76" height="44" fill="var(--surface)" stroke="var(--fg)" />
-      <text x="510" y="106" textAnchor="middle" fontSize="10">CPU</text>
-      <rect x="548" y="80" width="86" height="44" fill="var(--hot-bg)" stroke="var(--fg)" />
-      <text x="591" y="106" textAnchor="middle" fontSize="10">Network</text>
-      <rect x="472" y="124" width="162" height="36" fill="var(--c-bg)" stroke="var(--fg)" />
-      <text x="553" y="146" textAnchor="middle" fontSize="10">Software Articles</text>
-      <text x="553" y="186" textAnchor="middle" fontSize="10.5" className="svg-muted">Space-filling nested rects</text>
+export function ZipfLogLogSvg() {
+  const X = (lr: number) => 100 + lr * 150;
+  const Y = (lf: number) => 260 - lf * 50;
+  const pts = Array.from({ length: 30 }).map((_, k) => {
+    const lr = (k / 29) * 3.9;
+    return [lr, 4 - lr + Math.sin(k) * 0.06];
+  });
+  return (
+    <svg viewBox="0 0 880 300" className="irs-svg" role="img" aria-label="Zipf law log-log plot">
+      <Frame w={880} h={300} title="Zipf’s Law on log–log axes" />
+      <line x1={100} y1={260} x2={720} y2={260} stroke="var(--line-strong)" />
+      <line x1={100} y1={260} x2={100} y2={44} stroke="var(--line-strong)" />
+      <line x1={X(0)} y1={Y(4)} x2={X(4)} y2={Y(0)} stroke="var(--hot)" strokeDasharray="6 5" strokeWidth={1.6} />
+      {pts.map(([lr, lf], k) => <circle key={k} cx={X(lr)} cy={Y(lf)} r={4} fill="var(--c)" />)}
+      <Txt x={410} y={286} size={11}>log(rank)</Txt>
+      <text x={60} y={150} fontSize={11} fontWeight={600} textAnchor="middle" transform="rotate(-90 60 150)">log(frequency)</text>
+      <Txt x={760} y={110} size={12} weight={800} color="var(--hot)">slope = −1</Txt>
+      <Txt x={760} y={130} size={11}>f ∝ 1 / r</Txt>
+    </svg>
+  );
+}
 
-      {/* Envision / DCARS / Cityscape */}
-      <rect x="668" y="44" width="192" height="164" rx="10" fill="var(--ok-bg)" stroke="var(--ok)" />
-      <text x="764" y="66" textAnchor="middle" fontSize="12" fontWeight="700" fill="var(--ok)">Envision · DCARS · City</text>
-      <rect x="684" y="82" width="160" height="24" rx="5" fill="var(--surface)" stroke="var(--line)" />
-      <text x="764" y="98" textAnchor="middle" fontSize="10.5">Envision: 2D Icon Matrix</text>
-      <rect x="684" y="114" width="160" height="24" rx="5" fill="var(--surface)" stroke="var(--line)" />
-      <text x="764" y="130" textAnchor="middle" fontSize="10.5">DCARS: Query Tile Bars</text>
-      <rect x="684" y="146" width="160" height="24" rx="5" fill="var(--surface)" stroke="var(--line)" />
-      <text x="764" y="162" textAnchor="middle" fontSize="10.5">Cityscape: 3D Skyscrapers</text>
-      <text x="764" y="186" textAnchor="middle" fontSize="10.5" className="svg-muted">Multi-attribute collections</text>
+export function ArcDiagramSvg() {
+  const seq = 'ABCDABCDXYABCD'.split('');
+  const X = (i: number) => 80 + i * 55;
+  const arcs = [
+    { a: 0, b: 4, len: 4 },
+    { a: 4, b: 10, len: 4 },
+    { a: 8, b: 9, len: 1 },
+  ];
+  return (
+    <svg viewBox="0 0 880 250" className="irs-svg" role="img" aria-label="Arc diagram">
+      <Frame w={880} h={250} />
+      {arcs.map(({ a, b, len }, k) => {
+        const x1 = X(a) + ((len - 1) * 55) / 2;
+        const x2 = X(b) + ((len - 1) * 55) / 2;
+        const r = (x2 - x1) / 2;
+        return <path key={k} d={`M ${x1} 190 A ${r} ${r} 0 0 1 ${x2} 190`} fill="none" stroke={PALETTE[k]} strokeOpacity={0.6} strokeWidth={len * 6} />;
+      })}
+      {seq.map((ch, i) => (
+        <g key={i}>
+          <rect x={X(i) - 16} y={192} width={32} height={28} rx={6} fill="var(--bg)" stroke="var(--line-strong)" />
+          <Txt x={X(i)} y={211} size={13} weight={800} mono>{ch}</Txt>
+        </g>
+      ))}
+      <Txt x={440} y={36} size={11.5}>Thickness = length of repeated subsequence · Height = distance between repeats</Txt>
+    </svg>
+  );
+}
+
+export function ThemeRiverSvg() {
+  const t = Array.from({ length: 11 }).map((_, i) => i);
+  const themes = [
+    t.map((i) => 18 + 12 * Math.sin(i * 0.6)),
+    t.map((i) => 14 + 10 * Math.cos(i * 0.5)),
+    t.map((i) => 6 + i * 2.6),
+    t.map((i) => 24 - i * 1.5 + 6 * Math.sin(i)),
+  ];
+  const X = (i: number) => 60 + i * 76;
+  const totals = t.map((i) => themes.reduce((s, th) => s + th[i], 0));
+  let lower = t.map((i) => 150 - totals[i] * 1.1);
+  const bands = themes.map((th) => {
+    const upper = lower;
+    const next = t.map((i) => upper[i] + th[i] * 2.2);
+    const d = `M ${t.map((i) => `${X(i)} ${upper[i]}`).join(' L ')} L ${t.slice().reverse().map((i) => `${X(i)} ${next[i]}`).join(' L ')} Z`;
+    lower = next;
+    return d;
+  });
+  return (
+    <svg viewBox="0 0 880 290" className="irs-svg" role="img" aria-label="ThemeRiver stream graph">
+      <Frame w={880} h={290} />
+      {bands.map((d, k) => <path key={k} d={d} fill={PALETTE[k]} fillOpacity={0.7} stroke="var(--surface)" strokeWidth={1} />)}
+      <line x1={60} y1={270} x2={820} y2={270} stroke="var(--line-strong)" />
+      <Txt x={440} y={284} size={11}>time →</Txt>
     </svg>
   );
 }

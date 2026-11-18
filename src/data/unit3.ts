@@ -1,906 +1,902 @@
 import { LessonTopic } from '@/types/course';
 
-export const UNIT3_TOPICS: LessonTopic[] = [
+const SPATIAL_TOPICS: LessonTopic[] = [
   {
-    id: 'u3-classes-automatic-indexing',
-    shortTitle: 'Classes of Automatic Indexing',
+    id: 'u3-one-dimensional-data',
+    shortTitle: 'One-Dimensional Data',
     unit: 'unit3',
     order: 1,
-    title: 'Classes of Automatic Indexing',
+    title: '3.1 Visualization Techniques for Spatial Data & One-Dimensional Data',
     subtopicsCovered: [
-      'Automatic Indexing Definition & Output Schemes (Weighted vs Unweighted)',
-      'Seven Sequential Processing Stages (Data Flow in IRS — UNIT-III p.2–4)',
-      'Four Major Classes of Automatic Indexing (Statistical, NLP, Concept, Hypertext)',
+      'Spatial Data Visualization (Scientific Visualization)',
+      'Mapping Spatial Attributes to Screen',
+      'One-Dimensional Data & Probes',
+      'Line Graph vs Color Bar',
+      'Draw-Line-Graph Pseudo-code',
+      'worldToScreen Range Mapping',
     ],
     summaryLine:
-      '**Automatic Indexing** classifies algorithmic representation strategies into **Weighted vs Unweighted** schemes spanning four major classes—**Statistical**, **Natural Language Processing**, **Concept**, and **Hypertext Linkage** indexing—executed across **seven pipeline stages**.',
+      '**Spatial data** is data tied to a **place** (and sometimes a time). Because it already has a location, drawing it is natural: put the location on screen, then show the value with height or colour.',
     bullets: [
-      {
-        label: 'Automatic Indexing',
-        text: 'Analyzes each arriving item algorithmically against a controlled vocabulary, taxonomy, or ontology (or performs Total Document Indexing) to build permanent searchable index representations alongside the Document File.',
-      },
-      {
-        label: 'Index Definition',
-        text: 'The internal searchable data structure created specifically to support the chosen search strategy (`statistical`, `natural language`, or `concept`).',
-      },
-      {
-        label: 'Unweighted vs Weighted Indexing',
-        text: 'Distinguishes how term significance is stored:',
-        children: [
-          {
-            label: 'Unweighted Indexing System',
-            text: 'Records only binary `0/1` term existence (plus optional word locations) inside the searchable index.',
-          },
-          {
-            label: 'Weighted Indexing System',
-            text: 'Computes normalized term weights between $0$ and $1$ based on occurrence frequency to rank results from highest score to lowest.',
-          },
-        ],
-      },
+      { label: 'Spatial Data', text: 'Data that has a **location** (and maybe a time) attached. Visualizing it is also called **scientific visualization**.' },
+      { label: 'Why It Is Easy', text: 'The location gives an **obvious way** to place things on screen, and our eyes are used to seeing real-world scenes.' },
+      { label: 'Step 1', text: 'Decide which **location values** go to which **screen positions**. This may need **scaling, rotating, moving, shearing (slanting) or projecting**.' },
+      { label: 'Step 2', text: 'Show the **other values** using **colour, texture, size or shape**.' },
     ],
     subSections: [
       {
-        heading: 'Seven Processing Modules in Automatic Indexing (UNIT-III p.2–4)',
-        description:
-          'All automatic indexing systems begin with input standardization, zoning, and token identification before branching into Statistical, Natural Language, or Concept strategies.',
-        subGroups: [
-          {
-            sideHeading: '1. Standardize Input',
-            description:
-              'Translates diverse external input file formats and character encodings into the canonical internal format acceptable to the indexing engine.',
-          },
-          {
-            sideHeading: '2. Logical Subsetting (Zoning)',
-            description:
-              'Parses each item into meaningful logical subdivisions visible to users—increasing search precision and optimizing display:',
-            bullets: [
-              '`Title`',
-              '`Author`',
-              '`Abstract`',
-              '`Main Text`',
-              '`Conclusion`',
-              '`References`',
-              '`Country` & `Keyword`',
-            ],
-          },
-          {
-            sideHeading: '3. Identify Processing Tokens (Three Symbol Classes)',
-            description:
-              'Determines searchable processing tokens (`better than raw words`) by dividing input symbols into three classes:',
-            bullets: [
-              {
-                label: 'Valid Word Symbols',
-                text: 'Alphabetic characters and numbers forming searchable tokens.',
-              },
-              {
-                label: 'Inter-Word Symbols',
-                text: 'Non-searchable delimiter characters such as blanks, periods, and semicolons.',
-              },
-              {
-                label: 'Special Processing Symbols',
-                text: 'Context-sensitive punctuation symbols such as the hyphen (`-`).',
-              },
-            ],
-          },
-          {
-            sideHeading: '4. Stop Algorithm',
-            description:
-              'Eliminates tokens whose ultra-high frequency or weak semantic utility wastes memory and processing time.',
-          },
-          {
-            sideHeading: '5. Characterize Tokens',
-            description:
-              'Tags surviving tokens with specialized lexical and semantic attributes:',
-            bullets: [
-              'Word Sense Disambiguation (WSD)',
-              'Part-of-Speech (POS) tagging',
-              'Uppercase proper names, acronyms, and organizations',
-              'Numbers and dates',
-            ],
-          },
-          {
-            sideHeading: '6. Stemming Algorithm',
-            description:
-              'Cuts and trims suffixes/prefixes systematically to collapse morphological variants while maintaining phrase and grammar integrity.',
-          },
-          {
-            sideHeading: '7. Create Searchable Data Structure',
-            description:
-              'Outputs the internal machine representation (`not visible directly to users`) storing semantic concepts that bound what queries can retrieve.',
-          },
+        heading: 'One-Dimensional Data',
+        bullets: [
+          '1D spatial data comes from taking **readings while moving along a path**.',
+          { label: 'Example', text: 'A **drill hole**: mineral content is recorded at each depth from the top.' },
+          'Taking such readings through bigger 2D/3D data is called a **probe** (like poking a stick through it).',
+          { label: 'Line Graph', text: 'Put the **position** on the x-axis and the **value** on the y-axis.' },
+          { label: 'Color Bar', text: 'Put the position along a strip and show the value as the **colour** of each part.' },
+          'Data must be **scaled** to fit the screen (pixels) or colour range. Some screen space is kept for **axes, labels and a legend**, so the algorithm needs the **limits of both data and screen**.',
         ],
-        diagramId: 'auto-index-dataflow',
-        diagramCaption: 'Data Flow in an Automatic Information Processing System (IRS UNIT-III NOTES p.2)',
+        diagramId: 'dvt-line-graph-1d',
+        diagramCaption: 'A line graph of a 1D sequence of data values.',
       },
       {
-        heading: 'Four Major Classes of Automatic Indexing',
+        heading: 'Draw-Line-Graph Pseudo-code',
         description:
-          'Statistical strategies cover the broadest range of techniques and remain the most prevalent in commercial systems:',
+          'dataMin and dataMax are the smallest and largest values, dataCount is how many points, and (xMin, yMin, xMax, yMax) is the screen box to draw in.',
         subGroups: [
           {
-            sideHeading: '1. Statistical Indexing',
-            description:
-              'Applies word and phrase occurrence frequencies, log-odds probabilities, vectors, or neural weights to score item relevance.',
+            sideHeading: '`Draw-Line-Graph(data, dataCount, xMin, xMax, yMin, yMax)`',
+            bullets: [
+              { label: 'Lines 1–2', text: '`dataMin ← computeMin(...)`, `dataMax ← computeMax(...)` — find the smallest and largest value.' },
+              { label: 'Lines 3–4', text: '`xFrom ← xMin`, `yFrom ← worldToScreenY(data[0], ...)` — the starting point of the first line.' },
+              { label: 'Line 5', text: '`for i ← 1 to dataCount` — go through the remaining points.' },
+              { label: 'Lines 6–7', text: '`xTo ← worldToScreenX(i, ...)`, `yTo ← worldToScreenY(data[i], ...)` — convert the next point to screen position.' },
+              { label: 'Line 8', text: '`drawLine(xFrom, yFrom, xTo, yTo)` — draw a line from the previous point to this one.' },
+              { label: 'Line 9', text: '`xFrom ← xTo; yFrom ← yTo` — this point becomes the start of the next line.' },
+            ],
           },
           {
-            sideHeading: '2. Natural Language Processing (NLP)',
-            description:
-              'Performs syntactic and semantic parsing to extract unambiguous compound index phrases and discourse relations.',
+            sideHeading: 'Helper Functions',
+            bullets: [
+              '`worldToScreenX(index, dataCount, xMin, xMax) = xMin + index × (xMax − xMin) / dataCount` — spreads the points evenly across the width.',
+              '`worldToScreenY(value, dataMin, dataMax, yMin, yMax) = yMin + (value − dataMin) × (yMax − yMin) / (dataMax − dataMin)` — puts the value at the right height.',
+              'Both just **shift and stretch** numbers from one range to another — used everywhere in graphics.',
+              'Idea: a value that is **30% of the way** through the data range should be **30% of the way** across the screen range.',
+            ],
           },
+        ],
+        formulas: [
           {
-            sideHeading: '3. Concept Indexing',
-            description:
-              'Maps co-occurring synonymous words onto shared latent concept dimensions (`LSI / Neural Context Vectors`).',
-          },
-          {
-            sideHeading: '4. Hypertext Linkages',
-            description:
-              'Captures manual or automatic directional node links and anchor contexts connecting cross-referenced items.',
+            label: 'Range-to-Range Mapping',
+            tex: '\\dfrac{A_i - A_{\\min}}{A_{\\max} - A_{\\min}} = \\dfrac{B_i - B_{\\min}}{B_{\\max} - B_{\\min}}',
+            note: '$A_i$ is a value in the data range; $B_i$ is the matching position in the screen range.',
           },
         ],
       },
     ],
-    table: {
-      caption: 'Taxonomy of Automatic Indexing Classes',
-      headers: ['Indexing Class', 'Primary Mechanism', 'Best Strength'],
-      rows: [
-        ['Statistical Indexing', 'Word frequencies, probability log-odds, vector & neural weights', 'Fast, domain-independent ranked retrieval'],
-        ['Natural Language (NLP)', 'POS tagging, syntactic phrases, semantic disambiguation', 'Resolves homographs and extracts multi-word noun phrases'],
-        ['Concept Indexing (LSI)', 'Maps co-occurring words into latent semantic concept dimensions', 'Overcomes synonym mismatch across queries and docs'],
-        ['Hypertext Linkages', 'Tracks anchor text and inter-node cross-reference link weights', 'Captures web/graph citation authority and context'],
-      ],
-      highlightRows: [0, 2],
-    },
     keyTakeaway:
-      'Break the **Automatic Indexing Data Flow** cleanly into all **7 stages**, state **Weighted vs Unweighted**, and list all **4 classes (`Statistical, NLP, Concept, Hypertext`)** individually.',
+      'Define spatial data visualization, give the **drill-hole probe** example, write **Draw-Line-Graph** with the two `worldToScreen` helpers, and end with the **range-mapping equation**.',
+    selfCheck: {
+      question: 'Map data value 30 from range [10, 50] to screen range [100, 300].',
+      answer: '30 is halfway through [10, 50], so it goes halfway through [100, 300]: $100 + 20 \\times 200/40 = 200$.',
+    },
   },
   {
-    id: 'u3-statistical-indexing',
-    shortTitle: 'Statistical Indexing & Weighting Models',
+    id: 'u3-two-dimensional-data',
+    shortTitle: 'Two-Dimensional Data',
     unit: 'unit3',
     order: 2,
-    title: 'Statistical Indexing (Probabilistic, Vector, Signal, Bayesian & Neural)',
+    title: 'Two-Dimensional Data',
     subtopicsCovered: [
-      'Document Frequency (DF) & Term Frequency (TF)',
-      'Probabilistic Weighting (PRP, Hypothesis, Plausible Corollary & Log-Odds)',
-      'Vector Weighting (Binary vs Weighted, IDF, TF-IDF, Signal Weighting & Discrimination Value)',
-      'Bayesian Model & Neural Network Model',
+      'Image',
+      'Rubber Sheet',
+      'Cityscape',
+      'Scatterplot',
+      'Map',
+      'Contour / Isovalue Map',
+      'Probing 2D Data: Histograms, Aggregations, Linear Probes',
     ],
     summaryLine:
-      '**Statistical Indexing** models token event frequencies (**TF & DF**) across **Probabilistic**, **Vector (TF-IDF, Signal, Discrimination)**, **Bayesian**, and **Neural Network** weighting frameworks to rank relevance.',
+      '2D spatial data (values spread over an area) is shown by putting the two location values on the screen’s x and y. This gives six kinds of pictures, and we can also **probe** it by looking at 1D slices or summaries.',
     bullets: [
-      {
-        label: 'Core Statistical Basis',
-        text: 'Uses occurrence frequencies of processing tokens (`words and phrases`) inside documents and across the collection to compute scalar relevance scores after Boolean filtering (`Hit File Ranking`).',
-      },
-      {
-        label: 'Document Frequency ($DF$)',
-        text: 'Identifies which/how many documents in the database contain a particular term.',
-      },
-      {
-        label: 'Term Frequency ($TF$)',
-        text: 'Counts the number of occurrences (or lines) of a term inside one individual item.',
-      },
+      'Data with **two location values** is shown by putting them on the screen’s **x and y**.',
     ],
     subSections: [
       {
-        heading: 'Four Statistical Indexing Approaches (UNIT-III p.6–8)',
+        heading: 'Six Kinds of Pictures',
         subGroups: [
+          { sideHeading: '1. Image', description: 'Each location’s value becomes a **colour**, and the pixels in between are **filled in by guessing** (interpolation).', example: 'A temperature heat map.' },
+          { sideHeading: '2. Rubber Sheet', description: 'Each value becomes a **height**, and the points are joined into triangles to form a **3D surface** — like a stretched rubber sheet.', example: 'A 3D terrain surface.' },
+          { sideHeading: '3. Cityscape', description: '**3D boxes** stand on a flat ground; data controls their **height and colour**, so it looks like city buildings.' },
+          { sideHeading: '4. Scatterplot', description: 'A **marker** at each location; data controls its **colour, shape or size**. Nothing is filled in between (no interpolation).' },
           {
-            sideHeading: '1. Probabilistic Weighting',
-            description:
-              'Applies formal mathematical probability theory directly to estimate the probability that an item satisfies a query.',
-            subGroups: [
-              {
-                sideHeading: 'Probability Ranking Principle (PRP)',
-                description:
-                  'Demonstrates that optimal retrieval effectiveness is achieved when documents are ranked strictly in descending order of relevance probability.',
-              },
-              {
-                sideHeading: 'Technique 1 — Hypothesis',
-                description:
-                  'Maintains a collection list of words with probability rankings based on corpus occurrence.',
-              },
-              {
-                sideHeading: 'Technique 2 — Plausible Corollary (Log-Odds Formula)',
-                description:
-                  'Applies standard probability theory and statistics to produce invariant relevance estimates that integrate cleanly across different databases via Log-Odds summation.',
-                formulas: [
-                  {
-                    label: 'Probabilistic Log-Odds Weighting',
-                    tex: '\\log O(R \\mid Q_i, D_j, t_k) = C_0 + C_1 V_1 + C_2 V_2 + \\dots + C_n V_n',
-                    note: 'Log-odds that query $Q_i$ matches document $D_j$ equals the linear sum of log-odds weights across shared terms.',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            sideHeading: '2. Vector Weighting (SMART System — Cornell University)',
-            description:
-              'Pioneered in Salton SMART system; represents each document as a fixed one-dimensional vector where every slot corresponds to a unique processing token.',
-            subGroups: [
-              {
-                sideHeading: 'Binary Vector Approach',
-                description:
-                  'Vector entries hold only `1` (token exists in the item) or `0` (token is absent).',
-              },
-              {
-                sideHeading: 'Weighted Vector Approach ($IDF$ & $TF\\text{-}IDF$)',
-                description:
-                  'Vector entries hold positive real numbers multiplying local term frequency ($TF$) by inverse document rarity ($IDF_k$).',
-                formulas: [
-                  {
-                    label: 'IDF & TF-IDF Weighting',
-                    tex: 'IDF_k = \\log_2\\!\\left(\\frac{N}{DF_k}\\right) + 1 \\qquad W_{i,k} = TF_{i,k} \\times \\log_2\\!\\left(\\frac{N}{DF_k}\\right)',
-                    note: '$N$ = total items in collection; $DF_k$ = documents containing term $k$; $TF_{i,k}$ = count of term $k$ inside item $i$.',
-                  },
-                ],
-              },
-              {
-                sideHeading: 'Shannon Signal Weighting (`SAW` vs `DRILL`)',
-                description:
-                  'Uses Shannon Entropy to reward terms concentrated heavily inside a small subset of items (`DRILL = [2,2,18,10,18]`) over uniformly distributed terms (`SAW = [10,10,10,10,10]`).',
-                formulas: [
-                  {
-                    label: 'Shannon Information & Signal Weighting ($SAW$ vs $DRILL$)',
-                    tex: '\\text{AveInfo}_k = -\\sum_{i=1}^{N} \\frac{TF_{i,k}}{\\text{TotFreq}_k} \\log_2\\!\\left(\\frac{TF_{i,k}}{\\text{TotFreq}_k}\\right) \\qquad \\text{Signal}_k = \\log_2(\\text{TotFreq}_k) - \\text{AveInfo}_k',
-                    note: 'Non-uniform terms (`DRILL`) exhibit lower entropy $\\text{AveInfo}_k$ and earn much higher **Signal Weight** than flat `SAW`.',
-                  },
-                ],
-              },
-              {
-                sideHeading: 'Salton & Yang Discrimination Value ($DISCRIM_i$)',
-                description:
-                  'Measures how much removing term $i$ increases average pairwise document similarity; positive values confirm term $i$ effectively separates items.',
-                formulas: [
-                  {
-                    label: 'Salton & Yang Discrimination Value',
-                    tex: '\\text{DISCRIM}_i = \\text{AVESIM}_i - \\text{AVESIM}',
-                    note: 'If deleting term $i$ makes documents appear closer together ($\\text{AVESIM}_i > \\text{AVESIM}$), $DISCRIM_i > 0$ marks a strong discriminator.',
-                  },
-                ],
-              },
-              {
-                sideHeading: 'Limitations of Pure Vector Models',
-                bullets: [
-                  'Discards word ordering inside sentences.',
-                  'Assumes vocabulary terms are statistically independent.',
-                  'Treats synonyms as zero-overlap orthogonal vector axes.',
-                ],
-              },
-            ],
-          },
-          {
-            sideHeading: '3. Bayesian Model',
-            description:
-              'Overcomes vector-model independence restrictions by applying conditional probabilities over graphical belief networks.',
+            sideHeading: '5. Map',
             bullets: [
-              {
-                label: 'Relative Confidence Ranking',
-                text: 'Generates strong relative confidence scores ordering item relevance cleanly rather than relying on fragile absolute probabilities.',
-              },
+              'Used when data has **lines and areas** as well as points.',
+              { label: 'Line Feature', text: 'A road or river — a chain of points joined by **line segments**.' },
+              { label: 'Area Feature', text: 'A lake or a state — a **closed outline** where the first and last points are the same.' },
             ],
           },
           {
-            sideHeading: '4. Neural Network Model',
-            description:
-              'Dynamic learning graph structures under concept indexing linking Input Query Tokens, Hidden Concept Class Layers, and Output Document Nodes.',
+            sideHeading: '6. Contour (Isovalue) Map',
             bullets: [
-              {
-                label: 'Key Benefit & Examples',
-                text: 'Learns domain-specific concept hierarchies iteratively and significantly **improves Recall**.',
-              },
+              'Draws **boundary lines** for a smooth quantity like height or temperature.',
+              '**Isovalue = "one value"**. A contour line separates points **above** that value from points **below** it.',
+              'Made by checking every **2 × 2 square** of neighbouring values: if some corners are above and some below, a line crosses that square.',
+            ],
+            example: 'Height contour lines on a hill map.',
+          },
+        ],
+      },
+      {
+        heading: 'Probing Two-Dimensional Data',
+        description:
+          'Instead of showing everything, we can show a **1D slice or summary** of the data and then use any 1D technique.',
+        subGroups: [
+          {
+            sideHeading: 'Frequency Histograms',
+            bullets: [
+              'Count **how often** each value (or value range) appears and show the counts as a **bar graph**.',
+              'Hard choices: **how many ranges** and **where to split** them. Bad choices hide important features.',
+              'Just using equal-size ranges is **rarely good**; someone who knows the data should choose.',
             ],
           },
-        ],
-      },
-    ],
-    diagramId: 'statistical-indexing-tree',
-    diagramCaption: 'Hierarchy of Statistical Indexing Approaches (IRS UNIT-III NOTES p.6)',
-    keyTakeaway:
-      'Include ALL four formula blocks (**Log-Odds, $TF\\text{-}IDF$, Signal Weighting `SAW/DRILL`, and Discrimination Value**) alongside explicit side-blocks for **Probabilistic, Vector, Bayesian, and Neural Network** models.',
-  },
-  {
-    id: 'u3-natural-language-indexing',
-    shortTitle: 'Natural Language Indexing (NLP)',
-    unit: 'unit3',
-    order: 3,
-    title: 'Natural Language Processing (NLP) in Indexing',
-    subtopicsCovered: [
-      'Goals of NLP Indexing (Sentiment, Semantics, Phrase Generation, Precision)',
-      'Five Levels of Natural Language Processing & DR-LINK System',
-      'Statistical Proximity & Cohesion Factor Phrase Extraction',
-      'Thematic Representations & False-Hit Overhead Reduction',
-    ],
-    summaryLine:
-      '**Natural Language Indexing** fuses semantic sentence structure, grammar roles, and statistical **Cohesion** to construct unambiguous compound **Index Phrases** and higher-level **Thematic Representations**, boosting **Precision**.',
-    bullets: [
-      {
-        label: 'Semantic & Opinion Understanding',
-        text: 'Interprets sentence context, logical grammar roles, and user views/emotions alongside token statistics.',
-        example: 'Distinguishing sentiment cues such as `"Happy or sad"`, `"Good or Bad"`.',
-      },
-      {
-        label: 'Higher Precision & Fewer False Hits',
-        text: 'Resolves homographs (`river bank vs savings bank`) instead of treating every word independently, reducing false hits and sharply improving Precision.',
-      },
-      {
-        label: 'Phrases & Thematic Representations',
-        text: 'Outputs structured multi-word Index Phrases as basic units and combines related phrases upward into higher-level abstractions called Thematic Representations.',
-      },
-    ],
-    subSections: [
-      {
-        heading: 'Five Linguistic Processing Levels & DR-LINK System',
-        description:
-          'Full-text semantic indexers progress through five linguistic levels, unified cleanly in the DR-LINK retrieval architecture.',
-        subGroups: [
           {
-            sideHeading: '1. Morphological Level',
-            description:
-              'Reduces inflected words down to base root lemmas together with grammatical tense and number tags (`computing -> compute`).',
+            sideHeading: 'Row and Column Aggregations',
+            bullets: [
+              'Summarize each **row or column** with one number — **sum, average, median, standard deviation, max or min**.',
+              'Helps find **where features start and end** and where values change a lot.',
+              'Shown **next to** the 2D picture as colour bars, line plots or bar graphs.',
+            ],
           },
           {
-            sideHeading: '2. Lexical / Part-of-Speech (POS) Level',
-            description:
-              'Assigns grammatical categories (`Noun vs Verb`) using local sentence context.',
-            example: 'Distinguishing `"book a ticket"` (Verb) vs `"read a book"` (Noun).',
-          },
-          {
-            sideHeading: '3. Syntactic Level',
-            description:
-              'Builds grammatical parse/dependency trees capturing subject–verb–object roles and extracting multi-word Compound Noun Phrases (`"expert systems"`).',
-          },
-          {
-            sideHeading: '4. Semantic Level',
-            description:
-              'Disambiguates word senses and entity roles via selectional restrictions and lexical ontologies (`"Apple"` -> Fruit vs Technology Company).',
-          },
-          {
-            sideHeading: '5. Discourse Level',
-            description:
-              'Resolves pronouns (`he, it, they`) back to true antecedent nouns across neighboring sentences (`"The system failed. It crashed." -> It = system`).',
-          },
-          {
-            sideHeading: '6. DR-LINK Retrieval System',
-            description:
-              'Document Retrieval through Linguistic Knowledge (`DR-LINK`) integrates Lexical sub-components, Conceptual Relations, Subject Field Codes, and Syntactic Phrases for high-precision text retrieval.',
-          },
-        ],
-      },
-      {
-        heading: 'Statistical Proximity & Cohesion Factor Phrase Detection',
-        description:
-          'Earlier statistical phrase systems measured inter-word proximity across collections via Salton Cohesion Factor to form focused multi-word index phrases that reduce non-relevant item overhead.',
-        formulas: [
-          {
-            label: 'Cohesion Factor Between Co-Occurring Phrase Terms',
-            tex: '\\text{Cohesion}(k, h) = \\text{SizeFactor} \\times \\frac{\\text{PAIR-FREQ}_{k,h}}{\\text{TOTF}_k \\times \\text{TOTF}_h}',
-            note: '$\\text{PAIR-FREQ}_{k,h}$ is total collection co-occurrence count of terms $k$ and $h$ together; $\\text{TOTF}_k, \\text{TOTF}_h$ are individual totals scaled by vocabulary $\\text{SizeFactor}$.',
-          },
-        ],
-      },
-    ],
-    table: {
-      caption: 'Five NLP Processing Stages in IRS Indexing',
-      headers: ['Linguistic Stage', 'Core Task Performed', 'Concrete IR Example'],
-      rows: [
-        ['Morphological', 'Strip affixes into base root + tense tags', 'computing → compute (Verb / Participle)'],
-        ['Lexical / POS', 'Tag grammatical word category using local context', '"book" tagged as Verb vs Noun'],
-        ['Syntactic', 'Parse noun phrases & grammatical dependencies', 'Preserves "information retrieval" as 1 phrase'],
-        ['Semantic', 'Disambiguate word sense & entity role', '"Apple" → Fruit vs Technology Company'],
-        ['Discourse', 'Resolve pronouns & coreference across sentences', '"The system failed. It crashed." → It = system'],
-      ],
-      highlightRows: [2, 3],
-    },
-    keyTakeaway:
-      'Step cleanly through all **5 NLP stages + DR-LINK**, include **Thematic Representations**, and write Salton **Cohesion Factor** formula.',
-  },
-  {
-    id: 'u3-concept-indexing-hypertext',
-    shortTitle: 'Concept Indexing & Hypertext Linkages',
-    unit: 'unit3',
-    order: 4,
-    title: 'Concept Indexing & Hypertext Linkages',
-    subtopicsCovered: [
-      'Concept Indexing Goal & Generalization Beyond Words',
-      'Latent Semantic Indexing (LSI) & Singular Value Decomposition (SVD)',
-      'Neural Network Context Mapping (CONVECTIS / Convection System)',
-      'Hypertext Linkage Indexing & Three Internet Discovery Mechanisms',
-    ],
-    summaryLine:
-      '**Concept Indexing** generalizes surface terms into abstract latent **Concept Classes** via **LSI / SVD** and **Neural Networks (`CONVECTIS`)**, while **Hypertext Linkage Indexing** adds cross-document virtual concept threads.',
-    bullets: [
-      {
-        label: 'Generalization to Abstract Concepts',
-        text: 'Correlates specific words in an item to broader underlying concepts so synonyms (`car`, `automobile`) match seamlessly—even when automatically generated statistical concept classes have no fixed English name.',
-      },
-      {
-        label: 'Many-to-Many Mapping & Recall Gain',
-        text: 'Mapping from surface terms to concepts is inherently many-to-many because one word may represent multiple concepts to varying degrees, significantly improving Recall.',
-      },
-    ],
-    subSections: [
-      {
-        heading: '1. Concept Indexing Approaches',
-        subGroups: [
-          {
-            sideHeading: 'Latent Semantic Indexing (LSI) via Singular Value Decomposition',
-            description:
-              'Decomposes the sparse Term–Document matrix $A$ via Singular Value Decomposition (SVD) retaining the top $k$ latent concept dimensions, folding synonyms together while suppressing accidental statistical noise.',
+            sideHeading: 'Linear Probes',
+            bullets: [
+              'Like a **drill hole**: draw a line through the data and plot the values along it as a 1D graph.',
+              'The user gives two points P1 and P2; points on the line come from the formula below.',
+              'Values between grid points are found by **bilinear interpolation** (averaging the four nearest grid values).',
+              'Longer lines get **more sample points**, so a line that only clips a corner gets fewer.',
+            ],
             formulas: [
               {
-                label: 'Singular Value Decomposition (LSI Concept Approximation)',
-                tex: 'A_{t \\times d} \\approx U_{t \\times k} \\, \\Sigma_{k \\times k} \\, V_{k \\times d}^T',
-                note: '$A$ is raw Term-Document matrix; $U_k$ maps terms to $k$ latent concepts; $\\Sigma_k$ stores singular concept strengths; $V_k^T$ maps documents into $k$-dimensional concept space.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'CONVECTIS / Convection Neural Network System',
-            description:
-              'Applies brain-inspired Neural Network algorithms (`CONVECTIS / Convection system`) to learn contextual concept weights from terms occurring in similar contexts and score incoming documents across synonymous neighborhoods.',
-          },
-        ],
-      },
-      {
-        heading: '2. Hypertext Linkage Indexing & Internet Discovery',
-        description:
-          'Adds a new information retrieval dimension atop linear text by creating directional hyperlinks (`virtual threads of concepts`) connecting related items.',
-        subGroups: [
-          {
-            sideHeading: 'Manual vs Automatic Link Generation',
-            subGroups: [
-              {
-                sideHeading: 'Manual Linkages',
-                description:
-                  'Authors explicitly embed citation links, footnotes, or conceptual anchor tags inside documents.',
-              },
-              {
-                sideHeading: 'Automatic Linkages',
-                description:
-                  'Algorithms infer inter-node links via Similarity-Based thresholds, Direct Citations, Whole–Part aggregation, or Conceptual Association weighted by anchor text.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'Three Internet Information Discovery Classes',
-            bullets: [
-              {
-                label: '1. Manually Generated Indexes',
-                text: 'Human-curated topical web directories and subject catalogs.',
-              },
-              {
-                label: '2. Automatically Generated Indexes',
-                text: 'Inverted keyword indexes compiled automatically from harvested page content.',
-              },
-              {
-                label: '3. Web Crawlers (Spider-Bots / Intelligent Agents)',
-                text: 'Autonomous Internet bots that systematically browse the World Wide Web following hyperlinks to feed search-engine indexers.',
+                label: 'Points on the Probe Line',
+                tex: 'P(t) = P_1 + t\\,(P_2 - P_1), \\qquad 0 \\le t \\le 1',
+                note: '$t = 0$ gives $P_1$, $t = 1$ gives $P_2$, $t = 0.5$ gives the midpoint.',
               },
             ],
           },
         ],
       },
     ],
-    diagramId: 'concept-lsi-svd',
-    diagramCaption: 'LSI Singular Value Decomposition Projecting Terms & Documents into Latent Concept Space',
     keyTakeaway:
-      'Present **LSI ($A \\approx U_k \\Sigma_k V_k^T$)** alongside **Neural CONVECTIS** concept mapping, plus **Hypertext virtual threads** and all **3 Internet discovery classes (`Manual, Automatic, Spider-Bots`)**.',
-  },
-  {
-    id: 'u3-intro-clustering',
-    shortTitle: 'Introduction to Clustering (Process & Rules)',
-    unit: 'unit3',
-    order: 5,
-    title: 'Introduction to Document and Term Clustering',
-    subtopicsCovered: [
-      'Clustering Definition & Van Rijsbergen Cluster Hypothesis',
-      'Term Clustering vs Document Clustering',
-      'Four-Step Clustering Process (Domain, Attributes, Relationships, Algorithm)',
-      'Guidelines on Cluster Class Properties',
-    ],
-    summaryLine:
-      '**Clustering** partitions similar items into cohesive classes so **Term Clustering** constructs **Statistical Thesauri** for query expansion while **Document Clustering** accelerates retrieval via the **Cluster Hypothesis**.',
-    bullets: [
-      {
-        label: 'Clustering Definition',
-        text: 'Enhances retrieval efficiency and effectiveness by partitioning documents or terms into classes of closely associated objects under a general class label with optional inter-cluster linkages.',
-      },
-      {
-        label: 'Van Rijsbergen Cluster Hypothesis',
-        text: 'Closely associated documents tend to be relevant to the same information requests—enabling rapid retrieval of whole topical clusters.',
-      },
-    ],
-    subSections: [
-      {
-        heading: 'Two Fundamental Types of Clustering in IRS',
-        subGroups: [
-          {
-            sideHeading: '1. Term Clustering (Query Expansion)',
-            description:
-              'Groups synonymous or co-occurring terms (`single words, phrases, or paragraphs`) into a Statistical Thesaurus.',
-            bullets: [
-              'Expands user queries with related terms (`Query Expansion`) to **increase Recall**.',
-            ],
-          },
-          {
-            sideHeading: '2. Document Clustering (Resultant Set Expansion)',
-            description:
-              'Groups entire documents sharing key index terms or concepts into cohesive topical collections.',
-            bullets: [
-              'Retrieves items similar to an item of interest even when exact query words were omitted (`Resultant Set / Result-Set Expansion`).',
-            ],
-          },
-        ],
-      },
-      {
-        heading: 'Four-Step Clustering Process (UNIT-III p.13)',
-        subGroups: [
-          {
-            sideHeading: 'Step 1 — Define the Domain & Reduce Noise',
-            bullets: [
-              {
-                label: 'Thesaurus',
-                text: 'Target domain (`e.g., medical or education`) with relevant term subsets.',
-              },
-              {
-                label: 'Documents',
-                text: 'Select cohesive set of items and discard objects likely to induce clustering errors.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'Step 2 — Determine Attributes of Clustered Objects',
-            bullets: [
-              {
-                label: 'Thesaurus',
-                text: 'Select the specific vocabulary words inside objects to cluster.',
-              },
-              {
-                label: 'Documents',
-                text: 'Focus on informative document zones (`Title, Abstract`) used to measure similarity.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'Step 3 — Determine Inter-Attribute Relationships',
-            bullets: [
-              {
-                label: 'Thesaurus',
-                text: 'Determine synonymous word pairs and the strength of their relationships.',
-              },
-              {
-                label: 'Documents',
-                text: 'Define a similarity function (`Cosine, Dice, Jaccard`) over shared word co-occurrences.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'Step 4 — Apply Clustering Algorithm',
-            description:
-              'Execute the chosen clustering algorithm (`Single-Link, Complete-Link, One-Pass, HAC`) to assign each object to classes.',
-          },
-        ],
-      },
-      {
-        heading: 'Three Guidelines on Cluster Class Characteristics (UNIT-III p.14)',
-        bullets: [
-          {
-            label: '1. Clear Semantic Definition',
-            text: 'A well-defined semantic identity should exist for each class (noting the risk that an assigned label could be misleading).',
-          },
-          {
-            label: '2. Balanced Class Size',
-            text: 'Cluster sizes should remain within the same order of magnitude so one giant object never dominates a class.',
-          },
-          {
-            label: '3. Single vs Multi-Class Assignment Policy',
-            text: 'Decide explicitly at creation time whether each object belongs strictly to one class or multiple overlapping classes.',
-          },
-        ],
-      },
-    ],
-    table: {
-      caption: 'Term Clustering vs Document Clustering',
-      headers: ['Feature', 'Term Clustering', 'Document Clustering'],
-      rows: [
-        ['Objects Grouped', 'Index terms / processing tokens', 'Entire documents / items'],
-        ['Similarity Cue', 'Co-occurring inside same documents', 'Sharing overlapping query/index words'],
-        ['Primary Artifact', 'Statistical Thesaurus (synonym classes)', 'Topical Document Clusters & Browsing Hierarchy'],
-        ['Retrieval Role', 'Query Expansion (Boosts Recall)', 'Resultant Set Expansion & Fast Pruning'],
-      ],
-      highlightRows: [2, 3],
+      'List the **six 2D pictures** (image, rubber sheet, cityscape, scatterplot, map, contour) with one line each, then the **three probing methods** (histogram, row/column aggregation, linear probe with $P(t) = P_1 + t(P_2 - P_1)$).',
+    selfCheck: {
+      question: 'What is the difference between an image and a scatterplot of 2D data?',
+      answer: 'An image fills in colours between data points (interpolation); a scatterplot only draws markers at the data points.',
     },
-    keyTakeaway:
-      'Compare **Term vs Document Clustering**, state the **Cluster Hypothesis**, show all **4 steps comparing Thesaurus vs Document choices**, and list the **3 Class Guidelines**.',
   },
   {
-    id: 'u3-thesaurus-generation',
-    shortTitle: 'Thesaurus Generation (KWOC / KWIC / KWAC)',
+    id: 'u3-three-dimensional-data',
+    shortTitle: 'Three-Dimensional Data',
     unit: 'unit3',
-    order: 6,
-    title: 'Thesaurus Generation (Manual KWOC/KWIC/KWAC & Automatic Clustering)',
+    order: 3,
+    title: 'Three-Dimensional Data',
     subtopicsCovered: [
-      'Word Coordination & Six Semantic Word Relationships',
-      'Manual Clustering Concordances: KWOC, KWIC (/ End-of-Phrase & Homographs) & KWAC',
-      'Automatic Term Clustering (Complete Term Relation, Existing Clusters, One-Pass)',
+      'Visualizing Explicit Surfaces',
+      'Visualizing Volume Data (Voxels)',
+      'Slicing, Isosurface, Direct Volume Rendering',
+      'Forward Mapping vs Ray Casting',
+      'Implicit Surfaces',
+      'Metaballs / Blobby Objects & Influence Equation',
     ],
     summaryLine:
-      '**Thesaurus Generation** builds synonym and concept classes either manually using human concordance tables (**KWOC, KWIC, KWAC**) and semantic relation rules or automatically via **Statistical Co-occurrence Term Clustering**.',
+      '3D data is either a **surface** (like the skin of an object) or a **volume** (values filling a 3D space, like a body scan). We show it with **explicit surfaces**, **volume techniques**, or **implicit surfaces** like metaballs.',
     bullets: [
-      {
-        label: 'Core Principle of Automatic Thesauri',
-        text: 'Automatically generated thesauri group statistically co-occurring words (`lacking natural class names`) based on the principle that the more frequently two terms co-occur in the same items, the more likely they share the same concept.',
-      },
-      {
-        label: 'Word Coordination Decision',
-        text: 'Specifies upfront whether multi-word phrases as well as individual single terms should be clustered inside the thesaurus.',
-      },
+      '3D data can be **samples of something continuous** (temperature in a room) or an **object made of corners, edges and faces**.',
+      'Real engineering data often has **both**, like **air flowing around a wing** or **stress inside a machine part**.',
     ],
     subSections: [
       {
-        heading: 'Six Word Relationships Inside a Thesaurus',
+        heading: '1. Visualizing Explicit Surfaces',
+        description: 'An **explicit surface** is a surface whose points are **written out directly**. It is defined in one of two ways:',
         bullets: [
+          { label: 'Way 1 — Lists', text: 'A list of **corner points**, a list of **edges** (which corners are joined), and a list of **faces** (which edges form each flat patch).' },
+          { label: 'Way 2 — Formulas', text: '**Equations** that give x, y, z of surface points, plus a rule to join them into a grid. A **smaller step** gives a **smoother** surface.' },
+        ],
+      },
+      {
+        heading: '2. Visualizing Volume Data',
+        bullets: [
+          'A **voxel** (volume element) is to 3D what a **pixel** is to 2D — a tiny cube with a value.',
+          'Volume data comes from **scanners** (CT/MRI) or **simulations** (fluid flow).',
+          'Goal: show the **structure, patterns and odd spots** inside the volume.',
+        ],
+        subGroups: [
           {
-            label: '1. Equivalence',
-            text: 'Links strict synonyms and acronyms under standardized `USE / UF (Used For)` mappings.',
+            sideHeading: 'Three Ways to Show a Volume',
+            bullets: [
+              { label: 'Slicing', text: 'Cut the volume with a **flat plane** and show that 2D slice.', example: 'One slice of a CT scan.' },
+              { label: 'Isosurface', text: 'Pick one value and draw the **surface where the data equals that value**.', example: 'The surface of the bones in a CT scan.' },
+              { label: 'Direct Volume Rendering', text: 'Make the picture **straight from the voxels**, by sending rays through them or projecting each voxel onto the screen.' },
+            ],
           },
           {
-            label: '2. Hierarchical',
-            text: 'Connects parent concepts to sub-concepts via `BT (Broader Term)` and `NT (Narrower Term)`.',
-          },
-          {
-            label: '3. Non-Hierarchical',
-            text: 'Associates related descriptors without parent–child hierarchy (`RT — Related Term`).',
-          },
-          {
-            label: '4. Parts–Wholes',
-            text: 'Models structural aggregation and composition (`Processor -> Computer`).',
-          },
-          {
-            label: '5. Collocation',
-            text: 'Statistical relation linking words that co-occur in the same sentence, phrase, or paragraph.',
-          },
-          {
-            label: '6. Paradigmatic',
-            text: 'Relates words sharing the same semantic base or grammatical role (`"Formula" & "Equation"`, `Taxonomy & Synonym`).',
+            sideHeading: 'Direct Volume Rendering in Detail',
+            bullets: [
+              'No 3D polygons are made; **each pixel is calculated directly** from the voxels.',
+              'Voxel positions are first converted into **camera (viewing) coordinates**, just like in the graphics pipeline.',
+              'The viewer sets the **view point**, the **view direction**, the **image width and height**, and (for perspective) the **camera distance**.',
+              { label: 'Forward Mapping', text: 'Start from **each voxel**, project it onto the screen and see which pixels it affects.' },
+              { label: 'Inverse Mapping (Ray Casting)', text: 'Start from **each pixel**, shoot a **ray** into the volume and combine the values it passes through.' },
+            ],
           },
         ],
       },
       {
-        heading: 'Manual Thesaurus Construction: KWOC, KWIC & KWAC (Exam Favorite)',
-        description:
-          'Human analysts review sorted concordance listings (`built over sample phrases/sentences`) and use domain judgment to group related terms into manual thesaurus clusters.',
+        heading: '3. Implicit Surfaces',
         subGroups: [
           {
-            sideHeading: '1. KWOC (Keyword Out of Context)',
+            sideHeading: 'The Usual Method',
             description:
-              'Separates each keyword from its sentence and tabulates alphabetical Term, Frequency, and containing Document IDs.',
-            example: '`Chips | 3 | DOC1, DOC3, DOC4`',
+              'Graphics normally uses **formulas to get surface points** and joins them into a **mesh** of polygons. This is good for moving objects and computing **surface normals** (which way the surface faces).',
           },
           {
-            sideHeading: '2. KWIC (Keyword In Context — Fig. 6.1 Homograph Resolution)',
-            description:
-              'Wraps and rotates surrounding phrase context beside the centered keyword using slash `/` to mark the end of the phrase—especially helpful for resolving **homographs**.',
-            example: '`chips/ computer design contains memory`',
+            sideHeading: 'Implicit Representation',
+            bullets: [
+              'The surface is defined as **all points where a function equals zero**, instead of listing points.',
+              'Very good at **blending** shapes and **morphing** one shape into another.',
+              'In visualization, it can show **sparse data**, the **area of influence** of each data point, and turn **clouds of points** into smooth surfaces.',
+            ],
           },
           {
-            sideHeading: '3. KWAC (Keyword And Context)',
-            description:
-              'Displays each keyword cleanly on the left followed completely by its un-rotated full sentence context.',
-            example: '`chips : computer design contains memory chips`',
-          },
-        ],
-      },
-      {
-        heading: 'Automatic Term Clustering Methods (Kowalski Ch. 6.2.2)',
-        subGroups: [
-          {
-            sideHeading: '1. Complete Term Relation Method',
-            description:
-              'Computes a full pairwise $n \\times n$ term similarity matrix, thresholds entries into a binary matrix, and extracts Cliques, Stars, or Single-Link clusters.',
+            sideHeading: 'Metaballs / Blobby Objects',
+            bullets: [
+              'A metaball is a **point with an invisible "field" around it** that is strongest at the centre and **fades with distance**.',
+              'The visible surface is drawn where the field equals a chosen value — a **higher value** gives a surface **closer** to the point.',
+              'Power: **add up** the fields of all metaballs, and nearby balls **melt together smoothly** like drops of liquid.',
+            ],
+            example: 'Two overlapping spheres merging into one blob; a bent grid of 25 spheres with one missing in the centre.',
+            diagramId: 'dvt-metaballs',
+            diagramCaption: 'Two metaballs: their fields add up and blend into one smooth surface.',
           },
           {
-            sideHeading: '2. Clustering Using Existing Clusters',
-            description:
-              'Starts from manually seeded initial clusters (`represented by centroid vectors`) and assigns remaining corpus terms to their closest matching cluster.',
-          },
-          {
-            sideHeading: '3. One-Pass Assignments',
-            description:
-              'Processes terms in one $O(N)$ pass, assigning each new term to any existing cluster exceeding threshold similarity or opening a new cluster otherwise.',
+            sideHeading: 'Influence Equation',
+            bullets: [
+              '**Blinn** used a **bell-shaped (Gaussian) bump** for each point: height **b**, width controlled by **a**.',
+              'To save time he used the **squared distance** (no square root needed).',
+              'The total value at any spot = **sum of all points’ fields**.',
+            ],
+            formulas: [
+              {
+                label: 'Blinn Metaball Influence',
+                tex: 'F(r) = b\\,e^{-a r^{2}}, \\qquad D(\\mathbf{p}) = \\sum_{k} b_k\\, e^{-a_k r_k^{2}}',
+                note: '$r$ = distance from the particle; the surface is where the total $D(\\mathbf{p})$ equals the chosen value.',
+              },
+            ],
           },
         ],
       },
     ],
-    diagramId: 'thesaurus-kwoc-kwic',
-    diagramCaption: 'KWOC, KWIC & KWAC Concordance Listings (IRS UNIT-III NOTES p.15–16)',
-    table: {
-      caption: 'KWOC Sample Vocabulary Table From Notes (DOC1–DOC4)',
-      headers: ['Term', 'Frequency', 'Containing Document IDs'],
-      rows: [
-        ['Chips', '3', 'DOC1, DOC3, DOC4'],
-        ['Computer', '3', 'DOC1, DOC3, DOC4'],
-        ['Design', '2', 'DOC2, DOC3'],
-        ['Memory', '3', 'DOC1, DOC2, DOC3'],
-      ],
-      highlightRows: [0, 3],
+    keyTakeaway:
+      'Three families: **explicit surfaces** (lists or formulas), **volume data** (slicing, isosurface, direct rendering → **forward mapping vs ray casting**), **implicit surfaces** (function = 0, **metaballs** with Blinn’s bell-shaped field, added together).',
+    selfCheck: {
+      question: 'What is the difference between forward mapping and ray casting?',
+      answer: 'Forward mapping starts from each voxel and projects it onto the screen; ray casting starts from each pixel and shoots a ray through the volume.',
     },
-    keyTakeaway:
-      'Illustrate **KWOC, KWIC (`/` phrase boundary & homographs), and KWAC**, list all **6 word relationships (+ Word Coordination)**, and summarize all **3 Automatic Term Clustering** algorithms.',
   },
   {
-    id: 'u3-item-clustering',
-    shortTitle: 'Item Clustering (5×5 Matrix)',
+    id: 'u3-dynamic-data',
+    shortTitle: 'Dynamic Data',
     unit: 'unit3',
-    order: 7,
-    title: 'Item Clustering (Similarity Matrix, Thresholding & Cliques)',
+    order: 4,
+    title: 'Dynamic Data — Flow Visualization',
     subtopicsCovered: [
-      'Item Clustering Definition & Heterogeneous Units',
-      'Manual vs Automatic Item Clustering (Primary & Secondary Categories)',
-      'Pairwise Similarity Formula & 5 × 5 Benchmark Matrix',
-      'Thresholding (Threshold = 10) to Binary Matrix & Cliques/Stars',
+      'Flow Visualization History',
+      'Computational Fluid Dynamics (CFD)',
+      'Variations in Flow Field Data (Static, Unsteady)',
+      'Definitions: Pathline, Streakline, Timeline, Streamline, Vorticity',
+      'Arrow Glyphs, Streamlines, Ribbons, Tubes, Streaklines',
+      'Line Integral Convolution (LIC)',
     ],
     summaryLine:
-      '**Item Clustering** applies complete-relation similarity across phrases, sentences, or full documents to construct an $N \\times N$ **Similarity Matrix**, binarize it at **Threshold $\\ge 10$**, and extract **Cliques or Stars**.',
+      '**Flow visualization** shows how **liquids and gases move**. Computer simulations give a grid of **velocity arrows**, shown with **arrows, streamlines, ribbons, streaklines** and **LIC textures**.',
     bullets: [
-      {
-        label: 'Item Clustering Definition',
-        text: 'Groups heterogeneous item units across multiple documents (`words, phrases, sentences, diagrams, or pictures`) sharing high attribute co-occurrence.',
-      },
+      { label: 'Flow Visualization', text: 'Ways of showing how **liquids and gases move**.' },
+      { label: 'History', text: 'Goes back to the **1400s**: **Leonardo da Vinci** sketched sand and wood shavings moving in flowing water.' },
+      'Later, lab experiments improved with **controlled particles** and **photography**.',
     ],
     subSections: [
       {
-        heading: 'Manual vs Automatic Item Clustering',
-        subGroups: [
-          {
-            sideHeading: '1. Manual Item Clustering',
-            description:
-              'Relies on human analysts evaluating items manually, imposing excessive time, storage, and computational overhead on large archives.',
-          },
-          {
-            sideHeading: '2. Automatic Item Clustering',
-            description:
-              'Highly efficient algorithmic clustering assigning one **Primary Category** plus several **Secondary Categories** per item using the **Item Complete-Relation Method**.',
-          },
+        heading: 'Computational Fluid Dynamics (CFD)',
+        bullets: [
+          '**CFD** = using computers to **simulate** how fluids move.',
+          'The result is a **2D or 3D grid of velocity vectors** (arrows showing speed and direction at each point).',
+          'Goal: find **turbulence** (chaotic flow), **vortices** (swirls) and **saddle points** (where flows split).',
         ],
       },
       {
-        heading: 'Similarity Matrix, Thresholding ($\\ge 10$) & Clique Extraction',
+        heading: 'Variations in Flow Field Data',
         bullets: [
-          {
-            label: 'Pairwise Row Similarity',
-            text: 'Computes dot-product similarity between pairs of rows in the item-term matrix based on common terms.',
-          },
-          {
-            label: 'Default Binarization Threshold ($= 10$)',
-            text: 'Scores $\\ge 10$ convert to `1` (linked in same cluster) and scores $< 10$ convert to `0`.',
-          },
-          {
-            label: 'Cluster Graph Structures',
-            text: 'Extracts maximal Cliques (`all pairs linked`, e.g. `{I1, I2, I5}` and `{I2, I4, I5}`), Stars, or Strings from the binary matrix.',
-          },
+          { label: 'Static Field', text: 'One flow that **never changes**.' },
+          { label: 'Time-Varying (Fixed Points)', text: 'Grid points stay put but their **arrows change** over time.' },
+          { label: 'Unsteady', text: '**Both** the points and the arrows change — e.g., **spinning turbine blades**.' },
         ],
+      },
+      {
+        heading: 'Definitions',
+        table: {
+          headers: ['Term', 'Simple Meaning'],
+          rows: [
+            ['Pathline', 'The path of ONE particle over time (like a long-exposure photo of one firefly).'],
+            ['Streakline', 'Where all particles released from one spot are right now (like smoke from a chimney).'],
+            ['Timeline', 'A batch of particles released together, seen at one moment (a line that bends as it flows).'],
+            ['Streamline', 'A line that follows the flow direction at every point at one instant.'],
+            ['Steady flow', 'Flow that never changes; then pathlines, streaklines and streamlines are the same.'],
+            ['Particle advection', 'Calculating how particles move through the flow.'],
+            ['Vorticity', 'How much the flow is spinning at each point (the "curl" of velocity).'],
+          ],
+        },
         formulas: [
           {
-            label: 'Pairwise Item-Item Similarity Score',
-            tex: '\\text{SIM}(\\text{Item}_i, \\text{Item}_j) = \\sum_{k} (\\text{term}_{i,k}) \\times (\\text{term}_{j,k})',
-            note: 'Default cutoff threshold $= 10$: $\\text{SIM} \\ge 10 \\implies 1$ (linked in same cluster), else $0$.',
+            label: 'Vorticity (amount of spin)',
+            tex: '\\boldsymbol{\\omega} = \\nabla \\times \\mathbf{v}',
           },
         ],
-        diagramId: 'item-clustering-matrix',
-        diagramCaption: 'Pairwise Similarity Matrix Thresholded at ≥ 10 into a Binary Adjacency Matrix',
+      },
+      {
+        heading: 'Visualization Techniques',
+        subGroups: [
+          {
+            sideHeading: '1. Show the Velocity Directly',
+            bullets: [
+              'Draw **arrow glyphs** (small arrows) for direction and speed, or show **speed alone** as colour/size.',
+              { label: 'Example', text: 'A **storm cloud** picture with arrows showing wind direction and strength.' },
+              '**Too many** arrows cover each other; **too few** may miss features.',
+              'Users can change **arrow density**; newer research **places arrows automatically** where the flow is interesting.',
+            ],
+          },
+          {
+            sideHeading: '2. Streamlines, Stream-Ribbons and Stream-Tubes',
+            bullets: [
+              'The user picks **seed points**; from each, a line is traced that always follows the flow direction.',
+              'Lines can be made into flat **ribbons** or round **tubes**; speed or **spin (vorticity)** can control their **colour, thickness or twist**.',
+            ],
+            example: 'Ribbons that twist more where the flow spins more.',
+          },
+          {
+            sideHeading: '3. Streaklines',
+            bullets: [
+              'A **continuous stream of particles** released from fixed points flows through the field.',
+              'Particles from the same source get the **same colour**, so you can follow them even when they spread apart.',
+            ],
+            example: 'Sparks rising from a campfire.',
+          },
+          {
+            sideHeading: '4. Line Integral Convolution (LIC)',
+            bullets: [
+              'Made by **Cabral and Leedom (1993)**.',
+              'Takes a **random noise image** and a **flow field** of the same size, and creates a **dense streaky texture** showing the flow everywhere.',
+              'Each output pixel = **average of noise pixels along the streamline** passing through it, so streaks line up with the flow.',
+              'From each pixel, a chain of pixels is followed **forward and backward** along the flow.',
+            ],
+          },
+        ],
       },
     ],
-    table: {
-      caption: 'Benchmark 5 × 5 Item-Item Similarity Matrix (Course Notes p.52)',
-      headers: ['Item ID', 'Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'],
-      rows: [
-        ['Item 1', '—', '11', '3', '6', '22'],
-        ['Item 2', '11', '—', '12', '10', '36'],
-        ['Item 3', '3', '12', '—', '6', '9'],
-        ['Item 4', '6', '10', '6', '—', '11'],
-        ['Item 5', '22', '36', '9', '11', '—'],
-      ],
-      highlightRows: [1],
-    },
-    secondaryTable: {
-      caption: 'Resulting Binary Matrix After Threshold ≥ 10',
-      headers: ['Item ID', 'Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'],
-      rows: [
-        ['Item 1', '—', '1', '0', '0', '1'],
-        ['Item 2', '1', '—', '1', '1', '1'],
-        ['Item 3', '0', '1', '—', '0', '0'],
-        ['Item 4', '0', '1', '0', '—', '1'],
-        ['Item 5', '1', '1', '0', '1', '—'],
-      ],
-      highlightRows: [1, 4],
-    },
-    walkthroughLinkId: 'item-clustering-hac',
     keyTakeaway:
-      'Contrast **Manual vs Automatic (`1 Primary + Secondary Categories`)**, compute the **$5\\times 5$ Matrix -> Threshold $\\ge 10$ Binary Matrix**, and list cliques (`{I1, I2, I5}`, `{I2, I4, I5}`).',
+      'Learn the **7 definitions** in simple words (pathline = one particle’s path, streakline = smoke from a chimney, streamline = follows flow now, steady flow = all three same, vorticity = spin) and the **4 techniques** (arrows, streamlines/ribbons/tubes, streaklines, **LIC by Cabral & Leedom**).',
+    selfCheck: {
+      question: 'When are pathlines, streaklines and streamlines the same?',
+      answer: 'In steady flow — when the flow does not change over time.',
+    },
   },
   {
-    id: 'u3-hierarchy-of-clusters',
-    shortTitle: 'Hierarchy of Clusters & Dendrograms',
+    id: 'u3-combining-techniques',
+    shortTitle: 'Combining Techniques',
     unit: 'unit3',
-    order: 8,
-    title: 'Hierarchy of Clusters (HAC, Divisive & Dendrograms)',
+    order: 5,
+    title: 'Combining Techniques',
     subtopicsCovered: [
-      'Hierarchical Clustering Tree Concept',
-      'Hierarchical Agglomerative Clustering (HAC) vs Divisive Clustering',
-      'Four Objectives of Creating Cluster Hierarchies (Centroid Pruning, Visual Cues, Generality/Specificity)',
-      'Inter-Cluster Linkage Criteria (Single, Complete, Group-Average) & Dendrogram',
+      'Why Combine Techniques',
+      'Slice Plus Isosurface',
+      'Isosurface Plus Glyphs',
+      'Rubber Sheet Plus Contour Lines and Color',
     ],
     summaryLine:
-      '**Hierarchical Clustering** organizes collections into nested tree structures using bottom-up **Agglomerative (HAC)** merging or top-down **Divisive** splitting visualized by a **Dendrogram**.',
+      'Combining two or more techniques in one picture gives the **strengths of each**, as long as they do not **hide each other**.',
     bullets: [
-      {
-        label: 'Tree Hierarchy Concept',
-        text: 'Arranges clustered items inside a multi-level tree where a root spans the whole database, intermediate nodes group parent concepts, and leaf nodes isolate granular document subsets.',
-      },
+      'Each technique shows some things well and others badly; combined, you get **all their strengths** if **overlap is kept low**.',
+      'Many problems need **several data sets at once**.',
+      { label: 'Example', text: '**Weather forecasting** combines air and ground temperature, wind speed, humidity and more.' },
     ],
     subSections: [
       {
-        heading: 'Two Hierarchical Clustering Paradigms',
+        heading: 'A. Slice Plus Isosurface',
+        bullets: [
+          { label: 'Isosurface Alone', text: 'Shows the **3D shape** for one value, but nothing about other values or how fast values change.' },
+          { label: 'Slice Alone', text: 'Shows **full detail on one flat cut** — smooth areas, changing areas, and **nested layers** that an isosurface would hide.' },
+          'Together you see both the **3D shape** and the **detail inside**.',
+        ],
         subGroups: [
           {
-            sideHeading: '1. Hierarchical Agglomerative Clustering (HAC — Bottom-Up)',
-            description:
-              'Starts with every unclustered document as a singleton leaf cluster and iteratively merges the highest-similarity pairs upward into a tree hierarchy.',
-          },
-          {
-            sideHeading: '2. Hierarchical Divisive Clustering (Top-Down)',
-            description:
-              'Starts with all documents placed inside one large root cluster and splits it recursively downward into smaller cohesive subclusters.',
-          },
-        ],
-      },
-      {
-        heading: 'Objectives of Creating a Hierarchy of Clusters (UNIT-III p.19–20)',
-        bullets: [
-          {
-            label: '1. Reduce Search Overhead',
-            text: 'Performs rapid top-down comparisons against cluster centroids and trims/prunes irrelevant tree branches immediately.',
-          },
-          {
-            label: '2. Visual Information Space',
-            text: 'Provides visual cues displaying relative cluster sizes and inter-cluster linkage strengths.',
-          },
-          {
-            label: '3. Expand Retrieval of Relevant Items',
-            text: 'Once a user identifies one helpful item, they can immediately request neighboring items in the same cluster.',
-          },
-          {
-            label: '4. Specificity vs Generality Navigation',
-            text: 'Users move downward to **children clusters to increase Specificity (Precision)** or upward to **parent clusters to increase Generality (Recall)**.',
+            sideHeading: 'Design Tips',
+            bullets: [
+              'Let the user **change the isosurface value quickly**.',
+              'Let the user **move and turn the slice** easily, and animate it through the volume.',
+              'Let the user **move the camera** to view from any angle.',
+              'Choose **colours carefully** — the isosurface colour should not appear in the slice’s colour map.',
+              'Let the user **hide either part**, or fade between them with an **opacity slider**.',
+            ],
           },
         ],
       },
       {
-        heading: 'Inter-Cluster Linkage Criteria ($C_1$ and $C_2$)',
+        heading: 'B. Isosurface Plus Glyphs',
         bullets: [
+          'An isosurface shows shape but **not direction or change**.',
+          '**Glyphs** (like arrows) show **how big and which way** things change — the gradient in still data, the flow in moving data.',
+          'Arrows are placed **near the isosurface** (an interesting area) or separately.',
+          'User controls: **isosurface value, arrow positions, view position and angle**.',
+        ],
+        subGroups: [
           {
-            label: '1. Single-Linkage',
-            text: 'Distance equals minimum distance (maximum similarity) across any pair in $C_1 \\times C_2$; tends to produce elongated chaining structures.',
+            sideHeading: 'Glyph Controls',
+            bullets: [
+              'Change **how many** arrows are shown.',
+              'Change **arrow size**.',
+              'Change **arrow colour** to show extra data or repeat the wind speed.',
+              'Place arrows automatically in **interesting regions**.',
+            ],
+          },
+        ],
+      },
+      {
+        heading: 'C. Rubber Sheet Plus Contour Lines and Color',
+        bullets: [
+          'Shows the **same data in several ways at once** (redundant mapping) to make it clearer.',
+          { label: 'Rubber Sheet', text: 'Values become **height**, so peaks and valleys look like a **real landscape**.' },
+          { label: '+ Colour', text: 'Colour by height makes **far-apart areas of the same height** easy to match.' },
+          { label: '+ Contour Lines', text: 'Lines at fixed heights make **steepness** easy to see.' },
+          'Each layer helps; letting users **turn layers on and off** helps them understand step by step.',
+        ],
+        example: 'Land height above and below sea level for the south-east United States.',
+      },
+    ],
+    keyTakeaway:
+      'Three combos: **Slice + Isosurface** (shape + inside detail; 5 design tips), **Isosurface + Glyphs** (shape + direction; 4 arrow controls), **Rubber Sheet + Contours + Colour** (same data shown three ways).',
+    selfCheck: {
+      question: 'What can a slice show that an isosurface cannot?',
+      answer: 'Detailed values on a flat cut, including smooth and changing areas and nested layers; an isosurface shows only the outer surface for one value.',
+    },
+  },
+  {
+    id: 'u3-visualizing-spatial-data',
+    shortTitle: 'Visualizing Spatial (Geospatial) Data',
+    unit: 'unit3',
+    order: 6,
+    title: 'Part 2: Geospatial Data — 2.1 Visualizing Spatial Data',
+    subtopicsCovered: [
+      'Geospatial Data & Geo-visualization',
+      'Definitions (USGS, MacEachren)',
+      'Point, Line, Area and Surface Phenomena',
+      'Map Types',
+      'Interaction in Exploratory Geo-visualization',
+      'Map Projections (by Property & by Surface)',
+      'Visual Variables for Spatial Data',
+      'London Cholera Aggregation Example',
+    ],
+    summaryLine:
+      '**Geospatial data** is data with a **real-world location** (latitude, longitude). We show it by putting the location on the screen — that is, as a **map**.',
+    bullets: [
+      'Geospatial data describes things at a **specific place on Earth**.',
+      { label: 'Where It Comes From', text: 'Card payments, phone calls, environmental records, census data.' },
+      'Showing it visually is called **geo-visualization**.',
+      'It is usually **readings collected across an area**, often samples of something continuous (like rainfall).',
+      { label: 'Uses', text: 'Climate (temperature, rain, wind), pollution (CO₂), economics (unemployment, education), customer analysis, crime.' },
+      'Basic method: put **longitude and latitude** on the screen’s x and y → a **map**.',
+    ],
+    subSections: [
+      {
+        heading: 'What Is a Map',
+        bullets: [
+          'A map is the world **reduced to points, lines and areas**; size, shape, colour, texture and orientation add more information.',
+          { label: 'USGS Definition', text: 'A map is a set of **points, lines and areas**, each with a **location** (spatial attributes) and **other properties** (non-spatial attributes).' },
+          { label: 'MacEachren Definition', text: 'Geo-visualization uses pictures to make **places and location problems visible**, using our strongest sense — **vision**.' },
+        ],
+      },
+      {
+        heading: 'Spatial Phenomena by Size',
+        table: {
+          headers: ['Type', 'Dimension', 'Stored as', 'Examples'],
+          rows: [
+            ['Point', '0D (no size)', 'One (longitude, latitude) + properties', 'Buildings, oil wells, cities'],
+            ['Line', '1D (length, no width)', 'A chain of lon/lat points (not closed)', 'Roads, cables, borders'],
+            ['Area', '2D (length + width)', 'Lon/lat points forming a closed outline', 'Lakes, parks, states'],
+            ['Surface', '2.5D (length, width, height)', 'Lon, lat, height for each point', 'Mountains, terrain'],
+          ],
+        },
+      },
+      {
+        heading: 'Map Types',
+        description:
+          'Map types depend on the data (categories or numbers; separate or continuous) and the shapes used (points, lines, areas, volumes).',
+        bullets: [
+          '**Symbol maps** — category data at points (e.g., icons for hospitals vs schools).',
+          '**Dot maps** — numeric data at points.',
+          '**Land use maps** — category data over areas (farm, forest, city).',
+          '**Choropleth maps** — numeric data over areas (states shaded by population).',
+          '**Line diagrams** — category or numeric data along lines.',
+          '**Isoline maps** — numeric surface data as contour lines.',
+          '**Surface maps** — numeric volume data as 3D surfaces.',
+          {
+            label: 'Same Data, Different Maps',
+            text: 'Grouping dots by area turns a dot map into a **choropleth**; turning dot density into a surface gives an **isoline map**; resizing areas by the count gives a **cartogram**.',
+          },
+        ],
+      },
+      {
+        heading: 'Interaction in Exploratory Geo-visualization',
+        bullets: [
+          'Unlike paper maps, users can **change the grouping and colours**, **ask questions** and **change the display** live.',
+          'Systems **link several maps**, or link maps with **bar/line charts** and advanced views like **parallel coordinates**.',
+        ],
+      },
+      {
+        heading: 'Map Projections',
+        bullets: [
+          'A **projection** is a way to turn the **round Earth** into a **flat map**. Longitude $\\lambda$ goes from −180° to 180°, latitude $\\varphi$ from −90° to 90°.',
+          'Flattening a ball **always distorts** something; each projection keeps one property correct and distorts others.',
+        ],
+        subGroups: [
+          {
+            sideHeading: 'By What They Keep Correct',
+            bullets: [
+              { label: 'Conformal', text: 'Keeps **local angles and shapes**, distorts **area**.' },
+              { label: 'Equal-area', text: 'Keeps **area**, distorts **shape**.' },
+              { label: 'Equidistant', text: 'Keeps true **distances** from certain points or lines.' },
+              { label: 'Gnomonic', text: 'Shows **shortest routes** (great circles) as **straight lines** — good for navigation.' },
+              { label: 'Azimuthal', text: 'Keeps **directions** from a centre point.' },
+              { label: 'Retroazimuthal', text: 'Keeps the direction from **any point to one fixed place**.' },
+            ],
           },
           {
-            label: '2. Complete-Linkage',
-            text: 'Distance equals maximum distance (minimum similarity) between farthest pairs across $C_1$ and $C_2$; yields tight compact clusters.',
+            sideHeading: 'By the Surface Used',
+            subGroups: [
+              {
+                sideHeading: '1. Cylindrical',
+                bullets: [
+                  'Earth is projected onto a **cylinder** wrapped around it, then unrolled. Shows the **whole world**.',
+                  'Usually **conformal**; latitude and longitude lines are **straight and at right angles**.',
+                  '**Pseudo-cylindrical**: the middle meridian and parallels are straight, other meridians curve.',
+                ],
+              },
+              {
+                sideHeading: '2. Planar (Azimuthal)',
+                bullets: [
+                  'Projected onto a **flat sheet touching the globe at one point** (the map centre).',
+                  '**Directions from the centre** are correct.',
+                ],
+              },
+              {
+                sideHeading: '3. Conic',
+                bullets: [
+                  'Projected onto a **cone** placed over the globe; latitude lines become **circles**, longitude lines **straight lines** from the tip.',
+                  'Good for **middle-latitude** areas like the **USA and Europe**.',
+                ],
+              },
+            ],
           },
+        ],
+        diagramId: 'dvt-map-projections',
+        diagramCaption: 'Cylindrical, planar (azimuthal) and conic projection surfaces.',
+      },
+      {
+        heading: 'Visual Variables for Spatial Data',
+        description:
+          'Maps may give **specific facts** about places, **general patterns**, or **comparisons** between maps; the encoding must match that goal.',
+        bullets: [
+          { label: 'Size', text: 'Size of symbols or width of lines.' },
+          { label: 'Shape', text: 'Shape of symbols or patterns.' },
+          { label: 'Brightness', text: 'How light or dark symbols, lines or areas are.' },
+          { label: 'Colour', text: 'Colour of symbols, lines or areas.' },
+          { label: 'Orientation', text: 'Rotation of symbols or patterns.' },
+          { label: 'Spacing (Texture)', text: 'How tightly a pattern is packed.' },
+          { label: 'Perspective Height', text: 'Data shown as **3D height** of points, lines or areas.' },
+          { label: 'Arrangement', text: 'Pattern inside symbols, dash/dot style of lines, regular vs random spread in areas.' },
           {
-            label: '3. Group-Average Linkage',
-            text: 'Averages pairwise similarities across all member pairs in $C_1 \\times C_2$ to balance compactness and noise tolerance.',
+            label: 'London Cholera Example',
+            text: 'The same cholera data looks **very different** when grouped into different area sizes — so the choice of areas changes the story.',
           },
         ],
       },
     ],
-    diagramId: 'cluster-dendrogram',
-    diagramCaption: 'Dendrogram Visualizing Bottom-Up HAC vs Top-Down Divisive Hierarchy (UNIT-III p.20)',
-    walkthroughLinkId: 'item-clustering-hac',
     keyTakeaway:
-      'Draw a **Dendrogram**, compare **HAC vs Divisive**, cite all **cluster hierarchy objectives (`centroid branch pruning`, `visual size cues`, `children specificity vs parent generality`)**, and distinguish **Single vs Complete vs Average Linkage**.',
+      'Write the **USGS and MacEachren** definitions, the **point/line/area/surface (0D/1D/2D/2.5D)** table, the **7 map types**, **6 projection properties + 3 projection surfaces**, and the **8 spatial visual variables**.',
+    selfCheck: {
+      question: 'Which projection draws the shortest routes on Earth as straight lines?',
+      answer: 'Gnomonic projection — useful for navigation.',
+    },
+  },
+  {
+    id: 'u3-visualization-point-data',
+    shortTitle: 'Visualization of Point Data',
+    unit: 'unit3',
+    order: 7,
+    title: '2.2 Visualization of Point Data',
+    subtopicsCovered: [
+      'Discrete vs Continuous, Smooth vs Abrupt',
+      'Dot Maps',
+      'Symbol Scaling & Ebbinghaus Illusion',
+      'Overplotting Problem',
+      'PixelMaps',
+    ],
+    summaryLine:
+      'Point data (events at exact locations) is shown with **dot maps**. In crowded areas dots **pile on top of each other**; **PixelMaps** fix this by moving dots to nearby free pixels.',
+    bullets: [
+      'Point data is a set of **separate locations**, but it may describe something **continuous** (temperature measured at stations).',
+      { label: 'Discrete vs Continuous', text: 'Discrete = exists only at **certain spots**. Continuous = exists **everywhere**.' },
+      { label: 'Smooth vs Abrupt', text: 'Smooth = changes **gradually**. Abrupt = changes **suddenly**.' },
+    ],
+    subSections: [
+      {
+        heading: 'Dot Maps',
+        bullets: [
+          'Put a **symbol or pixel** at each event’s location.',
+          'A number can be shown by symbol **size or colour**; **circles** are most common.',
+          { label: 'Size Problem', text: 'A correctly calculated size is **not always seen correctly** — how big a dot looks depends on the dots around it (**Ebbinghaus illusion**), so no single formula fixes it.' },
+          'Maps show spatial relationships in a **compact, familiar** way.',
+          { label: 'Overplotting', text: 'With lots of data, dots **pile up** in busy cities while empty areas stay blank, because real data is very **uneven**.' },
+          { label: 'Typical Data', text: 'Card payments, phone calls, health statistics, crime, census.' },
+          'If several maps use the **same style**, we can compare them to spot **links between variables**.',
+        ],
+        example: 'A USA dot map: every circle is one event, and even zoomed in, the cities are solid blobs.',
+      },
+      {
+        heading: 'PixelMaps',
+        bullets: [
+          'Shows **every point** without grouping and **without overlap**, by **moving pixels** to nearby free spots.',
+          'It **splits the data into four groups** for four parts of the screen, then splits each part again (recursively).',
+          'If points do not fit in their part, the **part’s borders are adjusted**.',
+          'A **quadtree** (a tree where each node splits into 4) manages this efficiently — so **all points stay visible**.',
+          { label: 'Limitation', text: 'In very crowded areas, where a point ends up depends on the **order of points** in the file.' },
+        ],
+        example:
+          'U.S. phone calls at four times in 10 minutes: calls rise from east to west as people wake up; dark spots over **Kansas City and Omaha** reveal night-time **call centres**.',
+        diagramId: 'dvt-pixelmap-quadtree',
+        diagramCaption: 'PixelMap: splitting into quarters moves overlapping points to nearby free pixels.',
+      },
+    ],
+    keyTakeaway:
+      'Compare **dot maps** (simple, but dots overlap; size looks wrong due to the Ebbinghaus illusion) with **PixelMaps** (no grouping, split into 4 repeatedly, quadtree, depends on point order). Give the **phone call** example.',
+    selfCheck: {
+      question: 'Why can no single formula make dot sizes look correct?',
+      answer: 'How big a dot looks depends on the dots around it (Ebbinghaus illusion), not only on its real size.',
+    },
+  },
+  {
+    id: 'u3-visualization-line-data',
+    shortTitle: 'Visualization of Line Data',
+    unit: 'unit3',
+    order: 8,
+    title: '2.3 Visualization of Line Data',
+    subtopicsCovered: [
+      'Encoding Line Data',
+      'Network Maps (Eick & Wills, NCSA, SeeNet, SWIFT-3D)',
+      'Flow Maps (Stanford)',
+      'Edge Bundling (Holten)',
+    ],
+    summaryLine:
+      'Line data (roads, cables, flows) is drawn as **lines between locations**. Values are shown with **width, pattern and colour**, and clutter is reduced with **curved flow maps** and **edge bundling**.',
+    bullets: [
+      'Draw **line segments** between pairs of (latitude, longitude) points.',
+      'Show values with line **width, pattern, colour or labels**; show the end points with **size, shape, colour or labels**.',
+      'Lines can be **curved** to reduce clutter; the best choice depends on the task.',
+    ],
+    subSections: [
+      {
+        heading: '(a) Network Maps',
+        description: 'Show **how things are connected** and help understand the network’s **structure and behaviour**.',
+        bullets: [
+          { label: 'Eick and Wills', text: 'Used grouping, hierarchy, node placement and linked views for networks with no natural layout; colour/shape for nodes, colour/width for links.' },
+          { label: 'NCSA', text: 'Used **3D animation** to show Internet traffic moving through the backbone.' },
+          { label: 'SeeNet', text: 'By Becker, Eick and Wilks; **interactive** maps plus a **link matrix** that treats every connection equally.' },
+          { label: 'SWIFT-3D (AT&T)', text: 'Combines **charts, pixel overviews and interactive 3D network maps** with drag-and-drop searching.' },
+        ],
+      },
+      {
+        heading: '(b) Flow Maps and Edge Bundling',
+        description: 'Reduce clutter by using **curved lines** instead of straight ones — once hand-drawn by map makers, now done by algorithms.',
+        subGroups: [
+          {
+            sideHeading: 'Stanford Flow Maps',
+            bullets: [
+              'Use graph-layout methods that **minimize line crossings** while keeping places roughly where they are.',
+              '**Group nearby places** (hierarchical clustering) and **merge flows** going the same way, like rivers joining.',
+              'Much **cleaner** than other computer-made flow maps.',
+            ],
+            example: 'Flows of tourists in Berlin vs migration from California drawn by the Stanford system.',
+          },
+          {
+            sideHeading: 'Edge Bundling (Danny Holten)',
+            bullets: [
+              'If the nodes belong to a **hierarchy** (groups within groups), lines are **bundled** along it using smooth **B-spline** curves.',
+              'Lines that travel through the **top (root)** of the hierarchy **bend the most**; lines within one group bend only a little.',
+              'Greatly reduces clutter; works on **maps, trees, circular trees and treemaps**.',
+            ],
+            example: 'IP network traffic from outside computers to inside ones — bundled vs straight lines.',
+            diagramId: 'dvt-edge-bundling',
+            diagramCaption: 'Straight lines (left) vs edge bundling (right) — bundling groups lines like cables.',
+          },
+        ],
+      },
+    ],
+    keyTakeaway:
+      'Network maps: name **Eick & Wills, NCSA, SeeNet, SWIFT-3D**. Clutter fixes: **Stanford flow maps** (merge flows, fewer crossings) and **Holten edge bundling** (B-spline bundles, root edges bend most).',
+    selfCheck: {
+      question: 'In edge bundling, which lines bend the most?',
+      answer: 'Lines that pass through the root (top) of the hierarchy; lines inside one group bend only slightly.',
+    },
+  },
+  {
+    id: 'u3-visualization-area-data',
+    shortTitle: 'Visualization of Area Data',
+    unit: 'unit3',
+    order: 9,
+    title: '2.4 Visualization of Area Data',
+    subtopicsCovered: [
+      'Thematic Maps',
+      'Choropleth Maps & Their Problem',
+      'Dasymetric Maps',
+      'Isarithmic Maps (Isometric, Isopleth)',
+      'Cartograms (Noncontinuous, Noncontiguous, Circular, Continuous)',
+    ],
+    summaryLine:
+      'Area data (values for regions like states) is shown with **thematic maps**: **choropleth** (shaded regions), **dasymetric**, **isarithmic** (contour lines) and **cartograms** (regions resized by the value).',
+    bullets: [
+      '**Thematic maps** show a theme (like population) over areas.',
+      { label: 'Choropleth', text: 'Greek: **choro = area, pleth = value**. Each region is **shaded** by its value.' },
+      { label: 'Dasymetric', text: 'Used when the value is **not spread evenly** inside a region; the areas are drawn by where the value really is.' },
+      { label: 'Isarithmic', text: '**Contour lines** for smooth quantities like temperature or height.' },
+      { label: 'Isometric vs Isopleth', text: 'Contours from **point measurements** = isometric. Contours from **region averages** (placed at region centres) = isopleth.' },
+      'Isarithmic maps need **interpolation** (guessing between points) such as triangulation or inverse-distance weighting.',
+      { label: 'Cartogram', text: 'Region **sizes are changed** to match a value, so the map looks stretched.' },
+    ],
+    subSections: [
+      {
+        heading: 'Choropleth Maps',
+        bullets: [
+          'Regions are drawn as **shaded closed shapes** (first point = last point), like states or counties.',
+          'They show **how a value is spread** across a geography.',
+          'Key choices: **normalizing** the data (e.g., per person) and the **colour/grey scale**.',
+          {
+            label: 'Main Problem',
+            text: 'Big regions with **few people** dominate the picture, while small crowded regions (often the interesting ones) are **barely visible**.',
+            example: 'U.S. census maps highlight large, empty states.',
+          },
+        ],
+        example: '2008 U.S. election (Obama vs McCain) choropleth; photo heat map of Mainau Island; dasymetric population map of Beaverton Creek, Oregon.',
+      },
+      {
+        heading: 'Cartograms',
+        bullets: [
+          'Fix the choropleth problem by **resizing regions** according to the value, so crowded places become big.',
+          { label: 'Uses', text: 'Population, election results, disease spread.' },
+        ],
+        subGroups: [
+          {
+            sideHeading: '1. Noncontinuous Cartograms',
+            bullets: [
+              'Each region is **scaled inside its own outline** — exact area and shape, but regions **no longer touch** (topology lost).',
+              'A region **cannot grow bigger than its original outline**, so small regions stay small.',
+            ],
+          },
+          {
+            sideHeading: '2. Noncontiguous Cartograms',
+            bullets: [
+              'Every region gets its **exact target size** with good shape, and may touch others without overlapping.',
+              'But neighbours are no longer next to each other, so the **overall map shape is lost**.',
+            ],
+          },
+          {
+            sideHeading: '3. Circular Cartograms',
+            bullets: [
+              'Each region becomes a **circle** of the right size; the original shape is ignored.',
+              'Area and neighbours are only roughly kept.',
+            ],
+          },
+          {
+            sideHeading: '4. Continuous Cartograms',
+            bullets: [
+              'Regions **stay connected** to their neighbours (topology kept), but area and shape are **approximate**.',
+              'Making them is a hard **optimization** (balancing shape vs area).',
+              'Hardest to make, but they **look most like the real map**.',
+            ],
+          },
+        ],
+        table: {
+          caption: 'Cartogram Trade-offs',
+          headers: ['Type', 'Correct Area?', 'Correct Shape?', 'Neighbours Kept?'],
+          rows: [
+            ['Noncontinuous', 'Yes (limited by outline)', 'Yes', 'No'],
+            ['Noncontiguous', 'Yes', 'Mostly', 'No'],
+            ['Circular', 'Roughly', 'No (circles)', 'Roughly'],
+            ['Continuous', 'Roughly', 'Roughly', 'Yes'],
+          ],
+        },
+        diagramId: 'dvt-cartogram-types',
+        diagramCaption: 'Original map vs noncontiguous, circular and continuous cartograms.',
+      },
+    ],
+    keyTakeaway:
+      'Define **choropleth (choro = area, pleth = value)** and its problem (**big empty regions dominate**), distinguish **dasymetric, isometric, isopleth**, and draw the **cartogram table** (area / shape / neighbours).',
+    selfCheck: {
+      question: 'Which cartogram keeps every region touching its real neighbours?',
+      answer: 'The continuous cartogram — at the cost of only approximately correct area and shape.',
+    },
+  },
+  {
+    id: 'u3-other-geospatial-issues',
+    shortTitle: 'Other Issues in Geospatial Visualization',
+    unit: 'unit3',
+    order: 10,
+    title: '2.5 Other Issues in Geospatial Data Visualization',
+    subtopicsCovered: [
+      'Map Generalization',
+      'Simplify Points, Lines, Polygons',
+      'Map Labeling',
+      'Geographic Information Systems (GIS)',
+      'Web Technologies & APIs',
+    ],
+    summaryLine:
+      'Good maps also need **map generalization** (simplifying detail), **map labeling** (placing names well), and good **GIS** software.',
+    bullets: [
+      'Two map-making techniques are needed first: **map generalization** and **map labeling**.',
+    ],
+    subSections: [
+      {
+        heading: 'Map Generalization',
+        bullets: [
+          '**Selecting and simplifying** what is shown on a map.',
+          'Used when making a **zoomed-out map** from a **detailed** one.',
+          'Goal: important things stay **easy to see**; what to keep depends on the **task**.',
+          'Being **visible and recognizable** matters more than keeping every detail.',
+        ],
+        subGroups: [
+          {
+            sideHeading: 'Typical Simplifications',
+            bullets: [
+              { label: 'Simplify Points', text: 'Remove or merge points that are unimportant or too close to see separately.' },
+              { label: 'Simplify Lines', text: 'Remove small wiggles, turn double lines (a two-lane road) into one, remove lines that would touch.' },
+              { label: 'Simplify Polygons', text: 'Smooth outlines while keeping the main shape; merge nearby small areas into one.' },
+            ],
+            example: 'A city map shows every building; a country map shows the city as one dot.',
+          },
+        ],
+      },
+      {
+        heading: 'Map Labeling',
+        bullets: [
+          'Placing **text or symbol labels** near points, lines and areas — harder than it sounds.',
+          'Methods differ in **quality** (how good the result looks) and **speed**.',
+          'Most use **rules first**, then an **optimization** step: local search, greedy, simulated annealing, random placement or genetic algorithms.',
+          { label: 'Software', text: '**Label-EZ** (MapText Inc.) and **Maplex** (ESRI).' },
+        ],
+      },
+      {
+        heading: 'Geographic Information Systems (GIS)',
+        bullets: [
+          'A **GIS** lets users **search** map data, **compare and edit** different map layers, and **present** results.',
+          'Geo-visualization is **part of GIS**, and both improve each other.',
+          { label: 'Web Era', text: 'Web tools (**Flex, AJAX, Google Maps API**) and free public data have produced many fast, interactive map tools.' },
+          'These tools help the **public understand issues**, making maps engaging for many people.',
+        ],
+      },
+    ],
+    keyTakeaway:
+      'Three issues: **generalization** (simplify points / lines / polygons), **labeling** (rules + optimization; Label-EZ, Maplex), **GIS** and web map APIs (Flex, AJAX, Google Maps API).',
+    selfCheck: {
+      question: 'What is map generalization and when is it used?',
+      answer: 'Selecting and simplifying map content; it is used when making a less detailed, zoomed-out map from a detailed one.',
+    },
   },
 ];
+
+export const UNIT3_TOPICS: LessonTopic[] = SPATIAL_TOPICS;

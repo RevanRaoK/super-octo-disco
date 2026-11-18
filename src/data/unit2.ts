@@ -2,1091 +2,817 @@ import { LessonTopic } from '@/types/course';
 
 export const UNIT2_TOPICS: LessonTopic[] = [
   {
-    id: 'u2-cataloging-history-objectives',
-    shortTitle: 'Cataloging, History & Objectives',
+    id: 'u2-visualization-stages',
+    shortTitle: 'Visualization Stages',
     unit: 'unit2',
     order: 1,
-    title: 'Cataloging & Indexing: History and Objectives',
+    title: '2.1 Visualization Stages',
     subtopicsCovered: [
-      'Cataloging Definition & Four Catalogue Types (Author, Title, Author/Title, Subject)',
-      'Library OPAC Replacement of Card Catalogues',
-      'History of Indexing (Manual Cataloging -> Luhn -> Computerized IR)',
-      'Objectives of Indexing & Public/Private File Scope',
+      'Two Key Points of the Pipeline',
+      'Data Preprocessing and Transformation',
+      'Mapping for Visualizations',
+      'Expressiveness and Effectiveness',
+      'Rendering Transformations',
     ],
     summaryLine:
-      '**Cataloging** describes library items through **Author, Title, Author/Title, and Subject Catalogues** (modern **OPAC**), while **Indexing** builds informative term representations to maximize retrieval accuracy and speed.',
+      'Turning data into a picture happens in **three stages**: **prepare the data**, **decide how it will look** (mapping), and **draw it** (rendering). The user can interact at any stage.',
     bullets: [
+      'Almost every visualization system fits these stages, and any calculation can be placed in any stage.',
       {
-        label: 'Cataloging',
-        text: 'Systematic arrangement of items in alphabetical or other logical order including brief bibliographic descriptions so users locate holdings without browsing shelves.',
+        label: 'Key Point 1 — Interaction Anywhere',
+        text: 'The user can step in at **any point** — at any stage (node) or between stages (link).',
       },
       {
-        label: 'Library Catalogue & OPAC Transition',
-        text: 'A library catalogue lists all books and reading material in a library; traditional paper card catalogues have largely been replaced by the computerized Online Public Access Catalog (OPAC).',
-      },
-      {
-        label: 'Indexing (Core First Step in IR)',
-        text: 'Transforms each received item into informative terms or searchable data structures:',
-        children: [
-          {
-            label: 'Manual or Automatic',
-            text: 'Can be performed by human catalogers or computerized indexing algorithms.',
-          },
-          {
-            label: 'Direct vs Indirect Search',
-            text: 'Supports searching directly in the document database or indirectly through index files.',
-          },
-          {
-            label: 'Concept-Based Representation',
-            text: 'Some systems transform input into abstract concept representations rather than raw words.',
-          },
-        ],
+        label: 'Key Point 2 — Many-to-Many',
+        text: 'Each link is **many-to-many**: one data set can feed many pictures, and one screen can show many pictures at once.',
+        example: 'The same sales data shown as a bar chart and a map side by side.',
       },
     ],
     subSections: [
       {
-        heading: 'Four Types of Library Catalogues',
+        heading: 'The Three Stages',
         subGroups: [
           {
-            sideHeading: '1. Author Catalogues',
-            description:
-              'Contain entries with author names as the main heading—including writers, illustrators, performers, producers, translators, or corporate bodies with intellectual or artistic responsibility.',
-            example: '`Vikas Publishing Pvt Ltd`, `SIA Publications`',
-          },
-          {
-            sideHeading: '2. Title Catalogues',
-            description:
-              'Organize entries alphabetically by work title; some libraries index titles for every item while others make title entries selectively for major works.',
-          },
-          {
-            sideHeading: '3. Author/Title Catalogues',
-            description:
-              'Merge both author names and work titles into one unified alphabetical filing sequence so users can search either under the same index.',
-          },
-          {
-            sideHeading: '4. Subject Catalogues',
-            description:
-              'Arrange document entries systematically under alphabetical subject headings indicating what each item is about.',
-            example: '`Car`, `Lawyers`',
-          },
-        ],
-      },
-      {
-        heading: 'History & Objectives of Indexing',
-        subGroups: [
-          {
-            sideHeading: '1. History of Indexing',
+            sideHeading: '1. Data Preprocessing and Transformation',
             bullets: [
+              'Turn raw data into something the system **can use**.',
+              { label: 'First', text: 'Convert data into **basic computer data types** (numbers, text, dates).' },
+              { label: 'Second', text: 'Fix problems: **missing values**, **typing errors**, and data that is **too big** to handle.' },
+              { label: 'Fixes', text: 'Missing values → **interpolation** (guess from neighbours). Too much data → **sampling, filtering, aggregation or partitioning** (splitting into parts).' },
+            ],
+          },
+          {
+            sideHeading: '2. Mapping for Visualizations',
+            bullets: [
+              'Once data is clean, decide **how it will look** — which value becomes **shape, colour or sound**.',
+              'It is easy to make a **nonsense picture** that gives the wrong message.',
               {
-                label: 'Origin in Cataloging',
-                text: 'Indexing originally began as manual cataloging—the oldest technique to identify item contents via systematic alphabetical arrangement.',
+                label: 'Bad Bar Chart Example',
+                text: 'Bars that stretch across the x-axis labels make it look like the x-axis matters when it does not.',
+                example: 'The Volvo bar crosses USA, Japan, Germany… before reaching Sweden, wrongly hinting at a link to those countries. A scatter plot is better.',
               },
               {
-                label: 'Evolution to Statistical & Computerized IR',
-                text: 'Progressed from librarian-assigned LCSH/Dewey cards into 1950s–1960s statistical frequency indexing (Hans Peter Luhn) and modern automatic full-text engines.',
+                label: 'Expressiveness & Effectiveness',
+                text: '**Expressiveness** = the picture shows exactly the facts in the data, nothing false. **Effectiveness** = people understand it quickly and correctly. These two decide how good a mapping is.',
               },
             ],
           },
           {
-            sideHeading: '2. Objectives of Indexing (Public vs Private Files)',
+            sideHeading: '3. Rendering Transformations',
             bullets: [
-              {
-                label: 'Primary Objective',
-                text: 'Represent the concepts within an item accurately so users find relevant information quickly.',
-              },
-              {
-                label: 'Public Index Files (Increase Recall)',
-                text: 'Consider information needs of all library users; users search shared public index files to broaden search coverage and raise Recall.',
-              },
-              {
-                label: 'Private Index Files (Constrain Search)',
-                text: 'Users restrict or tailor searches using personal/team private index files.',
-              },
-              {
-                label: 'Two Core Policy Decisions',
-                text: 'Every indexing design explicitly determines:',
-                children: [
-                  '1. Scope of indexing and level of detail based on user usage scenarios.',
-                  '2. How related index terms are linked together into one concept index.',
-                ],
-              },
+              'The final stage: turn the shapes into an actual **image on screen**.',
+              'It talks to a **graphics library (API)** and sets the **view**, the **shading** (for 3D) and the **output device** (screen, printer).',
+              'This stage **depends heavily on the graphics library** being used.',
             ],
-            diagramId: 'index-scope-venn',
-            diagramCaption:
-              'Overlap Between Document File, Public Index File, and Private Index File + Text Processing Context (UNIT-II NOTES p.4)',
           },
         ],
+        diagramId: 'dvt-visualization-stages',
+        diagramCaption:
+          'Data → Preprocessing → Mapping → Rendering → Image, with user interaction possible at every node and link.',
       },
     ],
     keyTakeaway:
-      'List all **4 Catalogue Types (+ OPAC)** cleanly on separate lines and explain **Public Index (Recall) vs Private Index** scope decisions.',
+      'Write the 3 stages with their sub-points and **always add the two key points**: interaction at any node/link, and **many-to-many** links. Use the **Volvo bar chart** as the example of a bad mapping.',
+    selfCheck: {
+      question: 'What two key points apply to the visualization stages?',
+      answer:
+        'The user can interact at any stage or link, and every link is many-to-many (many pictures from one data set, many pictures on one screen).',
+    },
   },
   {
-    id: 'u2-indexing-process',
-    shortTitle: 'Indexing Process (6 Phases) & Scope',
+    id: 'u2-semiology-graphical-symbols',
+    shortTitle: 'Semiology of Graphical Symbols',
     unit: 'unit2',
     order: 2,
-    title: 'The Indexing Process: Text Processing Phases, Scope & Linkages',
+    title: '2.2 Semiology of Graphical Symbols',
     subtopicsCovered: [
-      'Indexing Process Definition & Interdisciplinary Roots',
-      'Six Text Processing Phases (Document Parsing, Lexical Analysis, Stop-Word Removal, Phrase Detection, Stemming & Lemmatization, Weighting)',
-      'Scope of Indexing (Two Factors: Exhaustivity & Specificity + Conceptual Zone)',
-      'Preordination (Precoordination) & Post-Coordination Linkages',
+      'Graphical Symbol & Semiology',
+      'Symbols and Visualizations',
+      'Features of Graphics',
+      'Rules of a Graphic',
+      'Analysis of a Graphic',
     ],
     summaryLine:
-      'The **Indexing Process** collects, parses, and stores data through **six Text Processing Phases** while determining concept coverage (**Exhaustivity**), term exactness (**Specificity**), and multi-term **Preordination / Linkages**.',
+      'Any visual object (arrow, label, dot) is a **graphical symbol**. **Semiology** is the study of these symbols — how their position and shape show **similarity, order and proportion** in data.',
     bullets: [
-      {
-        label: 'Indexing Process Definition',
-        text: 'Collecting, parsing, converting, and storing received item data to facilitate fast and accurate information retrieval.',
-      },
-      {
-        label: 'Interdisciplinary Index Design',
-        text: 'Incorporates concepts from five fields: Linguistics, Cognitive Psychology, Mathematics, Informatics, and Computer Science.',
-      },
+      { label: 'Graphical Symbol', text: 'Any **visual object** in a picture, like an arrow, a label or a dot.' },
+      { label: 'Semiology', text: 'The **science of graphical symbols and marks** — how pictures carry meaning.' },
+      'Everything drawn on a flat page (diagrams, networks, maps, plots) is built from graphical symbols.',
+      'Semiology uses the page and its objects to make data **similarities, order and proportions** visible to people.',
     ],
     subSections: [
       {
-        heading: 'Indexing Process: Six Text Processing Phases (Fig. 2.3)',
-        description:
-          'Every incoming full-text document passes sequentially through six text preprocessing phases before final searchable index entries are stored.',
+        heading: '1. Symbols and Visualizations',
         subGroups: [
           {
-            sideHeading: '1. Document Parsing',
-            description:
-              'Recognizes structural document boundaries across mixed languages, character sets, and file formats and breaks compound files into individual unit documents.',
-            example:
-              'A French email with Portuguese PDF attachments is split into one document representing the email plus one separate document per PDF attachment.',
-          },
-          {
-            sideHeading: '2. Lexical Analysis',
-            description:
-              'Tokenizes the continuous parsed character stream into candidate words while resolving accents, abbreviations, dates, and uppercase/lowercase variants.',
+            sideHeading: 'Understood in One Step',
             bullets: [
-              {
-                label: 'Language Complexity Differences',
-                text: 'Difficulty varies by morphology:',
-                children: [
-                  'English has neither diacritics nor grammatical noun cases here.',
-                  'French has diacritics without noun cases.',
-                  'German has both diacritics and grammatical cases.',
-                ],
-              },
+              'A familiar sign like a **yield (give way) sign** is recognized **instantly** once you have seen it often.',
+              'You understand it in **one step** — you just recall its meaning.',
             ],
           },
           {
-            sideHeading: '3. Stop-Word Removal',
-            description:
-              'Optionally removes ultra-frequent structural words (`the, is, are, most`) carrying low topic discrimination power.',
-            example:
-              'With the Snowball stop-list, `"search engines are the most visible information retrieval applications"` becomes `"search engine most visible information retrieval applications"`.',
-          },
-          {
-            sideHeading: '4. Phrase Detection',
-            description:
-              'Captures compound semantic meaning beyond bag-of-words tokens by identifying noun groups and multi-word phrases via punctuation rules, morphological analysis, or syntactic parsing.',
-            example:
-              'Extracts `"search engines"` and `"information retrieval"` from the example sentence.',
-          },
-          {
-            sideHeading: '5. Stemming and Lemmatization',
-            description: 'Both phases strip inflectional endings to normalize word forms:',
-            subGroups: [
-              {
-                sideHeading: 'Stemming (Heuristic Rule-Based — Porter Stemmer)',
-                description:
-                  'A heuristic process that chops off word suffixes; fast and compact, though stems may not be valid dictionary words.',
-                example:
-                  'Porter stemmer outputs: `"Search engine are the most visible inform retrieval application"`.',
-              },
-              {
-                sideHeading: 'Lemmatization (Dictionary & Morphological Analysis — WordNet)',
-                description:
-                  'Uses vocabularies and morphological dictionaries to return the valid base dictionary word (`lemma`).',
-                example:
-                  'WordNet lemmatizer outputs: `"Search engine are the most visible information retrieval application"`.',
-              },
+            sideHeading: 'Understood in Two Steps',
+            bullets: [
+              'A complex chart needs **attention** and effort.',
+              { label: 'Step 1', text: 'Find the **main elements** (the pieces) in the picture.' },
+              { label: 'Step 2', text: 'Work out the **relationships** between those pieces.' },
+              'With effort we recognize symbols from **memory**, pick out **groups** that look alike, and finally spot the **most interesting** items (special clusters, countries, products).',
             ],
           },
           {
-            sideHeading: '6. Weighting',
-            description:
-              'Assigns numerical weights reflecting the descriptive significance of each index term within a document and across the collection.',
-            example:
-              'Simplest form uses binary weighting (`0` = absent, `1` = present), whereas ranked engines use continuous `TF-IDF` scores.',
-          },
-        ],
-        diagramId: 'indexing-process-flow',
-        diagramCaption: 'End-to-End Indexing Process & Six Sequential Text Processing Phases (Document -> Indexing)',
-      },
-      {
-        heading: 'Scope of Indexing (Exhaustivity, Specificity & Conceptual Zone)',
-        description:
-          'When manual indexing is performed, author and indexer vocabulary domains often differ—producing inconsistent indexing depth unless governed by explicit scope rules.',
-        subGroups: [
-          {
-            sideHeading: 'Factor 1: Exhaustivity',
-            description:
-              'Measures the extent to which minor or secondary concepts inside an item are indexed (high exhaustivity increases Recall).',
-            example:
-              'Deciding whether two sentences discussing on-board caches inside a 10-page microprocessor paper deserve an index entry.',
-          },
-          {
-            sideHeading: 'Factor 2: Specificity',
-            description:
-              'Measures how precise and narrow the chosen index term is (high specificity increases Precision). Indexing only the main concept with overly broad terms yields low exhaustivity and low specificity, causing loss of both Precision and Recall.',
-            example:
-              'Choosing among broad `"processor"`, mid-level `"microcomputer"`, or exact `"Pentium"`.',
-          },
-          {
-            sideHeading: 'Portion of Item Indexed (Conceptual Zone)',
-            description:
-              'Determines which document sections get indexed; the simplest policy restricts indexing to the Title and Abstract (Conceptual Zone).',
+            sideHeading: 'Must Be Labelled Clearly',
+            bullets: [
+              'A chart is **useless without labels** that tell you what it shows, and they must be easy to read.',
+              'A good picture has **clear x, y (and z) axes** and clear elements.',
+            ],
           },
         ],
       },
       {
-        heading: 'Preordination (Precoordination) and Linkages',
-        subGroups: [
+        heading: '2. Features of Graphics',
+        bullets: [
+          'Graphics have **three or more dimensions** (directions of information).',
+          'Each point links a position in **x** with a position in **y**.',
+          'If points also **vary in size**, size acts as a **third value, z**.',
+          'So a 2D plot with sizes is **equivalent** to a 3D plot with heights — two ways of showing z.',
+          'All the points together show **all relations between x, y and z**; any pattern you see is a pattern in the data.',
+        ],
+        example: 'A city map where x = longitude, y = latitude, and dot size = population.',
+      },
+      {
+        heading: '3. Rules of a Graphic',
+        bullets: [
+          { label: 'Rule 1', text: 'A graphic’s goal is to find **groups or orders** in x and in y, based on the **z values**.' },
+          { label: 'Rule 2', text: 'The **(x, y, z) layout** always lets you find those groups.' },
+          { label: 'Rule 3', text: 'Inside this layout, **re-ordering and grouping** rows/columns reveals the big-picture information.' },
+          { label: 'Rule 4', text: 'A graphic with **more than three factors** that breaks the (x, y, z) layout **loses its unity** — it stops being readable as one picture.' },
+          { label: 'Rule 5', text: 'Pictures must be **readable and understandable by people**.' },
+        ],
+      },
+      {
+        heading: '4. Analysis of a Graphic',
+        bullets: [
+          { label: 'First (Preattentive)', text: 'We **instantly** see groups of objects, without effort.' },
+          { label: 'Then (Cognitive)', text: 'We **think** about what those groups are.' },
+          { label: 'Finally (Both)', text: 'We look at **special cases** outside the groups and links between groups.' },
+          'This can be done at many levels and with many pictures.',
           {
-            sideHeading: '1. Linkages Role',
-            description:
-              'Determines how many related index terms are explicitly coupled together within one item so unrelated concepts do not cross-match (`false drops`).',
-          },
-          {
-            sideHeading: '2. Preordination (Precoordination — Index-Time)',
-            description:
-              'Correlates and binds multi-term attributes together at index creation time.',
-            example:
-              'Linking `"drilling of oil wells in Mexico by CITGO"` separately from `"oil refineries in Peru by the U.S."` so a query cannot wrongly combine `"Mexico"` with `"U.S."`.',
-          },
-          {
-            sideHeading: '3. Post-Coordination (Search-Time)',
-            description:
-              'Omits index-time coupling and joins independent single terms dynamically at search time using Boolean `AND` intersections.',
+            label: 'Computer Help',
+            text: 'The computer can **pre-group** the data (clustering) and show the result, so we see groups faster.',
           },
         ],
       },
     ],
     keyTakeaway:
-      'Present **all 6 Indexing Process phases** (`Parsing -> Lexical -> Stop-Word -> Phrase -> Stemming/Lemma -> Weighting`), clearly state that Scope of Indexing depends on **only 2 factors (`Exhaustivity` & `Specificity`)**, and explain **Preordination vs Post-coordination**.',
+      'Define **graphical symbol** and **semiology**, contrast **one-step (yield sign)** vs **two-step** understanding, list the **5 rules** around the (x, y, z) layout, and the 3-step analysis: **see groups → understand groups → study special cases**.',
+    selfCheck: {
+      question: 'What happens to a graphic with more than three factors that breaks the (x, y, z) layout?',
+      answer: 'It loses its unity — it can no longer be read as one picture and the big-picture information is lost.',
+    },
   },
   {
-    id: 'u2-automatic-indexing-ie',
-    shortTitle: 'Automatic Indexing Classes & IE',
+    id: 'u2-eight-visual-variables',
+    shortTitle: 'The Eight Visual Variables',
     unit: 'unit2',
     order: 3,
-    title: 'Automatic Indexing & Information Extraction (IE)',
+    title: '2.3 The Eight Visual Variables',
     subtopicsCovered: [
-      'Automatic Indexing Definition & Weighted vs Unweighted Classes',
-      'Classification: Indexing by Term (Statistical [Vector, Probabilistic, Bayesian] & NLP DR-LINK)',
-      'Classification: Indexing by Concept (LSI & Two Neural Networks)',
-      'Classification: Multimedia Indexing (Raw Data Level)',
-      'Information Extraction (IE), 4 Metrics & Document Summarization',
+      'Position',
+      'Mark (Shape)',
+      'Size (Length, Area, Volume)',
+      'Brightness (Luminance)',
+      'Color (Hue, Saturation)',
+      'Orientation',
+      'Texture',
+      'Motion',
     ],
     summaryLine:
-      '**Automatic Indexing** scans large repositories algorithmically across **Weighted vs Unweighted** schemes classified into **Indexing by Term (Statistical / NLP)**, **Indexing by Concept (LSI / Neural Networks)**, and **Multimedia Indexing**, while **Information Extraction (IE)** fills structured database facts.',
+      'There are **eight ways** a shape can carry data: **position, mark (shape), size, brightness, color, orientation, texture and motion**.',
     bullets: [
-      {
-        label: 'Automatic Indexing Definition',
-        text: 'Computerized process of scanning large volumes of documents against a controlled vocabulary, taxonomy, or ontology (or performing Total Document Indexing) to build searchable indexes in seconds.',
-      },
+      'A **visual variable** is a property of a shape that we can change to show data.',
+      'The eight are: **position, shape, size, brightness, color, orientation, texture and motion**.',
+      '**Position and mark** are required to make any picture. The other six are **extra properties** of the marks.',
     ],
     subSections: [
       {
-        heading: 'Classification of Automatic Indexing Approaches',
+        heading: 'The Eight Variables',
         subGroups: [
           {
-            sideHeading: '1. Output Weighting Classes (Unweighted vs Weighted)',
-            subGroups: [
-              {
-                sideHeading: 'Unweighted Indexing System',
-                description:
-                  'Stores only whether an index term exists in a document (plus optional word locations) inside the searchable data structure.',
-              },
-              {
-                sideHeading: 'Weighted Indexing System',
-                description:
-                  'Assigns a numerical value normalized between $0$ and $1$ based on term occurrence frequency and ranks results from highest score to lowest.',
-              },
-            ],
-          },
-          {
-            sideHeading: '2. Indexing by Term',
-            description:
-              'Uses processing tokens (vocabulary) extracted directly from the original item as the basis of the indexing process via two major techniques:',
-            subGroups: [
-              {
-                sideHeading: 'Statistical Approaches',
-                description:
-                  'Calculates term weights using word occurrence frequencies across vector and probabilistic models:',
-                subGroups: [
-                  {
-                    sideHeading: 'Vectorised Information System (SMART Model)',
-                    description:
-                      'Represents every document as a fixed-order vector where each slot corresponds to a unique database processing token (`0` = absent, positive value = term weight); retrieval computes distance between query vector and document vector.',
-                  },
-                  {
-                    sideHeading: 'Probabilistic & Two-Level Bayesian Network Approach',
-                    description:
-                      'Uses evidential reasoning over directed graphical networks where nodes are random variables and arcs encode conditional dependencies: query concept nodes $c$ connect to item feature leaf nodes $f$ to compute query-item relevance.',
-                    diagramId: 'bayesian-two-level',
-                    diagramCaption:
-                      'Two-Level Bayesian Inference Network Modeling Query Concept (c1) & Item Features (f11, f12, f1j) (UNIT-II p.9)',
-                  },
-                ],
-              },
-              {
-                sideHeading: 'Natural Language Approaches (`DR-LINK`)',
-                description:
-                  'Combines statistical frequencies with deeper syntactic and semantic sentence parsing (`DR-LINK`: Document Retrieval through Linguistic Knowledge) to refine final concept descriptors.',
-              },
-            ],
-          },
-          {
-            sideHeading: '3. Indexing by Concept (LSI & Neural Networks)',
-            description:
-              'Determines a canonical set of concepts (`Latent Semantic Indexing / LSI`) from test terms so synonyms map onto shared latent topics:',
+            sideHeading: '1. Position',
             bullets: [
-              {
-                label: 'Two Neural Networks',
-                text: 'One neural network generates stem context vectors capturing word-synonym relationships, while a second neural network executes query matching.',
-              },
+              '**Where** a shape is placed (in 1D, 2D or 3D). It is the **first and most important** variable.',
+              'It has the **biggest impact**, because reading a picture starts with **where things are**.',
+              'Spreading shapes out across the space shows **more information**.',
+              { label: 'Worst Case', text: 'Everything drawn at the **same spot** — you only see the last one.' },
+              { label: 'Best Case', text: 'Every shape at its **own spot** with **no overlap**.' },
             ],
           },
           {
-            sideHeading: '4. Multimedia Indexing',
-            description:
-              'Indexes non-textual media (images, video, and audio streams) directly at the raw data level.',
+            sideHeading: '2. Mark (Shape)',
+            bullets: [
+              'The **basic shapes** that stand for data: points, lines, areas, volumes, or even **letters and symbols**.',
+              'When comparing marks, look only at **shape**, not size, shade or angle.',
+              'Marks must be **easy to tell apart**, since a picture may have thousands.',
+              'Different shapes should have **similar size and complexity**, so one does not stand out by accident.',
+            ],
+            example: 'Circles for sedans, triangles for SUVs, squares for trucks in an MPG vs horsepower plot.',
+          },
+          {
+            sideHeading: '3. Size (Length, Area and Volume)',
+            bullets: [
+              '**How big** a mark is drawn.',
+              'Best for **numbers that change gradually** (continuous data).',
+              'Can show **categories** only if there are **very few**, because similar sizes are hard to tell apart.',
+            ],
+            example: '1993 cars: engine size vs fuel tank, with bigger dots for higher price.',
+          },
+          {
+            sideHeading: '4. Brightness (Luminance)',
+            bullets: [
+              '**How light or dark** a mark is.',
+              'People **cannot tell apart** every small brightness difference.',
+              'So use it for **rough comparisons**, or use only **a few clear brightness steps**.',
+              'Use a **perceptually even** scale — each step should **look** equally different.',
+            ],
+            example: '1993 cars: darker dot = wider car.',
+          },
+          {
+            sideHeading: '5. Color',
+            bullets: [
+              'Brightness is **not** colour. Colour has two parts:',
+              { label: 'Hue', text: 'What we call the colour — **red, green, blue** (the main wavelength of light).' },
+              { label: 'Saturation', text: 'How **pure or strong** the colour is compared with grey (vivid red vs dull pinkish-grey).' },
+              'We use a **colour map** — a table that says which value gets which colour.',
+            ],
+            example: '1993 cars: car length coloured blue (short) to yellow (long).',
+          },
+          {
+            sideHeading: '6. Orientation',
+            bullets: [
+              '**Which way** a mark is rotated, based on a data value.',
+              'Our eyes notice orientation **instantly** (preattentively).',
+              'Does **not** work for circles — a circle looks the same however it is turned.',
+              'Works best for marks with **one clear long axis**, like a line or arrow.',
+            ],
+            example: 'Smallest value = arrow pointing up; bigger values rotate it clockwise.',
+          },
+          {
+            sideHeading: '7. Texture',
+            bullets: [
+              'A **pattern** filling a mark, made of small marks, colours and angles.',
+              '**Dashed and dotted** lines can be told apart if there are only a few types.',
+              'Mostly used to fill **areas and surfaces**; in 3D it can be bumps of different height and spacing.',
+            ],
+            example: '1993 cars: car type shown by striped, dotted or cross-hatched fill.',
+          },
+          {
+            sideHeading: '8. Motion',
+            bullets: [
+              'Any variable can **change over time** to show more information.',
+              { label: 'Speed', text: 'How fast something moves or **flashes**.' },
+              'The eye is drawn to things that **move together** and to things that move **differently** (outliers).',
+              { label: 'Direction', text: 'Up/down/left/right for position; bigger/smaller or brighter/dimmer for other variables.' },
+            ],
           },
         ],
-      },
-      {
-        heading: 'Information Extraction (IE) & Document Summarization',
-        subGroups: [
-          {
-            sideHeading: '1. Two Processes Associated with Information Extraction',
-            bullets: [
-              {
-                label: 'Process 1 — Structured Fact Extraction (Automatic File Build)',
-                text: 'Determines concrete facts from text to populate structured database fields (`AFB`).',
-              },
-              {
-                label: 'Process 2 — Representative Text Extraction',
-                text: 'Extracts concise passages used to summarize an item.',
-              },
-            ],
-          },
-          {
-            sideHeading: '2. Four Evaluation Metrics for Information Extraction',
-            description: 'Applicable to both human and automated extraction systems:',
-            bullets: [
-              {
-                label: 'Recall',
-                text: 'Correct and relevant facts extracted relative to all correct relevant facts present in the item.',
-              },
-              {
-                label: 'Precision',
-                text: 'Correct facts extracted accurately relative to total facts extracted.',
-              },
-              {
-                label: 'Over-generation',
-                text: 'Measures irrelevant or redundant data extracted due to misapplied templates or non-relevant slot fills.',
-              },
-              {
-                label: 'Fallout',
-                text: 'Measures how frequently the system assigns incorrect values to database template slots.',
-              },
-            ],
-          },
-          {
-            sideHeading: '3. Document Summarization',
-            description:
-              'Extracts a compact summary preserving an item most important ideas while sharply reducing length (`titles`, `tables of contents`, and especially `abstracts`) so users judge document utility without reading full text.',
-          },
-        ],
+        diagramId: 'dvt-eight-visual-variables',
+        diagramCaption: 'The eight visual variables applied to the same mark.',
       },
     ],
-    table: {
-      caption: 'Information Retrieval (IR) vs Information Extraction (IE)',
-      headers: ['Dimension', 'Information Retrieval (IR)', 'Information Extraction (IE)'],
-      rows: [
-        ['Input Source', 'Large collection of free-text documents', 'Target text passages or pre-filtered articles'],
-        ['Output Form', 'Ranked list of whole document pointers', 'Structured entity-attribute database templates (AFB)'],
-        ['Granularity', 'Document or passage level relevance', 'Token, phrase, named-entity & relation level'],
-        ['Typical Task', 'Find news articles about corporate mergers', 'Extract Acquirer, Target, Amount & Date per article'],
-      ],
-      highlightRows: [1, 3],
-    },
     keyTakeaway:
-      'Clearly structure the four **Automatic Indexing classifications (`Unweighted/Weighted`, `Indexing by Term [Vector, Bayesian, DR-LINK]`, `Indexing by Concept [LSI & 2 NNs]`, and `Multimedia Indexing`)** alongside the **4 IE Metrics & Summarization**.',
+      'Mnemonic **P-M-S-B-C-O-T-M**: Position, Mark, Size, Brightness, Color, Orientation, Texture, Motion. For each write what it is + one car-data example. **Position and mark** make the picture; the rest are **properties of marks**.',
+    selfCheck: {
+      question: 'Why is a circle a bad mark for showing orientation?',
+      answer: 'A circle looks the same at every angle; orientation needs a mark with one clear long axis, like a line or arrow.',
+    },
   },
   {
-    id: 'u2-data-structures-stemming',
-    shortTitle: 'Data Structures Intro & Stemming',
+    id: 'u2-historical-perspective',
+    shortTitle: 'Historical Perspective',
     unit: 'unit2',
     order: 4,
-    title: 'Introduction to Data Structures & Stemming Algorithms',
+    title: '2.4 Historical Perspective',
     subtopicsCovered: [
-      'Definition & Core Capabilities of a Data Structure',
-      'Two Major IRS Data Structures (Document Manager vs Search Manager)',
-      'Processing Tokens (3 Input Symbol Classes)',
-      'Stemming Objectives & Trade-offs (Over- vs Under-stemming)',
-      'Table Lookup, Porter, K-Stemming (6 Data Files), Successor Variety & N-Gram Stemmers',
+      'Bertin (1967) Semiology of Graphics',
+      'Mackinlay (1986) APT',
+      'Bergeron & Grinstein (1989) Reference Model',
+      'Wehrend & Lewis (1990)',
+      'Robertson (1990) Natural Scene Paradigm',
+      'Roth (1991) Visage & SAGE',
+      'Casner (1991) BOZ',
+      'Beshers & Feiner (1992) AutoVisual',
+      'Senay & Ignatius (1994) VISTA',
+      'Hibbard (1994) Lattice Model',
+      'Golovchinsky (1995) AVE',
+      'Card, Mackinlay & Shneiderman (1999) Spatial Substrate',
+      'Kamps (1999) EAVE',
+      'Wilkinson (1999) Grammar of Graphics',
+      'Hoffman (2000) Table Visualizations',
     ],
     summaryLine:
-      'A **Data Structure** is a specialized format for organizing, processing, retrieving, and storing data—split in IRS between the **Document Manager** and **Document Search Manager**—paired with **Stemming Algorithms** to conflate inflections.',
+      'These are the people and systems that tried to turn visualization from guesswork into a **formal, rule-based science**, from **Bertin (1967)** to **Hoffman (2000)**.',
     bullets: [
-      {
-        label: 'Data Structure Definition',
-        text: 'A specialized format for organizing, processing, retrieving, and storing data cleanly so retrieval engines understand supported search capabilities.',
-      },
-      {
-        label: 'Two Essential Capabilities',
-        text: 'Every IRS search data structure supports:',
-        children: [
-          '1. Ability to represent underlying document concepts.',
-          '2. Support for locating those concepts efficiently.',
-        ],
-      },
+      '**Robertson** first said visualization systems need **formal models** (clear rules) as their foundation.',
+      'Most of the systems below try to **design pictures automatically** from the data.',
     ],
     subSections: [
       {
-        heading: 'Introduction to Data Structures in an IRS',
+        heading: 'Efforts to Formalize Visualization',
         subGroups: [
           {
-            sideHeading: '1. Two Major IRS Data Structures',
+            sideHeading: '1. Bertin (1967) — Semiology of Graphics',
             bullets: [
-              {
-                label: 'Document Manager (`Original Document File`)',
-                text: 'Stores, tracks versions, manages, and retrieves incoming digital items in their standardized Item Normalization format.',
-              },
-              {
-                label: 'Document Search Manager (`Searchable Data Structure`)',
-                text: 'Contains processing tokens and metadata supporting rapid search across text, images, and audio; returns matching item references back to the Document Manager.',
-              },
+              '**Jacques Bertin**, probably the most important person in visualization theory, wrote *Sémiologie Graphique*.',
+              'The **first serious attempt** to define how graphics carry information, treated as a **science of signs**.',
+              'Key idea: keep **content** (the information) separate from the **container** (the graphic’s properties).',
+              'He defined a **graphical vocabulary** — the basic building blocks of pictures.',
             ],
           },
           {
-            sideHeading: '2. Core Ingestion & Storage Stages',
+            sideHeading: '2. Mackinlay (1986) — APT',
             bullets: [
-              {
-                label: 'Item Normalization',
-                text: 'Converts incoming items into a uniform system-understandable format regardless of user keyword variations.',
-              },
-              {
-                label: 'Document File Creation',
-                text: 'Defines the text or binary storage format persisting normalized documents cleanly on storage media.',
-              },
+              '**APT (A Presentation Tool)** automatically designs charts for **database (table) data**.',
+              'It takes information from a database and produces a **graphical design**.',
+              'A graphical design = a **description of which graphic techniques** encode which information.',
             ],
           },
           {
-            sideHeading: '3. Processing Tokens (Three Input Symbol Classes)',
+            sideHeading: '3. Bergeron and Grinstein (1989) — Visualization Reference Model',
             bullets: [
-              {
-                label: 'Valid Word Symbols',
-                text: 'Searchable alphabets, numbers, and permitted word characters.',
-              },
-              {
-                label: 'Inter-Word Symbols',
-                text: 'Non-searchable delimiter characters such as blanks and semicolons (`;`).',
-              },
-              {
-                label: 'Special Processing Symbols',
-                text: 'Context-dependent punctuation characters such as the hyphen (`-`).',
-              },
+              'A model that maps the **data space** to a **picture**, based on the graphics pipeline, in **four stages**:',
+              { label: 'Stage 1', text: 'Identify the **data source** and its structure.' },
+              { label: 'Stage 2 — Model Transformation', text: 'Convert the data into a **usable form**.' },
+              { label: 'Stage 3 — View Specification', text: 'Choose **how it will look** (the visual mapping).' },
+              { label: 'Stage 4 — Association', text: 'Generate the **actual graphics (and sound)** that people perceive.' },
+            ],
+          },
+          {
+            sideHeading: '4. Wehrend and Lewis (1990)',
+            bullets: [
+              'Built a large **catalog** of encoding techniques and when to use them, to design pictures automatically.',
+              'The catalog is a **2D table**: **objects** (types of problems, grouped by field) × **operations** (types of goals).',
+              'Each cell lists a **problem** (task) and its **solution** (technique).',
+            ],
+          },
+          {
+            sideHeading: '5. Robertson (1990) — Natural Scene Paradigm',
+            bullets: [
+              'Show data as properties of **realistic natural scenes** (like landscapes).',
+              'People are very good at reading natural scenes, so this helps analyze **many variables at once**.',
+              'Data is mapped to scene properties like **surface height, material, density, wetness**, ranked by how well we perceive them.',
+            ],
+          },
+          {
+            sideHeading: '6. Roth (1991) — Visage and SAGE',
+            bullets: [
+              '**Visage** is an environment for exploring information that includes **SAGE**, an automatic graphic designer.',
+              'Main idea: **information-centric** — users interact **directly with the data objects** in the picture.',
+              'Built from two object types: **elements** and **frames**.',
+            ],
+          },
+          {
+            sideHeading: '7. Casner (1991) — BOZ',
+            bullets: [
+              'Automatic graphic design for **specific tasks**.',
+              'Replaces **mental work** (doing arithmetic, comparing numbers) with **visual work** (seeing shortest distance, bigger size).',
+              'Can make **different pictures of the same data** for different tasks.',
+            ],
+            example: 'Instead of adding flight times in your head, you just pick the shortest line on the screen.',
+          },
+          {
+            sideHeading: '8. Beshers and Feiner (1992) — AutoVisual',
+            bullets: [
+              'Automatic design inside the **n-Vision** system.',
+              'n-Vision uses **worlds-within-worlds**: a small coordinate system placed inside a bigger one, repeatedly.',
+              'Built from four parts: **encoding objects, encoding spaces, selections, user interface**.',
+            ],
+          },
+          {
+            sideHeading: '9. Senay and Ignatius (1994) — VISTA',
+            bullets: [
+              'Extended Mackinlay’s idea to **scientific data**.',
+              '**VISTA (Visualization Tool Assistant)** uses **perception experiment results** and **rules of thumb** to judge how good a picture is.',
+            ],
+          },
+          {
+            sideHeading: '10. Hibbard (1994) — Lattice Model',
+            bullets: [
+              'Focuses on the **conversion from data to display**, not on the shapes.',
+              'Key idea: data is only an **approximation** of real maths, and a screen is only an **approximation** of a perfect display.',
+            ],
+          },
+          {
+            sideHeading: '11. Golovchinsky (1995) — AVE',
+            bullets: [
+              '**AVE (Automatic Visualization Environment)** builds diagrams from **basic pieces** that match relations in the data.',
+              'Uses **only rectangles**, connected according to the data.',
+              'Produces **trees and graphs** (rectangles as boxes, lines/arrows as links).',
+            ],
+          },
+          {
+            sideHeading: '12. Card, Mackinlay and Shneiderman (1999) — Spatial Substrate',
+            bullets: [
+              'A reference model with three steps that support interaction: **data transformations, visual mappings, view transformations**.',
+              'The **spatial substrate** is about using **position on screen** to show data.',
+            ],
+          },
+          {
+            sideHeading: '13. Kamps (1999) — EAVE',
+            bullets: [
+              '**EAVE (Extended AVE)** — an extension of AVE.',
+              'Takes **any relations** as input; considers data, graphic knowledge and **user preferences**.',
+              'Only makes **standard publication diagrams**; has its own **diagram language**.',
+            ],
+          },
+          {
+            sideHeading: '14. Wilkinson (1999) — Grammar of Graphics',
+            bullets: [
+              'A set of rules ("grammar") for building **statistical charts**, based on his Graphics Algebra.',
+              'Each part of a chart is a **graphical object**, and combining parts gives the full chart.',
+            ],
+          },
+          {
+            sideHeading: '15. Hoffman (2000) — Table Visualizations',
+            bullets: [
+              'The **first attempt** to define a **general space of all visualizations**.',
+              'Describes each technique by its basic graphic properties, and new techniques as **combinations** of them.',
+              'Combined four techniques: **survey plots, scatterplots, RadViz, parallel coordinates**.',
             ],
           },
         ],
-        diagramId: 'major-data-structures',
-        diagramCaption: 'IRS Major Data Structure Split (Document Manager vs Search Manager) + Successor Variety Tree',
-      },
-      {
-        heading: 'Stemming Algorithms & Variations',
-        description:
-          'Introduced in the 1960s, stemming trims prefixes and suffixes (`cutting and trimming`) to reduce unique vocabulary size, conserve system resources, and improve retrieval efficiency.',
-        bullets: [
-          {
-            label: 'Five Key Effects of Stemming',
-            text: 'Conflates word variants (`Conflation`), reduces vocabulary diversity, increases search efficiency, increases Recall, and slightly reduces Precision (`risk of over-stemming`).',
-          },
-        ],
-        subGroups: [
-          {
-            sideHeading: '1. Table Lookup Stemming',
-            description:
-              'Stores every inflected word form paired directly with its base stem inside large static lookup tables (e.g., `RetrievalWare`).',
-          },
-          {
-            sideHeading: '2. Porter Stemming Algorithm',
-            description:
-              'Applies an iterative cascade of suffix-stripping condition-action rules governed by word stem measure and affix flags:',
-            subGroups: [
-              {
-                sideHeading: 'Stem Measure $M$ Formula',
-                description:
-                  'Counts sequences of vowels `(A, E, I, O, U, Y)` followed by consonants in $C(VC)^M V$ (initial $C$ and final $V$ optional).',
-              },
-              {
-                sideHeading: 'Condition Flags & Wildcards',
-                bullets: [
-                  '`*<X>` — stem ends with letter `X`',
-                  '`*V*` — stem contains a vowel',
-                  '`*d` — stem ends with a double consonant',
-                ],
-              },
-            ],
-          },
-          {
-            sideHeading: '3. Dictionary Stemming (`K-Stemming` in INQUERY)',
-            description:
-              'Combines iterative suffix/prefix stripping rules with NLP morphological dictionaries so words with different meanings never collapse wrongly (`"British" -> "Britain"`).',
-            subGroups: [
-              {
-                sideHeading: 'Six Major Data Files Used by K-Stemming',
-                bullets: [
-                  {
-                    label: '1. Dictionary of Words',
-                    text: 'Core canonical root vocabulary verified before accepting any stem.',
-                  },
-                  {
-                    label: '2. Supplement of Words',
-                    text: 'Additional technical/domain words absent from the core dictionary.',
-                  },
-                  {
-                    label: '3. Exceptions List',
-                    text: 'Words that selectively retain a trailing `-e` (`"Suites" -> "suite"`, whereas `"suited" -> "suit"`).',
-                  },
-                  {
-                    label: '4. Direct-Conflation List',
-                    text: 'Explicit irregular word pairs overriding standard stemming rules directly.',
-                  },
-                  {
-                    label: '5. Country-Nationality List',
-                    text: 'Maps nationalities and demonyms to country names (`"British" -> "Britain"`).',
-                  },
-                  {
-                    label: '6. Proper Nouns List',
-                    text: 'Proper names protected from algorithmic suffix stripping.',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            sideHeading: '4. Successor Variety Stemming',
-            description:
-              'Constructs a prefix/suffix symbol tree over vocabulary words (e.g., `{bag, barn, bring, box, bottle}`) and counts distinct successor letters at each node to find morpheme cuts.',
-            subGroups: [
-              {
-                sideHeading: 'Three Morpheme Segmentation Methods',
-                bullets: [
-                  '1. Cutoff method',
-                  '2. Peak & Plateau method',
-                  '3. Complete Word method',
-                ],
-              },
-            ],
-          },
-          {
-            sideHeading: '5. N-Gram Stemmers',
-            description:
-              'Decomposes words into overlapping fixed-length character windows (bigrams/trigrams) and conflates similar words via Dice Similarity without language-specific rules.',
-          },
-          {
-            sideHeading: 'Conclusion on Stemming',
-            description:
-              'Depends on corpus vocabulary, performs as effectively as manual conflation, and consistently yields positive net Recall improvements.',
-          },
-        ],
+        table: {
+          caption: 'Timeline Cheat Sheet',
+          headers: ['Year', 'Who', 'Main Idea (one line)'],
+          rows: [
+            ['1967', 'Bertin', 'Semiology of Graphics — content vs container'],
+            ['1986', 'Mackinlay', 'APT — auto-design charts for table data'],
+            ['1989', 'Bergeron & Grinstein', '4-stage reference model'],
+            ['1990', 'Wehrend & Lewis', 'Catalog: problems × goals'],
+            ['1990', 'Robertson', 'Show data as natural scenes'],
+            ['1991', 'Roth', 'Visage + SAGE, interact with data directly'],
+            ['1991', 'Casner', 'BOZ — mental work → visual work'],
+            ['1992', 'Beshers & Feiner', 'AutoVisual, worlds within worlds'],
+            ['1994', 'Senay & Ignatius', 'VISTA for scientific data'],
+            ['1994', 'Hibbard', 'Lattice model of data → display'],
+            ['1995', 'Golovchinsky', 'AVE — diagrams from rectangles'],
+            ['1999', 'Card, Mackinlay, Shneiderman', 'Spatial substrate'],
+            ['1999', 'Kamps', 'EAVE — extended AVE'],
+            ['1999', 'Wilkinson', 'Grammar of Graphics'],
+            ['2000', 'Hoffman', 'General space of table visualizations'],
+          ],
+        },
       },
     ],
-    formulas: [
-      {
-        label: 'Porter Word Measure $m$ & Dice $N$-Gram Similarity',
-        tex: '[C](VC)^m[V] \\qquad S = \\frac{2C}{A + B}',
-        note: 'For Porter rules, $m$ counts `VC` vowel-consonant transitions; for **N-Gram Stemming**, $A$ and $B$ are unique $n$-gram counts in each word and $C$ is shared $n$-grams.',
-      },
-    ],
-    table: {
-      caption: 'Comparison of the Five Stemming Classes',
-      headers: ['Stemming Method', 'Mechanism', 'Key Strength', 'Weakness'],
-      rows: [
-        ['Table Lookup', 'Direct Word → Stem hash table (RetrievalWare)', 'Fast, zero invalid stems', 'Large storage; misses unseen words'],
-        ['Porter Algorithm', '5-step suffix-stripping rule cascade', 'Compact, fast, no large dictionary', 'Produces non-word stems (comput)'],
-        ['Dictionary (K-Stemming)', 'Checks 6 NLP dictionary data files (INQUERY)', 'Always outputs valid English words', 'Slower dictionary lookups'],
-        ['Successor Variety', 'Letter branching counts in symbol tree', 'Language-independent statistical cuts', 'Needs large corpus; sensitive to noise'],
-        ['N-Gram Stemmer', 'Bigram Dice similarity clustering', 'Handles OCR/spelling noise well', 'Higher computational overhead'],
-      ],
-      highlightRows: [1, 2],
-    },
-    walkthroughLinkId: 'inverted-stemming',
     keyTakeaway:
-      'Start with the exact **definition of a Data Structure** + **2 IRS Managers**, split the **3 Processing Token classes**, and write all **6 K-Stemming data files on separate lines**!',
+      'Learn the **timeline table**. Write more for Bertin (content vs container), Bergeron & Grinstein (4 stages), Casner BOZ (mental → visual work) and Hoffman (survey plot, scatterplot, RadViz, parallel coordinates).',
+    selfCheck: {
+      question: 'What did Casner’s BOZ do differently?',
+      answer: 'It replaced mental tasks like arithmetic and comparing numbers with visual tasks like seeing the shortest distance or biggest size.',
+    },
   },
   {
-    id: 'u2-inverted-file-structure',
-    shortTitle: 'Inverted File Structure',
+    id: 'u2-taxonomies',
+    shortTitle: 'Taxonomies',
     unit: 'unit2',
     order: 5,
-    title: 'Inverted File Structure',
+    title: '2.5 Visualization Taxonomies',
     subtopicsCovered: [
-      'Three Core Components (Document File, Dictionary, Inversion Lists)',
-      'Five Features (Precision, Zoning, Ranking, Concepts/Relationships, NLP)',
-      'Query Execution, Sorting & Storage Overhead',
+      'What is a Taxonomy',
+      'Keller & Keller (1994) Visualization Goals',
+      'Shneiderman (1996) Data Type by Task',
+      'Keim (2002) Information Visualization Classification',
     ],
     summaryLine:
-      'An **Inverted File Structure** maps every unique vocabulary term inside a **Dictionary** directly to its sorted list of containing **Document IDs** inside **Inversion (Posting) Lists** for sub-second lookup.',
+      'A **taxonomy** is a **classification** (a way of sorting things into groups). Here we classify **data types, techniques, tasks and interactions**.',
     bullets: [
-      {
-        label: 'Role in DBMS & IRS',
-        text: 'The most common searchable data structure used across both Database Management Systems and Information Retrieval Systems because it resolves term queries without scanning raw documents.',
-      },
+      'A **taxonomy** sorts things into **groups**, usually in a hierarchy (tree), and shows how they relate.',
+      'In visualization we classify **data, techniques, tasks and ways of interacting**.',
     ],
     subSections: [
       {
-        heading: 'Three Basic Components of an Inverted File Structure',
+        heading: '1. Keller and Keller (1994) — Taxonomy of Visualization Goals',
+        description:
+          'In their book *Visual Cues*, they classify techniques by **type of data** and **what the user wants to do**.',
+        bullets: [
+          {
+            label: 'Data Types',
+            text: '**Scalar** (single values), **nominal** (names/categories), **direction**, **shape**, **position**, and **SERO** (spatially extended region or object — something that takes up space, like a lake).',
+          },
+          'They also list user **tasks**; some overlap, but the list is a good starting point when designing.',
+        ],
+      },
+      {
+        heading: '2. Shneiderman (1996) — Data Type by Task Taxonomy',
+        bullets: [
+          {
+            label: '7 Data Types',
+            text: '**1D linear** (a list), **2D map**, **3D world**, **temporal** (time), **multidimensional** (many columns), **tree**, **network**.',
+          },
+          'For tasks, he looked at **how analysts behave** when getting knowledge from data.',
+        ],
+      },
+      {
+        heading: '3. Keim (2002) — Information Visualization Classification',
+        description:
+          'Classifies systems along **three independent axes**: **data type**, **visualization technique**, and **interaction/distortion** method.',
         subGroups: [
           {
-            sideHeading: '1. Document File',
-            description:
-              'Stores the complete processed documents and archival document metadata.',
+            sideHeading: 'Data Types (6)',
+            bullets: [
+              { label: '1. One-dimensional', text: 'Time data, news, stock prices, text.' },
+              { label: '2. Two-dimensional', text: 'Maps, charts, floor plans, newspaper layouts.' },
+              { label: '3. Multidimensional', text: 'Spreadsheets, database tables.' },
+              { label: '4. Text and hypertext', text: 'News articles, web pages.' },
+              { label: '5. Hierarchies and graphs', text: 'Phone/network traffic, system models.' },
+              { label: '6. Algorithm and software', text: 'Program code, execution traces, memory dumps.' },
+            ],
           },
           {
-            sideHeading: '2. Dictionary',
-            description:
-              'Maintains all sorted unique processing tokens alongside document frequencies (`DF`) and pointers—typically stored in RAM as a B-tree, Sorted Array, or Hash Table.',
+            sideHeading: 'Visualization Techniques (5)',
+            bullets: [
+              { label: '1. Standard 2D/3D', text: 'Normal x-y or x-y-z plots, bar charts, line graphs.' },
+              { label: '2. Geometrically transformed', text: 'Pictures made by transforming the data’s geometry — scatterplot matrices, parallel coordinates, landscapes.' },
+              { label: '3. Iconic', text: 'Each record drawn as a small icon — Chernoff faces, star icons, stick figures.' },
+              { label: '4. Dense pixel', text: 'Each value = one pixel — recursive pattern, circle segments.' },
+              { label: '5. Stacked', text: 'Data placed inside data — dimensional stacking, treemaps, cone trees, worlds-within-worlds.' },
+            ],
           },
           {
-            sideHeading: '3. Inversion Lists (Posting Lists)',
-            description:
-              'Stores sorted Document IDs (`plus term weights, zone IDs, and word offsets`) for every term in the Dictionary, delivering optimal performance across large databases and representing concepts and relationships.',
+            sideHeading: 'Interaction & Distortion Techniques (5)',
+            bullets: [
+              { label: '1. Dynamic projection', text: 'Automatically rotate through many views — grand tour, XGobi.' },
+              { label: '2. Interactive filtering', text: 'Hide/show data by rules — Magic Lenses, dynamic queries, Polaris.' },
+              { label: '3. Interactive zooming', text: 'Zoom in for detail — TableLens, PAD++, Spotfire.' },
+              { label: '4. Interactive distortion', text: 'Enlarge one part, shrink the rest — fisheye views, perspective wall, hyperbolic views.' },
+              { label: '5. Linking & brushing', text: 'Select in one view, it highlights in all other views — multiple scatterplots, XmdvTool.' },
+            ],
           },
         ],
-      },
-      {
-        heading: 'Five Features of Inverted Files',
-        bullets: [
-          {
-            label: '1. Increases Precision',
-            text: 'Supports retrieving top-ranked documents that are mostly relevant by prioritizing matched query concepts.',
-          },
-          {
-            label: '2. Zoning Used',
-            text: 'Stores logical subsetting zone offsets (`Title, Author, Abstract`) to restrict search to specific fields.',
-          },
-          {
-            label: '3. Ranking Used',
-            text: 'Stores term occurrence weights so hits are sorted across documents, PDFs, and Word files.',
-          },
-          {
-            label: '4. Stores Concepts & Relationships',
-            text: 'Maintains concept linkages and structured relationships bridging DBMS and IRS layers.',
-          },
-          {
-            label: '5. NLP Integration',
-            text: 'Encodes Natural Language Processing annotations such as phrase relations and sentiment cues (`Happy / Sad`).',
-          },
-        ],
-      },
-      {
-        heading: 'Query Execution & Storage Trade-off',
-        bullets: [
-          {
-            label: 'Sub-Second Lookup Complexity',
-            text: 'Resolves queries in $O(\\log |V| + |\\text{postings}|)$ time by looking up terms in the Dictionary and intersecting or unioning Inversion Lists.',
-          },
-          {
-            label: 'Storage & Update Overhead',
-            text: 'Consumes **50%–70% extra storage overhead** relative to raw text and requires costly list merging when new documents arrive.',
-          },
-        ],
+        diagramId: 'dvt-keim-taxonomy',
+        diagramCaption: 'Keim’s three classification axes: data type × technique × interaction/distortion.',
       },
     ],
-    diagramId: 'inverted-file-structure',
-    diagramCaption: 'Inverted File Structure Mapping Documents → Dictionary Terms → Inversion (Posting) Lists',
-    walkthroughLinkId: 'inverted-stemming',
     keyTakeaway:
-      'Draw the 3-column **Document File → Dictionary → Inversion Lists** diagram and mention **Zoning, Ranking, Concepts & NLP**.',
+      'Remember the counts: **Keller & Keller = 6 data types (incl. SERO)**, **Shneiderman = 7 data types**, **Keim = 6 data types × 5 techniques × 5 interactions** — give one example each.',
+    selfCheck: {
+      question: 'Name Keim’s five classes of visualization techniques.',
+      answer: 'Standard 2D/3D, geometrically transformed, iconic, dense pixel, and stacked displays.',
+    },
   },
   {
-    id: 'u2-ngram-data-structures',
-    shortTitle: 'N-Gram Data Structures',
+    id: 'u2-experimental-semiotics',
+    shortTitle: 'Experimental Semiotics',
     unit: 'unit2',
     order: 6,
-    title: 'N-Gram Data Structures',
+    title: '2.6 Experimental Semiotics Based on Perception',
     subtopicsCovered: [
-      'Fixed-Length Overlapping Character Windows (Bigrams, Trigrams)',
-      'Specializations & Maximum Segments Formula (MAX Seg_n = λ^n)',
-      'Worked Examples (Seacoal/Colony, Retail Trigrams)',
-      'Origins (WWII Cryptography), Spelling Correction, Language ID & Limits',
+      'Conventional View of Diagrams',
+      'Semiotics of Graphics',
+      'Pictures as Sensory Languages',
+      'Sensory versus Arbitrary Symbols',
     ],
     summaryLine:
-      '**N-Gram Data Structures** slice input words or continuous character streams into overlapping fixed-length substrings of length $n$, giving strong resilience against **misspellings, OCR errors, and morphology differences**.',
+      'Are diagrams just **learned rules** (like words), or do some work **naturally** because of how our eyes and brain see? This topic says some symbols are **sensory** (natural) and others are **arbitrary** (learned).',
     bullets: [
-      {
-        label: 'Definition of N-Gram',
-        text: 'A fixed-length consecutive sequence of $n$ characters extracted across words or continuous data streams—serving as both a unique searchable data structure and a language-independent conflation/stemming technique.',
-      },
+      'One view says visualization is about **diagrams** and how they carry meaning.',
+      'Diagrams are made of **symbols**, and the meaning of a symbol comes from **agreement between people** (convention).',
+      'If so, diagrams are just like written words — **learn the code** and any diagram works equally well, so the science of perception would not matter.',
+      'Many philosophers in **semiotics** support this view; this topic tests it using **experiments on perception**.',
     ],
     subSections: [
       {
-        heading: 'Specializations & Key Properties of N-Grams',
+        heading: '1. Semiotics of Graphics',
         bullets: [
-          {
-            label: '1. Special Data Structure',
-            text: 'Maps continuous text systematically into fixed-size substrings stored in bit-vectors, inverted lists, or hash tables.',
-          },
-          {
-            label: '2. Ignore Words',
-            text: 'Can ignore boundary words/sentences or terms occurring only once or twice.',
-          },
-          {
-            label: '3. Input as Continuous Data',
-            text: 'Processes character streams in systematic sequential order.',
-          },
-          {
-            label: '4. N-Gram vs Trigram Sizing',
-            text: 'An $n$-gram extracts $n$-length substrings; a Bigram uses $n=2$ letters and a Trigram uses $n=3$ letters bounded by $\\text{MAX Seg}_n = \\lambda^n$ (`e.g. 27^2 = 729 bigrams, 27^3 = 19,683 trigrams`).',
-          },
+          { label: 'Semiotics', text: 'The study of **symbols and how they carry meaning**.' },
+          'Started by **C.S. Peirce** in the USA and developed by **Ferdinand de Saussure** in Europe.',
+          'It was mostly argued by **philosophers using examples**, not by scientific experiments.',
+          '**Bertin (1983)** classified all graphic marks by how they show data, but mostly from his own **expert judgment**, not from perception studies.',
+          'People say visual languages are easy, but some diagrams take **almost as long to learn** as reading and writing.',
+          'If pictures were only learned conventions, there could be **no scientific rules** for better pictures.',
         ],
       },
       {
-        heading: 'Worked N-Gram Examples (No Inter-Word vs Inter-Word `#`)',
+        heading: '2. Pictures as Sensory Languages',
+        bullets: [
+          'Scientists have studied whether pictures are **pure convention** or have **natural, perceptual** meaning.',
+          'There is a long debate: one side says pictures are **as arbitrary as words**; the other says pictures **look like** what they show.',
+          'This matters: if even realistic pictures are not natural, we **cannot say** one diagram is perceptually better than another.',
+        ],
+      },
+      {
+        heading: '3. Sensory versus Arbitrary Symbols',
         subGroups: [
           {
-            sideHeading: '1. Bigrams ($n=2$, No Inter-Word Symbols)',
-            description: 'Slices strictly inside valid words without boundary markers:',
-            example: '`Se ea` and `Col ol lo on ny`',
+            sideHeading: 'Sensory Symbols',
+            bullets: [
+              'Work by using the brain’s **natural seeing ability**, **without learning**.',
+              'They match the **early stages** of how the brain processes images.',
+              'They are **the same across people, cultures and time**.',
+            ],
+            example: 'A cave drawing of a hunt is still understood after thousands of years.',
           },
           {
-            sideHeading: '2. Trigrams ($n=3$, With Inter-Word Boundary `#`)',
-            description: 'Includes inter-word separator `#` to retain word-boundary context:',
-            example: '`#sea` `#colo` `olon` `lon#` `long#` and `"Retail" -> ret, eta, tai, ail`',
+            sideHeading: 'Arbitrary Symbols',
+            bullets: [
+              'Must be **learned**, because they have **no natural link** to what they mean.',
+              'Get their power from **culture**, so they differ between cultures.',
+            ],
+            example: 'The written word "dog" looks nothing like a dog.',
+          },
+          {
+            sideHeading: 'Real Graphics Are a Mix',
+            description:
+              'Almost no graphical language is **fully arbitrary** or **fully sensory**, but the difference is still important.',
           },
         ],
-      },
-      {
-        heading: 'Historical Origins, Applications & Limitations',
-        subGroups: [
-          {
-            sideHeading: 'Origins & Core Advantages',
-            bullets: [
-              {
-                label: 'WWII Cryptography Origin',
-                text: 'First applied by World War II cryptographers for statistical cipher analysis.',
-              },
-              {
-                label: 'Spelling Error Detection & Correction',
-                text: 'Trigrams reliably match and correct misspelled or OCR-corrupted words.',
-              },
-              {
-                label: 'Language Identification & Keyboard Prediction',
-                text: 'N-gram frequency signatures identify document language and power mobile predictive keyboards (`Gboard`).',
-              },
-              {
-                label: 'Bounded Token Optimization',
-                text: 'Fixed $n$-character token bounds enable predictable, optimized query mapping.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'Key Limitations',
-            bullets: [
-              {
-                label: 'No Semantic Meaning',
-                text: 'An individual $n$-gram is only a character fragment and carries no standalone semantic concept.',
-              },
-              {
-                label: 'Poor Concept Representation & Long N-Gram Sparsity',
-                text: 'Longer $n$-grams degrade retrieval precision, making $n$-grams weak for conceptual relationships.',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    diagramId: 'ngram-sliding-window',
-    diagramCaption: 'Bi-gram (N=2) and Tri-gram (N=3) Sliding Window Decomposition',
-    formulas: [
-      {
-        label: 'Possible $n$-Gram Alphabet Space & Overlap Dice Similarity',
-        tex: '\\text{MAX Seg}_n = \\lambda^n \\qquad \\text{Sim}_{n\\text{-gram}}(W_1, W_2) = \\frac{2 \\times |G_n(W_1) \\cap G_n(W_2)|}{|G_n(W_1)| + |G_n(W_2)|}',
-        note: '$\\lambda$ is alphabet size including separator `#`; $G_n(W)$ is the multiset of $n$-grams extracted from word $W$.',
+        table: {
+          caption: 'Sensory vs Arbitrary Symbols',
+          headers: ['Point', 'Sensory', 'Arbitrary'],
+          rows: [
+            ['Needs learning?', 'No', 'Yes'],
+            ['Based on', 'How the brain naturally sees', 'Cultural agreement'],
+            ['Same everywhere?', 'Yes — across people, cultures, time', 'No — depends on culture'],
+            ['Example', 'Cave drawing of a hunt', 'The word "dog"'],
+          ],
+        },
       },
     ],
     keyTakeaway:
-      'Show the explicit **`Se ea / #sea / retail -> ret, eta, tai`** breakdown, quote $\\text{MAX Seg}_n = \\lambda^n$, and note **WWII cryptography, spelling correction & lack of concept semantics**.',
+      'Contrast the **convention view** (Peirce, Saussure, Bertin) with the **perception view**, then define **sensory** (natural, no learning, universal) vs **arbitrary** (learned, cultural) with the **cave drawing** and **"dog"** examples.',
+    selfCheck: {
+      question: 'Why are sensory symbols understood the same across cultures?',
+      answer: 'They use the brain’s natural way of seeing and need no learning, so culture does not change their meaning.',
+    },
   },
   {
-    id: 'u2-pat-data-structure',
-    shortTitle: 'PAT Data Structure (Sistrings)',
+    id: 'u2-gibson-affordance-theory',
+    shortTitle: 'Gibson’s Affordance Theory',
     unit: 'unit2',
     order: 7,
-    title: 'PAT (Patricia Tree) Data Structure',
+    title: '2.7 Gibson’s Affordance Theory',
     subtopicsCovered: [
-      'Semi-Infinite Strings (Sistrings)',
-      'Worked Sistring Example ("Economics for Warsaw is Complex")',
-      'PAT Binary Radix Tree Structure ($n$ Leaves, $n-1$ Internal Nodes)',
-      'PAT Array & Supported Queries (Prefix, Range, Longest Match)',
+      'Ecological Optics & Direct Perception',
+      'Affordances',
+      'Top-Down vs Atomistic Approach',
+      'Affordances in Interface Design',
+      'Three Problems with Direct Perception',
     ],
     summaryLine:
-      'The **PAT Data Structure** (Practical Algorithm to Retrieve Information Coded in Alphanumeric) builds a compact **Patricia Binary Tree** over bit representations of **semi-infinite strings (Sistrings)** starting at any searchable offset.',
+      '**J.J. Gibson** said we see things in order to **act** on them. An **affordance** is a **possibility for action** that we see directly — like a handle that "says" pull me.',
     bullets: [
-      {
-        label: 'Continuous Text Addressing',
-        text: 'Like N-grams with inter-word symbols, a PAT structure (`PAT Tree` or `PAT Array`) indexes a continuous text stream directly rather than isolated pre-split words.',
-      },
+      'Gibson changed perception theory with **ecological optics**, **affordances** and **direct perception**.',
+      { label: 'Perception Is for Action', text: 'We see the world so that we can **do things** in it.' },
+      { label: 'Affordance', text: 'A **possibility for action** that we can see — a chair affords sitting, a handle affords pulling.' },
+      { label: 'Direct', text: 'We see affordances **directly and instantly**, without reasoning.' },
+      'This suits visualization, because the goal of most visualization is **making decisions** (acting).',
     ],
     subSections: [
       {
-        heading: '1. Semi-Infinite Strings (Sistrings)',
-        description:
-          'Every chosen anchor position in the input text defines a unique Sistring starting at that character position and extending all the way to the end of the text.',
-        example:
-          'For `"Economics for Warsaw is Complex"`: `Sistring 1 = "Economics for Warsaw is Complex"`, `Sistring 2 = "conomics for Warsaw is Complex"`, `Sistring 4 = "onomics for Warsaw is Complex"`, `Sistring 9 = "for Warsaw is Complex"`, down to `Sistring 25 = "ex"`.',
-      },
-      {
-        heading: '2. PAT Binary Radix Tree Structure',
-        bullets: [
+        heading: 'Gibson vs Earlier Theorists',
+        subGroups: [
           {
-            label: 'Unbalanced Binary Digital Tree',
-            text: 'Defined over the binary bit representation of all unique sistrings.',
+            sideHeading: 'Old Bottom-Up View',
+            description:
+              'Earlier theorists started from **single points of light**, then pairs, slowly building up to the whole visual world — like building a wall brick by brick.',
           },
           {
-            label: 'Bit-Position Branching Rule',
-            text: 'Each internal node specifies which bit position to test: `0` branches left and `1` branches right (`skipping redundant single-child nodes`).',
+            sideHeading: 'Gibson’s Top-Down View',
+            bullets: [
+              'We do not see points of light; we see **possibilities for action**.',
+              'We see **surfaces to walk on, handles to pull, space to move through, tools to use**.',
+              { label: 'Warren (1984) Experiment', text: 'People correctly judged whether stairs were **"climbable"**, and their judgment depended on their **own leg length**.' },
+              'We see affordances **directly**, not by piecing together clues.',
+            ],
           },
           {
-            label: 'Exact Node Bounds',
-            text: 'All sistring key values reside at external leaf nodes; indexing $n$ sistrings creates exactly **$n$ leaf nodes** and at most **$n - 1$ internal nodes**.',
+            sideHeading: 'Resonating',
+            description:
+              'Gibson said the visual system is **tuned** to the world and **"resonates"** with it, seeing it correctly except in unusual situations.',
           },
         ],
       },
       {
-        heading: '3. PAT Array & Supported Queries',
+        heading: 'Affordances in Interface Design',
+        bullets: [
+          { label: 'Design Rule', text: 'A good interface should have **clear affordances** that make the user’s task easy.' },
+          'If a task is moving an object in 3D, it should have **visible handles** to rotate and lift it.',
+          { label: 'Houde (1992) Example', text: 'When an object is selected, **handles** appear, with pictures of **gripping hands** showing how to lift or rotate it.' },
+        ],
+      },
+      {
+        heading: 'Three Problems with Gibson’s Theory for Visualization',
         bullets: [
           {
-            label: 'PAT Array',
-            text: 'Stores sorted sistring pointers contiguously in a flat array, eliminating tree pointer overhead while preserving $O(\\log n)$ binary search.',
+            label: '1. Visualization Is Indirect',
+            text: 'Between the data and the picture there are **many processing steps**. Data may be tiny, invisible or abstract (like stock prices), so "direct perception" does not apply.',
           },
           {
-            label: 'Superior Query Capabilities',
-            text: 'Because sistrings remain logically sorted lexicographically, PAT structures excel at prefix queries (`comp*`), range searches, longest-match queries, and contiguous phrase detection—outperforming standard inverted files on substrings.',
+            label: '2. Screens Have No Real Affordances',
+            text: 'A screen button does not "afford" pressing the way a floor affords walking. We **learn** that buttons do things, and clicking a picture of a button with a mouse is even more indirect.',
+          },
+          {
+            label: '3. Ignores How Vision Works Inside',
+            text: 'Gibson ignored the **brain’s mechanisms**, but much of what we know (like how colour TV works) comes from studying them.',
           },
         ],
       },
     ],
-    diagramId: 'pat-binary-tree',
-    diagramCaption: 'PAT Binary Tree Branching Across Sistring Bit Prefixes (UNIT-II NOTES p.24)',
     keyTakeaway:
-      'Cite `"Economics for Warsaw is Complex"` sistrings (`1, 2, 4, 9, 25`), state **$n$ leaves & at most $n-1$ internal nodes**, and contrast **PAT Tree** vs **PAT Array**.',
+      'Define **affordance** (possibility for action), give **Warren’s stairs** and **Houde’s handles**, state the design rule, and list the **three problems**: visualization is indirect, screens have no real affordances, Gibson ignored brain mechanisms.',
+    selfCheck: {
+      question: 'What did Warren’s 1984 stair experiment show?',
+      answer: 'People could correctly judge whether stairs were climbable, and the judgment depended on their own leg length — they directly saw a possibility for action.',
+    },
   },
   {
-    id: 'u2-signature-file-structure',
-    shortTitle: 'Signature File Structure',
+    id: 'u2-model-perceptual-processing',
+    shortTitle: 'Model of Perceptual Processing',
     unit: 'unit2',
     order: 8,
-    title: 'Signature File Structure (Superimposed Coding)',
+    title: '2.8 A Model of Perceptual Processing',
     subtopicsCovered: [
-      'Superimposed Coding & Word Signatures',
-      'Block Signatures & Logical Deletion Marking',
-      'False Drops & Linear Scan Response Time',
-      'SSF vs BSSF & Applications (WORM, Parallel, Distributed)',
+      'Three-Stage Model Overview',
+      'Stage 1: Parallel Processing of Low-Level Properties',
+      'Stage 2: Pattern Perception',
+      'Stage 3: Sequential Goal-Directed Processing',
     ],
     summaryLine:
-      'A **Signature File** uses **superimposed coding** to OR fixed-length hashed **word signatures** into compact **block bit-masks**, rapidly filtering out non-matching items in linear time.',
+      'We see in **three stages**: (1) the brain grabs **basic features** everywhere at once, (2) it groups them into **patterns**, (3) we focus on **a few objects** to answer a question.',
     bullets: [
-      {
-        label: 'Primary Goal',
-        text: 'Provides a fast first-pass filter that eliminates the majority of query-unrelated items using compressed, unordered bit signatures requiring far less space (`10%–20% overhead`) than an inverted file.',
-      },
+      { label: 'Stage 1', text: 'Basic features (colour, edges, movement) are picked up **everywhere at the same time**.' },
+      { label: 'Stage 2', text: 'Features are grouped into **patterns and regions** (same colour, same texture, continuous lines).' },
+      { label: 'Stage 3', text: 'Attention keeps **only a few objects** in short-term visual memory to answer what we are looking for.' },
     ],
     subSections: [
       {
-        heading: '1. Superimposed Coding & False Drops',
+        heading: 'Stage 1: Parallel Processing to Extract Low-Level Properties',
         bullets: [
-          {
-            label: 'Word & Block Signatures',
-            text: 'Each word in a document block hashes into an $m$-bit word signature with $k$ `1`-bits; all word signatures are bitwise ORed into one Block Signature ($B$).',
-          },
-          {
-            label: 'Query Matching Condition',
-            text: 'A block matches query signature $Q$ when `(B AND Q) = Q`.',
-          },
-          {
-            label: 'Zero False Negatives & False Drops',
-            text: 'Guaranteed never to miss true matches, though hash collisions occasionally produce False Drops verified against the Document File.',
-          },
+          'Done by huge numbers of **neurons in the eye and the back of the brain**.',
+          'Each neuron reacts to one kind of thing — an **edge at an angle** or a **patch of colour**.',
+          '**Billions** of neurons work **at the same time** over the whole view.',
+          'It happens **automatically**, whether we want it or not, and it is **very fast**.',
+          'Design lesson: show important information so these **fast automatic systems** can spot it.',
         ],
-      },
-      {
-        heading: '2. Dynamic Operations & Linear Scan Performance',
-        bullets: [
-          {
-            label: 'Fast Append (Concatenation)',
-            text: 'Newly arriving items are appended directly to the end of the signature file without rebuilding existing indexes.',
-          },
-          {
-            label: 'Logical Deletion',
-            text: 'Deleted records stay physically in place and are marked with a deleted flag.',
-          },
-          {
-            label: 'Linear Search Latency',
-            text: 'Checking compressed signatures performs a sequential scan whose response time grows linearly with file size.',
-          },
-        ],
-      },
-      {
-        heading: '3. Storage Organizations (SSF vs BSSF) & Applications',
+        example: 'One red dot among many blue dots "pops out" instantly.',
         subGroups: [
           {
-            sideHeading: 'Sequential Signature File (SSF) vs Bit-Sliced Signature File (BSSF)',
+            sideHeading: 'Key Characteristics',
             bullets: [
-              {
-                label: 'Sequential Signature File (SSF)',
-                text: 'Stores block signatures contiguously row-by-row.',
-              },
-              {
-                label: 'Bit-Sliced Signature File (BSSF)',
-                text: 'Stores bit positions vertically column-by-column so queries scan only the $k$ slices where query bits are `1`.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'Key Applications & Advantages',
-            bullets: [
-              'Medium-sized databases',
-              'Databases with low frequency of terms',
-              'WORM (Write-Once-Read-Many) archival storage devices',
-              'Parallel processing machines and distributed environments',
+              '**Fast** and **parallel** (everything at once).',
+              'Extracts **orientation, colour, texture, movement**.',
+              'Information lasts only **a moment** in a short **iconic store** (visual buffer).',
+              '**Bottom-up**, driven by what is in front of the eyes, not by what we want.',
             ],
           },
         ],
       },
-    ],
-    diagramId: 'signature-file-coding',
-    diagramCaption: 'Superimposed Coding: Word Signatures Bitwise ORed into Block Signature',
-    formulas: [
       {
-        label: 'Signature Match Condition & False-Drop Density',
-        tex: '(B \\land Q) = Q \\qquad P_{\\text{false drop}} \\approx \\left(1 - e^{-\\frac{k \\cdot D}{m}}\\right)^{k}',
-        note: 'Optimal bit density occurs at $50\\%$ `1`-bits ($\\ln 2$), where $m$ = signature bit length, $k$ = bits set per word, and $D$ = distinct words per block.',
-      },
-    ],
-    keyTakeaway:
-      'Highlight **Superimposed Coding (`OR`)**, **linear scan & logical deletion**, **`10–20%` space overhead**, **SSF vs BSSF**, and **WORM / parallel / distributed applications**.',
-  },
-  {
-    id: 'u2-hypertext-xml-hmm',
-    shortTitle: 'Hypertext, XML, HMM & Real-Time Examples',
-    unit: 'unit2',
-    order: 9,
-    title: 'Hypertext, XML Data Structures & Hidden Markov Models',
-    subtopicsCovered: [
-      'Hypertext Nodes, Links, Anchors & Viewers',
-      'HTML & XML (DTD, DOM, XSL) Structural Zoning',
-      'Hidden Markov Models (HMM) Noisy Channel & Bayes Rule',
-      'EM Estimation Disadvantage + Complete Unit II Real-Time Examples',
-    ],
-    summaryLine:
-      '**Hypertext** connects multimedia **nodes** via embedded **links**, **XML** models semantic hierarchy via **DTD, DOM, and XSL**, and **Hidden Markov Models (HMMs)** compute query-document relevance probabilities across a **noisy channel**.',
-    bullets: [
-      {
-        label: 'Web-Era Data Representation',
-        text: 'Exponential Internet growth introduced non-linear linked structures (`Hypertext / HTML`) and hierarchical semantic markup (`XML`) alongside probabilistic sequence models (`HMMs`).',
-      },
-    ],
-    subSections: [
-      {
-        heading: '1. Hypertext & HTML Data Structures',
+        heading: 'Stage 2: Pattern Perception',
         bullets: [
-          {
-            label: 'Nodes, Links & Viewers',
-            text: 'Hypertext allows one item to reference another via an embedded pointer: each separate item is a **Node**, the pointer is a **Link**, and each node renders via a file-type-specific viewer.',
-          },
-          {
-            label: 'HTML Formatting Tags',
-            text: 'HTML defines internal structure for World Wide Web documents using angle-bracket structural tags (`<title>`, `<strong>`).',
-          },
+          'The view is divided into **regions and simple patterns** — continuous lines, same-colour areas, same-texture areas.',
         ],
-      },
-      {
-        heading: '2. XML Data Structure',
-        bullets: [
-          {
-            label: 'Fine-Grained Semantic Zoning',
-            text: 'Both HTML and XML describe text subsets similarly to logical zoning, with XML separating semantic structure from presentation.',
-          },
-          {
-            label: 'Core XML Standards',
-            text: 'Defined and transformed formally through **DTD** (Document Type Definition), **DOM** (Document Object Model), and **XSL** (Extensible Stylesheet Language).',
-          },
-        ],
-      },
-      {
-        heading: '3. Hidden Markov Models (HMMs) in Information Retrieval',
         subGroups: [
           {
-            sideHeading: 'Markov Chain & Noisy Channel Paradigm',
+            sideHeading: 'Key Characteristics',
             bullets: [
-              {
-                label: 'Query Chain Process',
-                text: 'Models search as a stochastic state chain where the output of one transition feeds the next ($Q_1 \\to Q_2 \\to \\dots \\to Q_n$).',
-              },
-              {
-                label: 'Noisy Channel Interpretation',
-                text: 'Relevant documents act as unknown hidden keys passing via state transitions through a noisy channel—representing the vocabulary mismatch between the author phrasing and the user query—to emit observed query terms.',
-              },
+              '**Slower** and **one at a time** (serial).',
+              'Uses **working memory** (short-term) and **long-term memory**.',
+              'More use of **learned (arbitrary)** symbol meanings.',
+              'A **mix** of bottom-up (what we see) and **top-down** (what we are looking for).',
+              'Separate brain paths for **recognizing objects** and **guiding movement**.',
             ],
-          },
-          {
-            sideHeading: 'Bayes Conditional Rule & Core Algorithms',
-            bullets: [
-              {
-                label: 'Bayesian Formulation',
-                text: 'Applies Bayes rule $P(A \\mid B) = \\frac{P(B \\mid A)P(A)}{P(B)}$ over model tuple $\\lambda = (S, O, A, B, \\pi)$.',
-              },
-              {
-                label: 'Standard HMM Algorithms',
-                text: 'Evaluates, decodes, and trains parameters via **Forward-Backward**, **Viterbi decoding**, and **Baum-Welch**.',
-              },
-            ],
-          },
-          {
-            sideHeading: 'Disadvantages of HMMs',
-            description:
-              'The primary challenge is accurately estimating the **Transition Probability Matrix** and **Output Emission Distribution** for every document—requiring a large query-relevance training corpus solved iteratively via **Estimation-Maximization (EM) algorithms**.',
           },
         ],
-        diagramId: 'hmm-noisy-channel',
-        diagramCaption: 'Hidden Markov Model (Noisy Channel State Transitions $S_i \\to Q_i$) (UNIT-II NOTES p.27)',
+      },
+      {
+        heading: 'Stage 3: Sequential Goal-Directed Processing',
+        bullets: [
+          'Only a **few objects** are held in **visual working memory** by active attention.',
+          'We ask a series of **visual questions** and answer them by **searching** the picture.',
+          {
+            label: 'Example',
+            text: 'Finding a route on a road map: we search for **connected red lines** (highways) between two **city symbols**.',
+          },
+        ],
+        diagramId: 'dvt-perception-three-stage',
+        diagramCaption: 'Three-stage model: parallel features → patterns → goal-directed objects.',
       },
     ],
     table: {
-      caption: 'Unit II Real-Time Industry Mapping Across Every Data Structure (UNIT-II NOTES p.28)',
-      headers: ['Unit II Topic', 'Real-Time System Example'],
+      caption: 'Stage Comparison',
+      headers: ['Stage', 'Speed', 'Driven by', 'Memory used'],
       rows: [
-        ['Cataloging & Indexing', 'Library **OPAC** & **Google Search** crawling billions of pages for millisecond lookup'],
-        ['Automatic Indexing & IE', '**Amazon Seller** auto-indexing `Samsung Galaxy S24 Ultra` & **HR Resume Screening**'],
-        ['Inverted File Structure', '**Google / Elasticsearch** mapping terms directly to matching Web URL posting lists'],
-        ['N-Gram & PAT Data Structures', '**Gboard** predictive typing (N-grams) & **Dictionary Auto-Suggest (`Comp...`)** (PAT prefix tree)'],
-        ['Signature File Structure', '**Antivirus Quick Scan** checking compact file signatures first to skip benign files fast'],
-        ['Hypertext & XML Structures', '**Wikipedia** linked knowledge graph (Hypertext) & **Online Banking** fund transfers (XML)'],
-        ['Hidden Markov Models (HMM)', '**Google Voice Typing** predicting probable word sequences from noisy audio channels'],
+        ['1. Features', 'Fast, all at once', 'What is seen (bottom-up)', 'Iconic store (a moment)'],
+        ['2. Patterns', 'Slower, one by one', 'Both seen + wanted', 'Working + long-term memory'],
+        ['3. Goal-directed', 'Step by step', 'Our questions (attention)', 'Visual working memory (few objects)'],
       ],
-      highlightRows: [0, 2, 6],
     },
-    diagramId: 'xml-dom-hypertext',
-    diagramCaption: 'Hypertext Node-Link Graph & XML Structural DOM Hierarchy',
-    formulas: [
-      {
-        label: 'HMM Parameter Tuple & Bayes Channel Conditional Rule',
-        tex: '\\lambda = (S, O, A, B, \\pi) \\qquad P(A \\mid B) = \\frac{P(B \\mid A) \\cdot P(A)}{P(B)}',
-        note: '$A_{ij} = P(S_{t+1}=j \\mid S_t=i)$ transition matrix; $B_j(o) = P(O_t=o \\mid S_t=j)$ emission matrix; estimated via **Estimation-Maximization (EM)**.',
-      },
-    ],
     keyTakeaway:
-      'Cover **XML (`DTD, DOM, XSL`)**, the **HMM noisy-channel Bayes formulation + EM estimation disadvantage**, and cite the **Real-Time Industry Examples (`Google Voice, Antivirus, Wikipedia, Banking XML, Gboard`)**.',
+      'Draw the **3-stage figure** and write characteristics: Stage 1 **parallel, features, iconic store, bottom-up**; Stage 2 **serial, working + long-term memory, bottom-up + top-down**; Stage 3 **visual queries, few objects**. Use the **road map** example.',
+    selfCheck: {
+      question: 'Which stage makes one red dot pop out among blue dots, and is it bottom-up or top-down?',
+      answer: 'Stage 1 (parallel feature extraction), which is bottom-up.',
+    },
   },
 ];

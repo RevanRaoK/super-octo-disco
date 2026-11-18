@@ -2,7 +2,7 @@
 
 import { useCallback, useSyncExternalStore } from 'react';
 
-const STORAGE_KEY = 'irs-course-revised-v1';
+const STORAGE_KEY = 'dvt-course-revised-v1';
 const EMPTY_MAP: Record<string, boolean> = {};
 
 let cachedRaw: string | null = null;

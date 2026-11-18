@@ -211,9 +211,6 @@ export function TopicDetailContent({
     ? WALKTHROUGH_DECKS.find((d) => d.id === topic.walkthroughLinkId)
     : undefined;
 
-  // Software text search topic teaches BOTH Boyer-Moore & KMP decks inside its full page
-  const showDualStringDecks =
-    embedWalkthrough && topic.id === 'u5-software-text-search';
 
   return (
     <div className="space-y-7">
@@ -307,9 +304,6 @@ export function TopicDetailContent({
             embedded
             initialDeckId={topic.walkthroughLinkId}
           />
-          {showDualStringDecks && (
-            <StepByStepVisualizer embedded initialDeckId="kmp-search" />
-          )}
         </div>
       )}
 

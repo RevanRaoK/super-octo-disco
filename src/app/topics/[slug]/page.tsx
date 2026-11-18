@@ -36,7 +36,7 @@ export default function TopicSlugPage({
       fallback={
         <div className="irs-page-grid">
           <div className="irs-card p-8 text-center text-sm text-[var(--muted)]">
-            Loading IRS lesson module...
+            Loading DVT lesson module...
           </div>
         </div>
       }

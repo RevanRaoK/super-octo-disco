@@ -1,343 +1,244 @@
 import React from 'react';
+import { Frame, PALETTE, Txt } from './diagrams/svgKit';
 
 interface WalkthroughSvgStageProps {
   svgStateKey: string;
 }
 
-/**
- * Dynamic dark-turquoise inline <svg> visuals updating at every step
- * of the 5 interactive IRS walkthrough decks.
- */
+/** Inline <svg> stage that updates at every step of the five DVT walkthrough decks. */
 export function WalkthroughSvgStage({ svgStateKey }: WalkthroughSvgStageProps) {
-  if (svgStateKey.startsWith('inv-')) {
-    return <InvertedStepSvg step={Number(svgStateKey.split('-')[1])} />;
+  const [prefix, raw] = svgStateKey.split('-');
+  const step = Number(raw);
+  switch (prefix) {
+    case 'sp':
+      return <ScatterStep step={step} />;
+    case 'np':
+      return <NormalizeStep step={step} />;
+    case 'mds':
+      return <MdsStep step={step} />;
+    case 'tf':
+      return <TfIdfStep step={step} />;
+    case 'fe':
+      return <FisheyeStep step={step} />;
+    default:
+      return null;
   }
-  if (svgStateKey.startsWith('clus-')) {
-    return <ClusteringStepSvg step={Number(svgStateKey.split('-')[1])} />;
-  }
-  if (svgStateKey.startsWith('sim-')) {
-    return <SimilarityRocchioStepSvg step={Number(svgStateKey.split('-')[1])} />;
-  }
-  if (svgStateKey.startsWith('bm-')) {
-    return <BoyerMooreStepSvg step={Number(svgStateKey.split('-')[1])} />;
-  }
-  if (svgStateKey.startsWith('kmp-')) {
-    return <KmpStepSvg step={Number(svgStateKey.split('-')[1])} />;
-  }
-  return null;
 }
 
-function InvertedStepSvg({ step }: { step: number }) {
-  const cols = [
-    { n: 1, title: 'Raw -> Stopwords' },
-    { n: 2, title: 'Porter Stemming' },
-    { n: 3, title: 'Sorted Dictionary' },
-    { n: 4, title: 'Inversion & Query' },
-  ];
+function StepPills({ labels, step, w = 880 }: { labels: string[]; step: number; w?: number }) {
+  const pw = (w - 36 - (labels.length - 1) * 10) / labels.length;
   return (
-    <svg viewBox="0 0 880 215" className="irs-svg" role="img" aria-label={`Inverted file step ${step}`}>
-      <rect x="4" y="4" width="872" height="207" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      {cols.map((c, idx) => {
-        const active = c.n === step;
-        const done = c.n < step;
-        const x = 18 + idx * 215;
+    <g>
+      {labels.map((l, i) => {
+        const n = i + 1;
+        const active = n === step;
+        const done = n < step;
+        const x = 18 + i * (pw + 10);
         return (
-          <g key={c.n}>
-            <rect x={x} y={14} width={200} height={34} rx={8} fill={active ? 'var(--c-bg)' : done ? 'var(--ok-bg)' : 'var(--bg)'} stroke={active ? 'var(--c)' : done ? 'var(--ok)' : 'var(--line)'} strokeWidth={active ? 2 : 1.2} />
-            <text x={x + 100} y={36} textAnchor="middle" fontSize="11.5" fontWeight="700" style={{ fill: active ? 'var(--c-ink)' : done ? 'var(--ok)' : 'var(--muted)' }}>
-              {c.title}
-            </text>
+          <g key={l}>
+            <rect x={x} y={14} width={pw} height={30} rx={8} fill={active ? 'var(--c-bg)' : done ? 'var(--ok-bg)' : 'var(--bg)'} stroke={active ? 'var(--c)' : done ? 'var(--ok)' : 'var(--line)'} strokeWidth={active ? 2 : 1.2} />
+            <Txt x={x + pw / 2} y={34} size={11} weight={700} color={active ? 'var(--c-ink)' : done ? 'var(--ok)' : 'var(--muted)'}>{l}</Txt>
           </g>
         );
       })}
-
-      {step === 1 && (
-        <g>
-          <text x="440" y="78" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--c-ink)">
-            Step 1: Tokenize Text &amp; Remove Non-Discriminating Stop Words
-          </text>
-          {[
-            'DOC1: "the computer bit byte"  →  [computer, bit, byte]',
-            'DOC2: "a memory and byte"     →  [memory, byte]',
-            'DOC3: "computer bit & memory" →  [computer, bit, memory]',
-            'DOC4: "the byte computer"     →  [byte, computer]',
-          ].map((line, i) => (
-            <text key={line} x="110" y={108 + i * 24} fontSize="12.5" className="svg-mono">{line}</text>
-          ))}
-        </g>
-      )}
-      {step === 2 && (
-        <g>
-          <text x="440" y="78" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--c-ink)">
-            Step 2: Porter Stemmer Suffix Conflation Rules
-          </text>
-          {[
-            { a: 'computers', b: 'computer (Step 1a: -s)', x: 35 },
-            { a: 'bytes', b: 'byte (Step 1a: -s)', x: 245 },
-            { a: 'memories', b: 'memori (Step 1a: -ies)', x: 455 },
-            { a: 'bits', b: 'bit (Step 1a: -s)', x: 665 },
-          ].map((it) => (
-            <g key={it.a}>
-              <rect x={it.x} y={96} width={185} height={92} rx={10} fill="var(--c-bg)" stroke="var(--c)" />
-              <text x={it.x + 92} y={128} textAnchor="middle" fontSize="13" fontWeight="800" className="svg-mono">{it.a}</text>
-              <text x={it.x + 92} y={148} textAnchor="middle" fontSize="14" fill="var(--c-ink)">↓</text>
-              <text x={it.x + 92} y={170} textAnchor="middle" fontSize="11.5" fontWeight="700" className="svg-mono" fill="var(--c-ink)">{it.b}</text>
-            </g>
-          ))}
-        </g>
-      )}
-      {step === 3 && (
-        <g>
-          <text x="440" y="78" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--c-ink)">
-            Step 3: Alphabetized Vocabulary Dictionary With DF Counts
-          </text>
-          {[
-            { t: 'bit', df: 'DF = 2', x: 50 },
-            { t: 'byte', df: 'DF = 3', x: 250 },
-            { t: 'computer', df: 'DF = 3', x: 450 },
-            { t: 'memory', df: 'DF = 2', x: 650 },
-          ].map((d) => (
-            <g key={d.t}>
-              <rect x={d.x} y={102} width={175} height={78} rx={10} fill="var(--bg)" stroke="var(--c)" strokeWidth="1.6" />
-              <text x={d.x + 87} y={134} textAnchor="middle" fontSize="15" fontWeight="800" className="svg-mono" fill="var(--c-ink)">{d.t}</text>
-              <text x={d.x + 87} y={160} textAnchor="middle" fontSize="12" className="svg-muted">{d.df}</text>
-            </g>
-          ))}
-        </g>
-      )}
-      {step === 4 && (
-        <g>
-          <text x="440" y="78" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--c-ink)">
-            Step 4: Boolean Query &quot;bit AND memory&quot; Intersects Inversion Lists → DOC #3
-          </text>
-          <rect x="65" y="102" width="240" height="78" rx="10" fill="var(--c-bg)" stroke="var(--c)" strokeWidth="1.8" />
-          <text x="185" y="132" textAnchor="middle" fontSize="13" fontWeight="800" className="svg-mono">bit → [ 1,  3 ]</text>
-          <text x="185" y="158" textAnchor="middle" fontSize="11" className="svg-muted">DF = 2</text>
-
-          <text x="342" y="146" textAnchor="middle" fontSize="20" fontWeight="800" fill="var(--c-ink)">∩</text>
-
-          <rect x="380" y="102" width="240" height="78" rx="10" fill="var(--c-bg)" stroke="var(--c)" strokeWidth="1.8" />
-          <text x="500" y="132" textAnchor="middle" fontSize="13" fontWeight="800" className="svg-mono">memory → [ 2,  3 ]</text>
-          <text x="500" y="158" textAnchor="middle" fontSize="11" className="svg-muted">DF = 2</text>
-
-          <text x="655" y="146" textAnchor="middle" fontSize="18" fontWeight="800" fill="var(--ok)">=</text>
-          <rect x="690" y="102" width="150" height="78" rx="10" fill="var(--ok-bg)" stroke="var(--ok)" strokeWidth="2" />
-          <text x="765" y="145" textAnchor="middle" fontSize="15" fontWeight="800" fill="var(--ok)">DOC #3 ★</text>
-        </g>
-      )}
-    </svg>
+    </g>
   );
 }
 
-function ClusteringStepSvg({ step }: { step: number }) {
+const TREES = [
+  { x: 0, y: 0, r: 0.02, c: 0, n: 'T1' },
+  { x: 0.333, y: 0.267, r: 0.035, c: 1, n: 'T2' },
+  { x: 0.667, y: 0.467, r: 0.05, c: 1, n: 'T3' },
+  { x: 1, y: 1, r: 0.08, c: 2, n: 'T4' },
+];
+
+function ScatterStep({ step }: { step: number }) {
+  const X = (v: number) => 260 + v * 360;
+  const Y = (v: number) => 205 - v * 140;
   return (
-    <svg viewBox="0 0 880 205" className="irs-svg" role="img" aria-label={`Clustering step ${step}`}>
-      <rect x="4" y="4" width="872" height="197" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      <text x="440" y="30" textAnchor="middle" fontSize="13.5" fontWeight="800" fill="var(--c-ink)">
-        {step === 1
-          ? 'Step 1: 5×5 Similarity Matrix Values (Highlight Strongest Pair I2–I5 = 36)'
-          : step === 2
-            ? 'Step 2: Binary Matrix Cutoff (Values ≥ 10 → 1, Values < 10 → 0)'
-            : 'Step 3: Maximal Cliques {I1, I2, I5} & {I2, I4, I5} + HAC Merge Order'}
-      </text>
-
-      {[
-        { id: 'I1', x: 140, y: 120 },
-        { id: 'I2', x: 340, y: 76 },
-        { id: 'I3', x: 340, y: 168 },
-        { id: 'I4', x: 560, y: 168 },
-        { id: 'I5', x: 560, y: 76 },
-      ].map((n) => (
-        <g key={n.id}>
-          <circle cx={n.x} cy={n.y} r="22" fill="var(--c-bg)" stroke="var(--c)" strokeWidth="2" />
-          <text x={n.x} y={n.y + 5} textAnchor="middle" fontSize="13" fontWeight="800">{n.id}</text>
-        </g>
-      ))}
-
-      {/* Draw edges surviving threshold >= 10 */}
-      {step >= 2 && (
-        <g>
-          <line x1="162" y1="114" x2="318" y2="82" stroke="var(--c)" strokeWidth="2.2" />
-          <line x1="162" y1="118" x2="538" y2="78" stroke="var(--c)" strokeWidth="2.2" />
-          <line x1="362" y1="76" x2="538" y2="76" stroke="var(--ok)" strokeWidth="3.2" />
-          <line x1="340" y1="98" x2="340" y2="146" stroke="var(--hot)" strokeWidth="2" />
-          <line x1="360" y1="86" x2="540" y2="158" stroke="var(--c)" strokeWidth="1.8" />
-          <line x1="560" y1="98" x2="560" y2="146" stroke="var(--c)" strokeWidth="2" />
-        </g>
-      )}
-      {step === 1 && (
-        <line x1="362" y1="76" x2="538" y2="76" stroke="var(--ok)" strokeWidth="3" strokeDasharray="4 3" />
-      )}
-      <text x="450" y="64" textAnchor="middle" fontSize="11.5" fontWeight="800" fill="var(--ok)">36</text>
-      <text x="242" y="88" textAnchor="middle" fontSize="11" fill="var(--c-ink)">11</text>
-      <text x="322" y="128" textAnchor="middle" fontSize="11" fill="var(--hot)">12</text>
-      <text x="580" y="128" textAnchor="middle" fontSize="11" fill="var(--c-ink)">11</text>
-    </svg>
-  );
-}
-
-function SimilarityRocchioStepSvg({ step }: { step: number }) {
-  return (
-    <svg viewBox="0 0 880 200" className="irs-svg" role="img" aria-label={`Similarity & Rocchio step ${step}`}>
-      <rect x="4" y="4" width="872" height="192" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      {step === 1 && (
-        <g>
-          <text x="440" y="34" textAnchor="middle" fontSize="13.5" fontWeight="800" fill="var(--c-ink)">
-            Step 1: Term Overlap Across Binary Vectors (Query: Mexico = 1, oil = 1)
-          </text>
-          {[
-            { d: 'DOC1', m: 'Mexico (✓), oil (✓), geog, reserve', dot: 'Dot = 2', c: 'var(--ok-bg)', st: 'var(--ok)', y: 54 },
-            { d: 'DOC3', m: 'Mexico (✓), lakes, painter, subject', dot: 'Dot = 1', c: 'var(--c-bg)', st: 'var(--c)', y: 100 },
-            { d: 'DOC2', m: 'American, geography (0 query overlap)', dot: 'Dot = 0', c: 'var(--bad-bg)', st: 'var(--bad)', y: 146 },
-          ].map((r) => (
-            <g key={r.d}>
-              <rect x="44" y={r.y} width="790" height="36" rx="8" fill={r.c} stroke={r.st} />
-              <text x="72" y={r.y + 23} fontSize="12.5" fontWeight="800">{r.d}</text>
-              <text x="165" y={r.y + 23} fontSize="12">{r.m}</text>
-              <text x="770" y={r.y + 23} textAnchor="end" fontSize="12.5" fontWeight="800" className="svg-mono">{r.dot}</text>
-            </g>
-          ))}
-        </g>
-      )}
-      {step === 2 && (
-        <g>
-          <text x="440" y="34" textAnchor="middle" fontSize="13.5" fontWeight="800" fill="var(--c-ink)">
-            Step 2: Ranked Results for DOC1 (Normalized Length Eliminates Verbose Bias)
-          </text>
-          {[
-            { name: 'Cosine(Q, DOC1)', val: '0.707', w: 420, y: 56 },
-            { name: 'Dice(Q, DOC1)', val: '0.667', w: 396, y: 102 },
-            { name: 'Jaccard(Q, DOC1)', val: '0.500', w: 298, y: 148 },
-          ].map((b) => (
-            <g key={b.name}>
-              <text x="42" y={b.y + 22} fontSize="12.5" fontWeight="700">{b.name}</text>
-              <rect x="210" y={b.y + 4} width="560" height="24" rx="6" fill="var(--surface-2)" />
-              <rect x="210" y={b.y + 4} width={b.w} height="24" rx="6" fill="var(--c)" />
-              <text x="795" y={b.y + 22} fontSize="13" fontWeight="800" className="svg-mono" fill="var(--c-ink)">{b.val}</text>
-            </g>
-          ))}
-        </g>
-      )}
-      {step === 3 && (
-        <g>
-          <text x="440" y="34" textAnchor="middle" fontSize="13.5" fontWeight="800" fill="var(--c-ink)">
-            Step 3: Rocchio Vector Shift (Qo + DOC1 − DOC3) Amplifies Oil &amp; Reserve
-          </text>
-          <rect x="44" y="64" width="220" height="92" rx="10" fill="var(--bg)" stroke="var(--line-strong)" />
-          <text x="154" y="98" textAnchor="middle" fontSize="13" fontWeight="700">Original Qo</text>
-          <text x="154" y="122" textAnchor="middle" fontSize="11.5" className="svg-mono">(0,0,0,1,0,1,0,0)</text>
-
-          <text x="315" y="116" textAnchor="middle" fontSize="22" fontWeight="800" fill="var(--c-ink)">→</text>
-
-          <rect x="366" y="64" width="465" height="92" rx="10" fill="var(--ok-bg)" stroke="var(--ok)" strokeWidth="2" />
-          <text x="598" y="96" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--ok)">Revised Query Qn = Qo + DOC1 − DOC3</text>
-          <text x="598" y="124" textAnchor="middle" fontSize="12" className="svg-mono">(0, +1, -1, +1, -1, +2, +1, -1)</text>
-        </g>
-      )}
-    </svg>
-  );
-}
-
-function BoyerMooreStepSvg({ step }: { step: number }) {
-  const txt = 'welcometoteammast'.split('');
-  const pat = 'teammast'.split('');
-  const offset = step === 2 ? 0 : step === 3 ? 6 : step === 4 ? 9 : 0;
-
-  return (
-    <svg viewBox="0 0 880 200" className="irs-svg" role="img" aria-label={`Boyer-Moore step ${step}`}>
-      <rect x="4" y="4" width="872" height="192" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      <text x="440" y="28" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--c-ink)">
-        {step === 1
-          ? 'Bad-Match Table Computed: T=8, E=6, A=2, M=3, S=1, *=8'
-          : step === 2
-            ? 'Alignment 0: Compare Right-to-Left → P[6]="s" vs T[6]="e" Mismatch → Jump +6'
-            : step === 3
-              ? 'Alignment 6: Compare Right-to-Left → P[7]="t" vs T[13]="a" Mismatch → Jump +2'
-              : 'Alignment 9: Right-to-Left Scan Matches All 8 Characters ("teammast") ★'}
-      </text>
-
-      {/* Text array row */}
-      {txt.map((ch, i) => (
-        <g key={i}>
-          <rect x={44 + i * 46} y={48} width={42} height={38} rx={6} fill={step === 4 && i >= 9 ? 'var(--ok-bg)' : 'var(--bg)'} stroke={step === 4 && i >= 9 ? 'var(--ok)' : 'var(--line-strong)'} />
-          <text x={65 + i * 46} y={72} textAnchor="middle" fontSize="14" fontWeight="700" className="svg-mono">{ch}</text>
-          <text x={65 + i * 46} y={42} textAnchor="middle" fontSize="9.5" className="svg-muted svg-mono">{i}</text>
-        </g>
-      ))}
-
-      {/* Pattern row shifted to offset */}
+    <svg viewBox="0 0 880 225" className="irs-svg" role="img" aria-label={`Scatter plot step ${step}`}>
+      <Frame w={880} h={225} />
+      <StepPills labels={['Data table', 'Normalize x, y', 'Radius', 'Color', 'Circle()']} step={step} />
+      <rect x={240} y={55} width={400} height={160} fill="none" stroke="var(--line-strong)" strokeDasharray="4 4" />
+      <Txt x={232} y={212} anchor="end" size={10} mono>(0,0)</Txt>
+      <Txt x={648} y={64} anchor="start" size={10} mono>(1,1)</Txt>
       {step >= 2 &&
-        pat.map((ch, i) => {
-          const isMismatch =
-            (step === 2 && i === 6) || (step === 3 && i === 7);
-          const isOk =
-            (step === 2 && i === 7) || step === 4;
+        TREES.map((t) => {
+          const r = step >= 3 ? 40 + t.r * 300 : 4;
           return (
-            <g key={i}>
-              <rect
-                x={44 + (offset + i) * 46}
-                y={104}
-                width={42}
-                height={38}
-                rx={6}
-                fill={isMismatch ? 'var(--bad-bg)' : isOk ? 'var(--ok-bg)' : 'var(--c-bg)'}
-                stroke={isMismatch ? 'var(--bad)' : isOk ? 'var(--ok)' : 'var(--c)'}
-                strokeWidth="1.8"
-              />
-              <text x={65 + (offset + i) * 46} y={128} textAnchor="middle" fontSize="14" fontWeight="800" className="svg-mono">
-                {ch}
-              </text>
+            <g key={t.n}>
+              <circle cx={X(t.x)} cy={Y(t.y)} r={step >= 3 ? r / 4 : r} fill={step >= 4 ? PALETTE[t.c] : 'var(--muted)'} fillOpacity={step >= 5 ? 0.8 : 0.45} stroke={step >= 4 ? PALETTE[t.c] : 'var(--muted)'} />
+              <Txt x={X(t.x) + 20} y={Y(t.y) + 4} anchor="start" size={10.5} mono>{t.n}</Txt>
             </g>
           );
         })}
-
-      <text x="440" y="176" textAnchor="middle" fontSize="11.5" className="svg-muted">
-        {step === 1
-          ? 'Preprocessed pattern of length m = 8 scans right-to-left skipping unmatching blocks in single jumps'
-          : step === 4
-            ? 'Verified Match at Offset 9 ("teammast") with zero backward text pointer rewinds!'
-            : 'Red = mismatch character checked in Bad-Match Table; Green = matched character right-to-left'}
-      </text>
+      {step === 1 && <Txt x={440} y={140} size={12.5} weight={700} color="var(--c-ink)">Unit square ready — records not yet placed</Txt>}
+      {step === 5 && <line x1={X(0)} y1={Y(0)} x2={X(1)} y2={Y(1)} stroke="var(--hot)" strokeDasharray="6 5" />}
     </svg>
   );
 }
 
-function KmpStepSvg({ step }: { step: number }) {
-  const txt = 'babcbabcabcaabca'.split('');
-  const pat = 'abcabcacab'.split('');
-  const offset = step === 1 ? 0 : step === 2 ? 1 : step === 3 ? 5 : 8;
+const SERIES: Record<number, number[]> = {
+  1: [12, 15, -999, 18, 30],
+  2: [12, 15, 16.5, 18, 30],
+  3: [0, 0.167, 0.25, 0.333, 1],
+  4: [-1.02, -0.53, -0.29, -0.05, 1.89],
+  5: [12, 14.63, 16.5, 20.63, 30],
+};
 
+function NormalizeStep({ step }: { step: number }) {
+  const vals = SERIES[step];
+  const shown = vals.map((v) => (v === -999 ? null : v));
+  const nums = shown.filter((v): v is number => v !== null);
+  const min = Math.min(...nums, 0);
+  const max = Math.max(...nums);
+  const Y = (v: number) => 200 - ((v - min) / (max - min || 1)) * 130;
   return (
-    <svg viewBox="0 0 880 200" className="irs-svg" role="img" aria-label={`KMP step ${step}`}>
-      <rect x="4" y="4" width="872" height="192" rx="14" fill="var(--surface)" stroke="var(--line)" />
-      <text x="440" y="28" textAnchor="middle" fontSize="13" fontWeight="800" fill="var(--c-ink)">
-        {step === 1
-          ? 'Step 1: Preprocess Pattern "abcabcacab" → Prefix Table [0,0,0,1,2,3,4,0,1,2]'
-          : step === 2
-            ? 'Step 2: Mismatch at Index 5 ("b" vs "a") — No Prefix Reuse, Jump +3 Places'
-            : step === 3
-              ? 'Step 3: 7 Matched ("abcabca"), Mismatch at 13 ("a" vs "c") → Reuse "abca" (+3 Jump)'
-              : 'Step 4: Continue Strictly Forward — O(n + m) Worst Case With Zero Backtracking'}
-      </text>
+    <svg viewBox="0 0 880 225" className="irs-svg" role="img" aria-label={`Preprocessing step ${step}`}>
+      <Frame w={880} h={225} />
+      <StepPills labels={['Metadata', 'Cleanse', 'Min–max', 'z-score', 'Smooth']} step={step} />
+      <line x1={200} y1={Y(0)} x2={700} y2={Y(0)} stroke="var(--line-strong)" />
+      {shown.map((v, i) => {
+        const x = 240 + i * 105;
+        if (v === null) {
+          return (
+            <g key={i}>
+              <Txt x={x} y={140} size={22} weight={800} color="var(--bad)">?</Txt>
+              <Txt x={x} y={215} size={10.5} mono color="var(--bad)">−999</Txt>
+            </g>
+          );
+        }
+        const top = Math.min(Y(v), Y(0));
+        const h = Math.abs(Y(v) - Y(0));
+        return (
+          <g key={i}>
+            <rect x={x - 22} y={top} width={44} height={Math.max(h, 1)} rx={4} fill={step === 2 && i === 2 ? 'var(--hot)' : 'var(--c)'} fillOpacity={0.7} />
+            <Txt x={x} y={215} size={10.5} mono>{v}</Txt>
+          </g>
+        );
+      })}
+      {step === 5 && <polyline points={SERIES[2].map((v, i) => `${240 + i * 105},${Y(v)}`).join(' ')} fill="none" stroke="var(--muted)" strokeDasharray="4 4" />}
+    </svg>
+  );
+}
 
-      {txt.map((ch, i) => (
-        <g key={i}>
-          <rect x={44 + i * 48} y={50} width={44} height={36} rx={6} fill="var(--bg)" stroke="var(--line-strong)" />
-          <text x={66 + i * 48} y={73} textAnchor="middle" fontSize="13.5" fontWeight="700" className="svg-mono">{ch}</text>
-          <text x={66 + i * 48} y={44} textAnchor="middle" fontSize="9.5" className="svg-muted svg-mono">{i + 1}</text>
+function MdsStep({ step }: { step: number }) {
+  const C = step >= 4 ? [-0.2, 1.3] : [0, 1];
+  const P: Record<string, number[]> = { A: [0, 0], B: [1, 0], C };
+  const X = (v: number) => 520 + v * 150;
+  const Y = (v: number) => 210 - v * 120;
+  return (
+    <svg viewBox="0 0 880 230" className="irs-svg" role="img" aria-label={`MDS step ${step}`}>
+      <Frame w={880} h={230} />
+      <StepPills labels={['Ds', 'Initial L', 'Ls & stress', 'Shift', 'Terminate']} step={step} />
+      <g>
+        <Txt x={180} y={72} size={12} weight={800} color="var(--c-ink)">Original 3D (target distances)</Txt>
+        {[['AB', '1.000'], ['AC', '1.414'], ['BC', '1.732']].map(([p, d], i) => (
+          <Txt key={p} x={180} y={100 + i * 24} size={11.5} mono>{`${p} = ${d}`}</Txt>
+        ))}
+        {step >= 3 && (
+          <Txt x={180} y={188} size={13} weight={800} color={step >= 5 ? 'var(--ok)' : 'var(--hot)'}>
+            {step >= 5 ? 'S ≈ 0.043 < 0.05 ✓' : 'S ≈ 0.213'}
+          </Txt>
+        )}
+      </g>
+      {step >= 2 && (
+        <g>
+          {[['A', 'B'], ['A', 'C'], ['B', 'C']].map(([a, b]) => (
+            <line key={a + b} x1={X(P[a][0])} y1={Y(P[a][1])} x2={X(P[b][0])} y2={Y(P[b][1])} stroke={step >= 3 && b === 'C' ? (step >= 5 ? 'var(--ok)' : 'var(--hot)') : 'var(--line-strong)'} strokeWidth={1.8} />
+          ))}
+          {Object.entries(P).map(([n, [x, y]]) => (
+            <g key={n}>
+              <circle cx={X(x)} cy={Y(y)} r={9} fill={PALETTE[n.charCodeAt(0) - 65]} />
+              <Txt x={X(x) + 16} y={Y(y) + 4} anchor="start" size={12} weight={800}>{n}</Txt>
+            </g>
+          ))}
+          {step === 4 && <line x1={X(0)} y1={Y(1)} x2={X(-0.2) + 4} y2={Y(1.3) + 6} stroke="var(--hot)" strokeWidth={2} strokeDasharray="3 3" />}
         </g>
-      ))}
+      )}
+    </svg>
+  );
+}
 
-      {pat.slice(0, Math.min(pat.length, 16 - offset)).map((ch, i) => (
-        <g key={i}>
-          <rect x={44 + (offset + i) * 48} y={102} width={44} height={36} rx={6} fill={step === 3 && i === 7 ? 'var(--bad-bg)' : step === 3 && i < 7 ? 'var(--ok-bg)' : 'var(--c-bg)'} stroke={step === 3 && i === 7 ? 'var(--bad)' : 'var(--c)'} />
-          <text x={66 + (offset + i) * 48} y={125} textAnchor="middle" fontSize="13.5" fontWeight="800" className="svg-mono">{ch}</text>
+function TfIdfStep({ step }: { step: number }) {
+  const tokens = ['The', 'visual', 'data', 'is', 'a', 'visual', 'map'];
+  const stop = new Set(['The', 'is', 'a']);
+  const weights = [
+    { t: 'visual', tf: 2, idf: 0.602, w: 1.204 },
+    { t: 'data', tf: 1, idf: 0, w: 0 },
+    { t: 'map', tf: 1, idf: 0.301, w: 0.301 },
+  ];
+  return (
+    <svg viewBox="0 0 880 225" className="irs-svg" role="img" aria-label={`TF-IDF step ${step}`}>
+      <Frame w={880} h={225} />
+      <StepPills labels={['Tokens', 'Count-Terms', 'Df', 'TF-IDF', 'Cosine']} step={step} />
+      {step === 1 &&
+        tokens.map((t, i) => (
+          <g key={i} opacity={stop.has(t) ? 0.35 : 1}>
+            <rect x={70 + i * 108} y={110} width={96} height={36} rx={8} fill={stop.has(t) ? 'var(--bad-bg)' : 'var(--c-bg)'} stroke={stop.has(t) ? 'var(--bad)' : 'var(--c)'} />
+            <Txt x={118 + i * 108} y={133} size={12} weight={700} mono>{t}</Txt>
+            {stop.has(t) && <line x1={76 + i * 108} y1={128} x2={160 + i * 108} y2={128} stroke="var(--bad)" strokeWidth={2} />}
+          </g>
+        ))}
+      {step >= 2 &&
+        weights.map((w, i) => {
+          const val = step === 2 ? w.tf : step === 3 ? w.idf : w.w;
+          const max = step === 2 ? 2 : step === 3 ? 0.602 : 1.204;
+          const bw = (val / max) * 420;
+          return (
+            <g key={w.t}>
+              <Txt x={190} y={88 + i * 44} anchor="end" size={12.5} weight={700} mono>{w.t}</Txt>
+              <rect x={200} y={72 + i * 44} width={Math.max(bw, 2)} height={24} rx={5} fill={PALETTE[i]} fillOpacity={0.75} />
+              <Txt x={210 + Math.max(bw, 2)} y={89 + i * 44} anchor="start" size={11.5} mono>{step === 2 ? `Tf = ${w.tf}` : step === 3 ? `idf = ${w.idf}` : `w = ${w.w}`}</Txt>
+            </g>
+          );
+        })}
+      {step === 5 && <Txt x={760} y={130} size={14} weight={800} color="var(--ok)">cos ≈ 0.976</Txt>}
+    </svg>
+  );
+}
+
+function FisheyeStep({ step }: { step: number }) {
+  const cx = 440;
+  const cy = 135;
+  const scale = 0.8;
+  const s = 100 / Math.log(11);
+  const f = (r: number) => (r >= 100 ? r : s * Math.log(1 + 0.1 * r));
+  const radii = [10, 25, 50, 100];
+  return (
+    <svg viewBox="0 0 880 230" className="irs-svg" role="img" aria-label={`Fisheye step ${step}`}>
+      <Frame w={880} h={230} />
+      <StepPills labels={['Parameters', 'Polar', 'New radius', 'Profile', 'Gaps']} step={step} />
+      <circle cx={cx} cy={cy} r={100 * scale} fill="var(--c-bg)" stroke="var(--c)" strokeDasharray="5 4" />
+      <circle cx={cx} cy={cy} r={3} fill="var(--fg)" />
+      {step >= 4 &&
+        radii.map((r) => (
+          <g key={r}>
+            <circle cx={cx} cy={cy} r={r * scale} fill="none" stroke="var(--muted)" strokeDasharray="2 3" />
+            <circle cx={cx} cy={cy} r={f(r) * scale} fill="none" stroke="var(--hot)" />
+          </g>
+        ))}
+      {step >= 2 && step <= 3 && (
+        <g>
+          <line x1={cx} y1={cy} x2={cx + 30 * scale} y2={cy - 40 * scale} stroke="var(--fg)" strokeDasharray="3 3" />
+          <circle cx={cx + 30 * scale} cy={cy - 40 * scale} r={5} fill="var(--c)" />
+          <Txt x={cx + 30 * scale + 10} y={cy - 40 * scale} anchor="start" size={10.5} mono>(30, 40), r = 50</Txt>
         </g>
-      ))}
-
-      <text x="440" y="172" textAnchor="middle" fontSize="11.5" className="svg-muted">
-        Already matched prefix (&quot;abca&quot;, length 4) allows KMP to slide pattern safely forward while text cursor never steps backward
-      </text>
+      )}
+      {step === 3 && (
+        <g>
+          <line x1={cx + 30 * scale} y1={cy - 40 * scale} x2={cx + 44.8 * scale} y2={cy - 59.8 * scale} stroke="var(--hot)" strokeWidth={2} />
+          <circle cx={cx + 44.8 * scale} cy={cy - 59.8 * scale} r={5} fill="var(--hot)" />
+          <Txt x={cx - 60} y={cy + 30} anchor="end" size={10.5} mono>r_new ≈ 74.7</Txt>
+        </g>
+      )}
+      {step === 1 && <Txt x={cx} y={cy + 4} size={11} mono>r_l = 100, d = 0.1, s ≈ 41.70</Txt>}
+      {step === 5 &&
+        [0, 1, 2, 3, 4, 5].map((k) => (
+          <rect key={k} x={cx - 36 + k * 13} y={cy - 6} width={8} height={12} fill={k % 2 ? 'var(--bad-bg)' : 'var(--c)'} stroke="var(--bad)" strokeWidth={k % 2 ? 1 : 0} />
+        ))}
+      {step === 4 && <Txt x={740} y={135} size={11}>gray = r_old, orange = r_new</Txt>}
+      {step === 5 && <Txt x={740} y={135} size={11}>red cells = gaps → interpolate</Txt>}
     </svg>
   );
 }

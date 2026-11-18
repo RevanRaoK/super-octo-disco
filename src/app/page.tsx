@@ -26,6 +26,7 @@ import {
   getShortTitle,
 } from '@/data/allLessons';
 import { useRevisedProgress } from '@/hooks/useRevisedProgress';
+import { WALKTHROUGH_DECKS } from '@/data/walkthroughs';
 import { LessonCard } from '@/components/LessonCard';
 import { StepByStepVisualizer } from '@/components/StepByStepVisualizer';
 import { FormulaSheetSection } from '@/components/FormulaSheetSection';
@@ -67,7 +68,7 @@ function CourseDashboardInner() {
   const [activeTab, setActiveTab] = useState<TabId>(initialTab);
   const [searchQuery, setSearchQuery] = useState('');
   const [walkthroughDeck, setWalkthroughDeck] =
-    useState<WalkthroughId>('inverted-stemming');
+    useState<WalkthroughId>('scatterplot-render');
 
   const { revisedMap, toggleRevised, resetProgress } = useRevisedProgress();
 
@@ -141,8 +142,8 @@ function CourseDashboardInner() {
       label: u.shortLabel,
       count: `${unitCounts[u.id].done}/${unitCounts[u.id].total}`,
     })),
-    { id: 'formulas', label: 'Formula Sheet (KaTeX)', count: 'All' },
-    { id: 'walkthroughs', label: 'Algorithm Lab', count: '5' },
+    { id: 'formulas', label: 'Formula Sheet', count: 'All' },
+    { id: 'walkthroughs', label: 'Algorithm Lab', count: String(WALKTHROUGH_DECKS.length) },
   ];
 
   const isTopicView =
@@ -160,15 +161,14 @@ function CourseDashboardInner() {
                 <Sparkles className="w-3 h-3" /> Interactive Course Guide
               </span>
               <span className="irs-tag irs-tag-turq">
-                5 Units · 41 Topic Slugs · Word-Formatted KaTeX Equations
+                5 Units · {ALL_TOPICS.length} Lessons · Formulas · Walkthroughs
               </span>
             </div>
             <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--fg)] m-0">
-              Information Retrieval Systems (IRS) — Complete Course Roadmap
+              Data Visualization Techniques (DVT) — Complete Course Roadmap
             </h1>
             <p className="text-sm sm:text-[15.5px] text-[var(--muted)] m-0">
-              Clean AlgoMonster/Educative-style study lessons covering every syllabus heading and nested subtopic across Units I–V, paired with custom dark-turquoise inline{' '}
-              <code className="irs-inline-code">&lt;svg&gt;</code> diagrams, stacked Word-style KaTeX equations, and step-by-step algorithm walkthroughs.
+              Every syllabus heading from Units I–V explained in simple, point-wise notes, with diagrams, a formula sheet, worked step-by-step walkthroughs and a quick self-check at the end of each lesson.
             </p>
           </div>
 
@@ -193,8 +193,8 @@ function CourseDashboardInner() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search any IRS topic, keyword, algorithm, or equation (e.g., Porter, PAT, Jaccard, Boyer-Moore, FDF, CBIR)..."
-                aria-label="Search IRS lessons"
+                placeholder="Search any DVT topic, keyword, technique, or equation (e.g., pipeline, Bertin, metaballs, choropleth, MDS, tf-idf, fisheye)..."
+                aria-label="Search DVT lessons"
                 className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-[var(--line)] bg-[var(--bg)] text-sm text-[var(--fg)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--c)] transition"
               />
               {searchQuery && (
@@ -253,6 +253,21 @@ function CourseDashboardInner() {
           </div>
         </section>
 
+        {/* Empty search state */}
+        {searchQuery.trim() &&
+          filteredTopics.length === 0 &&
+          activeTab !== 'formulas' &&
+          activeTab !== 'walkthroughs' && (
+            <div className="irs-card p-5 text-sm text-[var(--fg)] space-y-1">
+              <p className="m-0 font-semibold">
+                No lessons match “{searchQuery.trim()}”.
+              </p>
+              <p className="m-0 text-[var(--muted)]">
+                Try a shorter word (e.g. “map”, “pipeline”, “glyph”), check the spelling, or switch to All Units.
+              </p>
+            </div>
+          )}
+
         {/* Dynamic Main Content */}
         {activeTab === 'walkthroughs' ? (
           <StepByStepVisualizer initialDeckId={walkthroughDeck} />
@@ -280,7 +295,7 @@ function CourseDashboardInner() {
                       </span>
                     </div>
 
-                    {/* Direct Topic Slugs Row */}
+                    {/* Lesson links row */}
                     <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[var(--line)]">
                       {allInUnit.map((t, i) => (
                         <Link
@@ -386,7 +401,7 @@ export default function CourseDashboardPage() {
     <Suspense
       fallback={
         <div className="p-8 text-center text-sm text-[var(--muted)]">
-          Loading IRS interactive course guide...
+          Loading DVT interactive course guide...
         </div>
       }
     >

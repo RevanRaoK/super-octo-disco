@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, PlayCircle } from 'lucide-react';
 import { WALKTHROUGH_DECKS } from '@/data/walkthroughs';
+import { UNIT_META } from '@/data/unitMeta';
 import { WalkthroughId } from '@/types/course';
 import { WalkthroughSvgStage } from './WalkthroughSvgStage';
 import { RichText } from './RichText';
@@ -15,7 +16,7 @@ interface StepByStepVisualizerProps {
 }
 
 export function StepByStepVisualizer({
-  initialDeckId = 'inverted-stemming',
+  initialDeckId = 'scatterplot-render',
   initialSlideIndex = 0,
   embedded = false,
 }: StepByStepVisualizerProps) {
@@ -66,13 +67,13 @@ export function StepByStepVisualizer({
     <section
       id={embedded ? undefined : 'walkthrough-player'}
       className="irs-card p-5 sm:p-6 space-y-5"
-      aria-label="Interactive IRS Algorithm Walkthrough Player"
+      aria-label="Interactive DVT Algorithm Walkthrough Player"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-mono-code font-semibold uppercase tracking-wider text-[var(--c-ink)] mb-1">
             <PlayCircle className="w-4 h-4" />
-            Interactive Step-by-Step Walkthrough Lab (Use ← / → Keys)
+            Step-by-Step Walkthrough (use ← / → keys)
           </div>
           <h2 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-[var(--fg)] m-0">
             <RichText text={deck.title} />
@@ -82,7 +83,7 @@ export function StepByStepVisualizer({
           </p>
         </div>
         <span className="irs-tag irs-tag-pink">
-          {deck.unit.replace('unit', 'Unit ')}
+          {UNIT_META.find((u) => u.id === deck.unit)?.shortLabel}
         </span>
       </div>
 

@@ -29,15 +29,15 @@ export function SyllabusCoverageBox({
         <div className="inline-flex items-center gap-2 font-display font-bold text-[15px] sm:text-[17px] text-[var(--brick-ink)]">
           <BookOpenCheck className="w-4 h-4 shrink-0 text-[var(--brick)]" />
           <span>
-            {unitShort} · Module {order}: Syllabus Topics &amp; Subtopics Covered
+            {unitShort} · Lesson {order}: What This Lesson Covers
           </span>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {hasFormulas && (
-            <span className="irs-tag irs-tag-pink">Equations</span>
+            <span className="irs-tag irs-tag-pink">Formulas</span>
           )}
           {hasDiagram && (
-            <span className="irs-tag irs-tag-turq">Inline SVG Diagram</span>
+            <span className="irs-tag irs-tag-turq">Diagram</span>
           )}
           {hasWalkthrough && (
             <span className="irs-tag irs-tag-ok">Interactive Walkthrough</span>

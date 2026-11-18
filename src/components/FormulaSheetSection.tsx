@@ -30,13 +30,13 @@ export function FormulaSheetSection() {
       <div className="irs-card p-5 space-y-2">
         <div className="inline-flex items-center gap-2 text-xs font-mono-code font-bold uppercase tracking-wider text-[var(--c-ink)]">
           <Sigma className="w-4 h-4 text-[var(--c)]" />
-          Last-Night Word-Formatted KaTeX Equation Sheet
+          Formula Sheet
         </div>
         <h2 className="font-display text-2xl font-extrabold text-[var(--fg)] m-0">
-          Every IRS Formula Across Units I–V
+          Every DVT Formula Across Units I–V
         </h2>
         <p className="text-sm text-[var(--muted)] m-0">
-          Properly typeset mathematical equations with stacked fractions, limits, and square roots—click any lesson link to review worked steps.
+          Every formula from the notes in one place, with what each symbol means. Click “Open Lesson” to see where it is used.
         </p>
       </div>
 

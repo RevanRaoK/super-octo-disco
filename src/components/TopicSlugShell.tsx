@@ -103,7 +103,7 @@ export function TopicSlugShell({
               <ArrowLeft className="w-4 h-4 text-[var(--muted)] shrink-0" />
               <div className="min-w-0">
                 <span className="text-[11px] font-mono-code uppercase text-[var(--muted)] block">
-                  ← Previous ({prevTopic.unit.replace('unit', 'Unit ')})
+                  ← Previous ({UNIT_META.find((u) => u.id === prevTopic.unit)?.shortLabel})
                 </span>
                 <span className="font-display text-sm font-bold text-[var(--fg)] group-hover:text-[var(--c-ink)] block truncate mt-0.5">
                   {getShortTitle(prevTopic)}
@@ -122,7 +122,7 @@ export function TopicSlugShell({
               <ArrowRight className="w-4 h-4 text-[var(--muted)] shrink-0 sm:order-2" />
               <div className="min-w-0 flex-1 sm:order-1">
                 <span className="text-[11px] font-mono-code uppercase text-[var(--muted)] block">
-                  Next Lesson ({nextTopic.unit.replace('unit', 'Unit ')}) →
+                  Next Lesson ({UNIT_META.find((u) => u.id === nextTopic.unit)?.shortLabel}) →
                 </span>
                 <span className="font-display text-sm font-bold text-[var(--fg)] group-hover:text-[var(--c-ink)] block truncate mt-0.5">
                   {getShortTitle(nextTopic)}
